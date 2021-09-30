@@ -1,4 +1,8 @@
 {
   "navigationBarTitleText": "桐桐要干嘛",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-avatar": "/uview-ui/components/u-avatar/u-avatar",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-line": "/uview-ui/components/u-line/u-line"
+  }
 }

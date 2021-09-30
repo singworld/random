@@ -43,15 +43,13 @@ function loginByWeixin() {
   return new Promise(function(resolve, reject) {
     return login().then((res) => {
       //登录远程服务器
-	  console.log(res)
       util.request(api.AuthLoginByWeixin, {
         code: res.code,
       }, 'POST').then(res => {
-		  console.log("post",res)
         if (res.errno === 0) {
           //存储用户信息
-		  console.log("data",res)
-          wx.setStorageSync('token', res.data.token);
+          uni.setStorageSync('token', res.data.token);
+		  uni.setStorageSync('userInfo', res.data.userInfo);
           resolve(res);
         } else {
           reject(res);
@@ -59,7 +57,6 @@ function loginByWeixin() {
        }
 	  
 	  ).catch((err) => {
-		   console.log("post23")
         reject(err);
       });
 	  

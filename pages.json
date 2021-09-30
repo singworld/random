@@ -25,20 +25,20 @@
 		
 	},
 	"tabBar": {
-	    "color": "#909399",
-	    "selectedColor": "#303133",
+	    "color": "#eee",
+	    "selectedColor": "#FF99CC",
 	    "borderStyle": "black",
 	    "backgroundColor": "#ffffff",
 	    "list": [{
 	        "pagePath": "pages/index/index",
 	        "iconPath": "static/index.png",
 	        "selectedIconPath": "static/index-selected.png",
-	        "text": "首页"
+	        "text": "我的日程"
 	    }, {
 	        "pagePath": "pages/center/index",
 	        "iconPath": "static/center.png",
 	        "selectedIconPath": "static/center-selected.png",
-	        "text": "我"
+	        "text": "打卡记录"
 	    }]
 	}
 }

@@ -10,26 +10,13 @@
   justify-content: center;
   padding: 40rpx;
 }
-.logo.data-v-57280228 {
-  height: 200rpx;
-  width: 200rpx;
-  margin-top: 100rpx;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 50rpx;
+.text-box.data-v-57280228 {
+  text-align: center;
 }
-.text-area.data-v-57280228 {
-  display: flex;
-  justify-content: center;
+.text-box text.data-v-57280228 {
+  font-size: 38rpx;
 }
-.title.data-v-57280228 {
-  font-size: 28rpx;
-  color: #606266;
-}
-.button-demo.data-v-57280228 {
-  margin-top: 80rpx;
-}
-.link-demo.data-v-57280228 {
-  margin-top: 80rpx;
+.userinfo.data-v-57280228 {
+  text-align: center;
 }
 

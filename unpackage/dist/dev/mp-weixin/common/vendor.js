@@ -914,7 +914,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7548,7 +7548,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7569,14 +7569,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7662,7 +7662,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8528,9 +8528,9 @@ function walkJsonObj(jsonObj, walk) {
 
 /***/ }),
 /* 5 */
-/*!**************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/pages.json ***!
-  \**************************************************/
+/*!***********************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/pages.json ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -8540,9 +8540,211 @@ function walkJsonObj(jsonObj, walk) {
 /* 6 */,
 /* 7 */,
 /* 8 */,
-/* 9 */,
-/* 10 */,
+/* 9 */
+/*!*************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/util/user.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.checkLogin = checkLogin;exports.loginByWeixin = loginByWeixin;var _api = _interopRequireDefault(__webpack_require__(/*! ./api.js */ 10));
+var _util = _interopRequireDefault(__webpack_require__(/*! ./util.js */ 11));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+/**
+                                                                                                                                                        * 判断用户是否登录
+                                                                                                                                                        */
+function checkLogin() {
+  return new Promise(function (resolve, reject) {
+    if (uni.getStorageSync('userInfo') && uni.getStorageSync('token')) {
+      checkSession().then(function () {
+        resolve(true);
+      }).catch(function () {
+        reject(false);
+      });
+    } else {
+      reject(false);
+    }
+  });
+}
+
+/**
+   * Promise封装wx.checkSession
+   */
+function checkSession() {
+  return new Promise(function (resolve, reject) {
+    uni.checkSession({
+      success: function success() {
+        resolve(true);
+      },
+      fail: function fail() {
+        reject(false);
+      } });
+
+  });
+}
+
+
+/**
+   * 调用微信登录
+   */
+function loginByWeixin() {
+
+  return new Promise(function (resolve, reject) {
+    return login().then(function (res) {
+      //登录远程服务器
+      _util.default.request(_api.default.AuthLoginByWeixin, {
+        code: res.code },
+      'POST').then(function (res) {
+        if (res.errno === 0) {
+          //存储用户信息
+          uni.setStorageSync('token', res.data.token);
+          uni.setStorageSync('userInfo', res.data.userInfo);
+          resolve(res);
+        } else {
+          reject(res);
+        }
+      }).
+
+      catch(function (err) {
+        reject(err);
+      });
+
+
+    }).catch(function (err) {
+      reject(err);
+    });
+  });
+}
+
+
+/**
+   * Promise封装wx.login
+   */
+function login() {
+  return new Promise(function (resolve, reject) {
+    uni.login({
+      success: function success(res) {
+        if (res.code) {
+          resolve(res);
+        } else {
+          reject(res);
+        }
+      },
+      fail: function fail(err) {
+        reject(err);
+      } });
+
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 10 */
+/*!************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/util/api.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var WxApiRoot = 'http://192.168.0.112:8080/wx/';var _default =
+
+
+
+{
+  AuthLoginByWeixin: WxApiRoot + 'auth/login_by_tt', //微信登录
+  SaveUserInfoApi: WxApiRoot + 'auth/saveUserInfo' //微信登录
+};exports.default = _default;
+
+/***/ }),
 /* 11 */
+/*!*************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/util/util.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _api = _interopRequireDefault(__webpack_require__(/*! ./api.js */ 10));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var myRequest = function myRequest(options) {
+  return new Promise(function (resolve, reject) {
+    uni.request({
+      url: _api.default.WxApiRoot + options.url,
+      method: options.method || 'GET',
+      data: options.data || {},
+      success: function success(res) {
+        if (res.data.status !== 0) {
+          return uni.showToast({
+            title: '获取数据失败' });
+
+        }
+        resolve(res);
+      },
+      fail: function fail(err) {
+        uni.showToast({
+          title: '请求接口失败' });
+
+        reject(err);
+      } });
+
+  });
+};
+
+
+/**
+    * 封封微信的的request
+    */
+function request(url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "GET";
+  return new Promise(function (resolve, reject) {
+    uni.request({
+      url: url,
+      data: data,
+      method: method,
+      header: {
+        'Content-Type': 'application/json',
+        'X-Litemall-Token': uni.getStorageSync('token') },
+
+      success: function success(res) {
+
+        if (res.statusCode == 200) {
+
+          if (res.data.errno == 501) {
+            // 清除登录相关内容
+            try {
+              uni.removeStorageSync('userInfo');
+              uni.removeStorageSync('token');
+            } catch (e) {
+
+            } // Do something when catch error
+            // 切换到登录页面
+            wx.navigateTo({
+              url: '/pages/auth/login/login' });
+
+          } else {
+            resolve(res.data);
+          }
+        } else {
+          reject(res.errMsg);
+        }
+
+      },
+      fail: function fail(err) {
+        reject(err);
+      } });
+
+  });
+}var _default =
+
+{
+  myRequest: myRequest,
+  request: request };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 12 */,
+/* 13 */,
+/* 14 */
 /*!**********************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
   \**********************************************************************************************************/
@@ -8670,41 +8872,20 @@ function normalizeComponent (
 
 
 /***/ }),
-/* 12 */
-/*!***************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/util/api.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var WxApiRoot = 'http://192.168.1.115:8080/wx/';var _default =
-
-
-
-{
-  AuthLoginByWeixin: WxApiRoot + 'auth/login_by_tt' //微信登录
-};exports.default = _default;
-
-/***/ }),
-/* 13 */
-/*!*********************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/index.js ***!
-  \*********************************************************/
+/* 15 */
+/*!******************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/index.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 14));
+var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 16));
 
 
 
-var _request = _interopRequireDefault(__webpack_require__(/*! ./libs/request */ 15));
-
-
-
-
+var _request = _interopRequireDefault(__webpack_require__(/*! ./libs/request */ 17));
 
 
 
@@ -8721,56 +8902,60 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ./libs/request */ 
 
 
 
-var _queryParams = _interopRequireDefault(__webpack_require__(/*! ./libs/function/queryParams.js */ 19));
-
-var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/function/route.js */ 20));
-
-var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFormat.js */ 24));
-
-var _timeFrom = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFrom.js */ 25));
-
-var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 26));
-
-var _guid = _interopRequireDefault(__webpack_require__(/*! ./libs/function/guid.js */ 27));
-
-var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/function/color.js */ 28));
-
-var _type2icon = _interopRequireDefault(__webpack_require__(/*! ./libs/function/type2icon.js */ 29));
-
-var _randomArray = _interopRequireDefault(__webpack_require__(/*! ./libs/function/randomArray.js */ 30));
-
-var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepClone.js */ 17));
-
-var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepMerge.js */ 16));
-
-var _addUnit = _interopRequireDefault(__webpack_require__(/*! ./libs/function/addUnit.js */ 31));
-
-
-var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 18));
-
-var _random = _interopRequireDefault(__webpack_require__(/*! ./libs/function/random.js */ 32));
-
-var _trim = _interopRequireDefault(__webpack_require__(/*! ./libs/function/trim.js */ 33));
-
-var _toast = _interopRequireDefault(__webpack_require__(/*! ./libs/function/toast.js */ 34));
-
-var _getParent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/getParent.js */ 35));
-
-var _$parent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/$parent.js */ 36));
 
 
 
-var _sys = __webpack_require__(/*! ./libs/function/sys.js */ 37);
 
-var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 38));
+var _queryParams = _interopRequireDefault(__webpack_require__(/*! ./libs/function/queryParams.js */ 21));
 
-var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 39));
+var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/function/route.js */ 22));
+
+var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFormat.js */ 26));
+
+var _timeFrom = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFrom.js */ 27));
+
+var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 28));
+
+var _guid = _interopRequireDefault(__webpack_require__(/*! ./libs/function/guid.js */ 29));
+
+var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/function/color.js */ 30));
+
+var _type2icon = _interopRequireDefault(__webpack_require__(/*! ./libs/function/type2icon.js */ 31));
+
+var _randomArray = _interopRequireDefault(__webpack_require__(/*! ./libs/function/randomArray.js */ 32));
+
+var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepClone.js */ 19));
+
+var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepMerge.js */ 18));
+
+var _addUnit = _interopRequireDefault(__webpack_require__(/*! ./libs/function/addUnit.js */ 33));
+
+
+var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 20));
+
+var _random = _interopRequireDefault(__webpack_require__(/*! ./libs/function/random.js */ 34));
+
+var _trim = _interopRequireDefault(__webpack_require__(/*! ./libs/function/trim.js */ 35));
+
+var _toast = _interopRequireDefault(__webpack_require__(/*! ./libs/function/toast.js */ 36));
+
+var _getParent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/getParent.js */ 37));
+
+var _$parent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/$parent.js */ 38));
 
 
 
-var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 40));
+var _sys = __webpack_require__(/*! ./libs/function/sys.js */ 39);
 
-var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 41));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 引入全局mixin
+var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 40));
+
+var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 41));
+
+
+
+var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 42));
+
+var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 43));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 引入全局mixin
 // 引入关于是否mixin集成小程序分享的配置
 // import wxshare from './libs/mixin/mpShare.js'
 // 全局挂载引入http相关请求拦截插件
@@ -8838,10 +9023,10 @@ var install = function install(Vue) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 14 */
-/*!********************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/mixin/mixin.js ***!
-  \********************************************************************/
+/* 16 */
+/*!*****************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/mixin/mixin.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8911,16 +9096,16 @@ var install = function install(Vue) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 15 */
-/*!**********************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/request/index.js ***!
-  \**********************************************************************/
+/* 17 */
+/*!*******************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/request/index.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ../function/deepMerge */ 16));
-var _test = _interopRequireDefault(__webpack_require__(/*! ../function/test */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ../function/deepMerge */ 18));
+var _test = _interopRequireDefault(__webpack_require__(/*! ../function/test */ 20));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var
 Request = /*#__PURE__*/function () {_createClass(Request, [{ key: "setConfig",
     // 设置全局默认配置
     value: function setConfig(customConfig) {
@@ -9091,15 +9276,15 @@ new Request();exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 16 */
-/*!***************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/deepMerge.js ***!
-  \***************************************************************************/
+/* 18 */
+/*!************************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/deepMerge.js ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./deepClone */ 17));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./deepClone */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 // JS对象深度合并
 function deepMerge() {var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var source = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -9131,10 +9316,10 @@ function deepMerge() {var target = arguments.length > 0 && arguments[0] !== unde
 deepMerge;exports.default = _default;
 
 /***/ }),
-/* 17 */
-/*!***************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/deepClone.js ***!
-  \***************************************************************************/
+/* 19 */
+/*!************************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/deepClone.js ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9164,10 +9349,10 @@ function deepClone(obj) {
 deepClone;exports.default = _default;
 
 /***/ }),
-/* 18 */
-/*!**********************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/test.js ***!
-  \**********************************************************************/
+/* 20 */
+/*!*******************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/test.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9405,10 +9590,10 @@ function code(value) {var len = arguments.length > 1 && arguments[1] !== undefin
   code: code };exports.default = _default;
 
 /***/ }),
-/* 19 */
-/*!*****************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/queryParams.js ***!
-  \*****************************************************************************/
+/* 21 */
+/*!**************************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/queryParams.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9473,18 +9658,18 @@ function queryParams() {var data = arguments.length > 0 && arguments[0] !== unde
 queryParams;exports.default = _default;
 
 /***/ }),
-/* 20 */
-/*!***********************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/route.js ***!
-  \***********************************************************************/
+/* 22 */
+/*!********************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/route.js ***!
+  \********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * 路由跳转方法，该方法相对于直接使用uni.xxx的好处是使用更加简单快捷
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     * 并且带有路由拦截功能
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */var
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * 路由跳转方法，该方法相对于直接使用uni.xxx的好处是使用更加简单快捷
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * 并且带有路由拦截功能
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  */var
 
 Router = /*#__PURE__*/function () {
   function Router() {_classCallCheck(this, Router);
@@ -9606,17 +9791,17 @@ new Router().route;exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 21 */
+/* 23 */
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 22);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 24);
 
 /***/ }),
-/* 22 */
+/* 24 */
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -9647,7 +9832,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 23);
+module.exports = __webpack_require__(/*! ./runtime */ 25);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -9663,7 +9848,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 23 */
+/* 25 */
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -10394,10 +10579,10 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 24 */
-/*!****************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/timeFormat.js ***!
-  \****************************************************************************/
+/* 26 */
+/*!*************************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/timeFormat.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10455,15 +10640,15 @@ function timeFormat() {var dateTime = arguments.length > 0 && arguments[0] !== u
 timeFormat;exports.default = _default;
 
 /***/ }),
-/* 25 */
-/*!**************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/timeFrom.js ***!
-  \**************************************************************************/
+/* 27 */
+/*!***********************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/timeFrom.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ../../libs/function/timeFormat.js */ 24));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ../../libs/function/timeFormat.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 /**
                                                                                                                                                                                                                                                                                           * 时间戳转为多久之前
@@ -10512,10 +10697,10 @@ function timeFrom() {var dateTime = arguments.length > 0 && arguments[0] !== und
 timeFrom;exports.default = _default;
 
 /***/ }),
-/* 26 */
-/*!*******************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/colorGradient.js ***!
-  \*******************************************************************************/
+/* 28 */
+/*!****************************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/colorGradient.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10655,10 +10840,10 @@ function colorToRgba(color) {var alpha = arguments.length > 1 && arguments[1] !=
   colorToRgba: colorToRgba };exports.default = _default;
 
 /***/ }),
-/* 27 */
-/*!**********************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/guid.js ***!
-  \**********************************************************************/
+/* 29 */
+/*!*******************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/guid.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10706,10 +10891,10 @@ function guid() {var len = arguments.length > 0 && arguments[0] !== undefined ? 
 guid;exports.default = _default;
 
 /***/ }),
-/* 28 */
-/*!***********************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/color.js ***!
-  \***********************************************************************/
+/* 30 */
+/*!********************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/color.js ***!
+  \********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10753,10 +10938,10 @@ var color = {
 color;exports.default = _default;
 
 /***/ }),
-/* 29 */
-/*!***************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/type2icon.js ***!
-  \***************************************************************************/
+/* 31 */
+/*!************************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/type2icon.js ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10798,10 +10983,10 @@ function type2icon() {var type = arguments.length > 0 && arguments[0] !== undefi
 type2icon;exports.default = _default;
 
 /***/ }),
-/* 30 */
-/*!*****************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/randomArray.js ***!
-  \*****************************************************************************/
+/* 32 */
+/*!**************************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/randomArray.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10815,15 +11000,15 @@ function randomArray() {var array = arguments.length > 0 && arguments[0] !== und
 randomArray;exports.default = _default;
 
 /***/ }),
-/* 31 */
-/*!*************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/addUnit.js ***!
-  \*************************************************************************/
+/* 33 */
+/*!**********************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/addUnit.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = addUnit;var _test = _interopRequireDefault(__webpack_require__(/*! ./test.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = addUnit;var _test = _interopRequireDefault(__webpack_require__(/*! ./test.js */ 20));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 // 添加单位，如果有rpx，%，px等单位结尾或者值为auto，直接返回，否则加上rpx单位结尾
 function addUnit() {var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'auto';var unit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'rpx';
@@ -10833,10 +11018,10 @@ function addUnit() {var value = arguments.length > 0 && arguments[0] !== undefin
 }
 
 /***/ }),
-/* 32 */
-/*!************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/random.js ***!
-  \************************************************************************/
+/* 34 */
+/*!*********************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/random.js ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10853,10 +11038,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 random;exports.default = _default;
 
 /***/ }),
-/* 33 */
-/*!**********************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/trim.js ***!
-  \**********************************************************************/
+/* 35 */
+/*!*******************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/trim.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10878,10 +11063,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 trim;exports.default = _default;
 
 /***/ }),
-/* 34 */
-/*!***********************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/toast.js ***!
-  \***********************************************************************/
+/* 36 */
+/*!********************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/toast.js ***!
+  \********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10898,10 +11083,10 @@ toast;exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 35 */
-/*!***************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/getParent.js ***!
-  \***************************************************************************/
+/* 37 */
+/*!************************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/getParent.js ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10955,10 +11140,10 @@ function getParent(name, keys) {
 }
 
 /***/ }),
-/* 36 */
-/*!*************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/$parent.js ***!
-  \*************************************************************************/
+/* 38 */
+/*!**********************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/$parent.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10983,10 +11168,10 @@ function $parent() {var name = arguments.length > 0 && arguments[0] !== undefine
 }
 
 /***/ }),
-/* 37 */
-/*!*********************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/sys.js ***!
-  \*********************************************************************/
+/* 39 */
+/*!******************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/sys.js ***!
+  \******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11001,10 +11186,10 @@ function sys() {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 38 */
-/*!**************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/debounce.js ***!
-  \**************************************************************************/
+/* 40 */
+/*!***********************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/debounce.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11040,10 +11225,10 @@ function debounce(func) {var wait = arguments.length > 1 && arguments[1] !== und
 debounce;exports.default = _default;
 
 /***/ }),
-/* 39 */
-/*!**************************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/function/throttle.js ***!
-  \**************************************************************************/
+/* 41 */
+/*!***********************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/throttle.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11082,10 +11267,10 @@ function throttle(func) {var wait = arguments.length > 1 && arguments[1] !== und
 throttle;exports.default = _default;
 
 /***/ }),
-/* 40 */
-/*!**********************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/config/config.js ***!
-  \**********************************************************************/
+/* 42 */
+/*!*******************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/config/config.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11105,10 +11290,10 @@ var version = '1.8.3';var _default =
   'warning'] };exports.default = _default;
 
 /***/ }),
-/* 41 */
-/*!**********************************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/uview-ui/libs/config/zIndex.js ***!
-  \**********************************************************************/
+/* 43 */
+/*!*******************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/config/zIndex.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11132,220 +11317,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   topTips: 975,
   sticky: 970,
   indexListSticky: 965 };exports.default = _default;
-
-/***/ }),
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */
-/*!****************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/util/user.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.checkLogin = checkLogin;exports.loginByWeixin = loginByWeixin;var _api = _interopRequireDefault(__webpack_require__(/*! ./api.js */ 12));
-var _util = _interopRequireDefault(__webpack_require__(/*! ./util.js */ 70));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-/**
-                                                                                                                                                        * 判断用户是否登录
-                                                                                                                                                        */
-function checkLogin() {
-  return new Promise(function (resolve, reject) {
-    if (uni.getStorageSync('userInfo') && uni.getStorageSync('token')) {
-      checkSession().then(function () {
-        resolve(true);
-      }).catch(function () {
-        reject(false);
-      });
-    } else {
-      reject(false);
-    }
-  });
-}
-
-/**
-   * Promise封装wx.checkSession
-   */
-function checkSession() {
-  return new Promise(function (resolve, reject) {
-    uni.checkSession({
-      success: function success() {
-        resolve(true);
-      },
-      fail: function fail() {
-        reject(false);
-      } });
-
-  });
-}
-
-
-/**
-   * 调用微信登录
-   */
-function loginByWeixin() {
-
-  return new Promise(function (resolve, reject) {
-    return login().then(function (res) {
-      //登录远程服务器
-      console.log(res);
-      _util.default.request(_api.default.AuthLoginByWeixin, {
-        code: res.code },
-      'POST').then(function (res) {
-        console.log("post", res);
-        if (res.errno === 0) {
-          //存储用户信息
-          console.log("data", res);
-          wx.setStorageSync('token', res.data.token);
-          resolve(res);
-        } else {
-          reject(res);
-        }
-      }).
-
-      catch(function (err) {
-        console.log("post23");
-        reject(err);
-      });
-
-
-    }).catch(function (err) {
-      reject(err);
-    });
-  });
-}
-
-
-/**
-   * Promise封装wx.login
-   */
-function login() {
-  return new Promise(function (resolve, reject) {
-    uni.login({
-      success: function success(res) {
-        if (res.code) {
-          resolve(res);
-        } else {
-          reject(res);
-        }
-      },
-      fail: function fail(err) {
-        reject(err);
-      } });
-
-  });
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 70 */
-/*!****************************************************!*\
-  !*** C:/Users/xxbian/github/ttgogogo/util/util.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _api = _interopRequireDefault(__webpack_require__(/*! ./api.js */ 12));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-var myRequest = function myRequest(options) {
-  return new Promise(function (resolve, reject) {
-    uni.request({
-      url: _api.default.WxApiRoot + options.url,
-      method: options.method || 'GET',
-      data: options.data || {},
-      success: function success(res) {
-        if (res.data.status !== 0) {
-          return uni.showToast({
-            title: '获取数据失败' });
-
-        }
-        resolve(res);
-      },
-      fail: function fail(err) {
-        uni.showToast({
-          title: '请求接口失败' });
-
-        reject(err);
-      } });
-
-  });
-};
-
-
-/**
-    * 封封微信的的request
-    */
-function request(url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "GET";
-  return new Promise(function (resolve, reject) {
-    uni.request({
-      url: url,
-      data: data,
-      method: method,
-      header: {
-        'Content-Type': 'application/json',
-        'X-Litemall-Token': uni.getStorageSync('token') },
-
-      success: function success(res) {
-
-        if (res.statusCode == 200) {
-
-          if (res.data.errno == 501) {
-            // 清除登录相关内容
-            try {
-              uni.removeStorageSync('userInfo');
-              uni.removeStorageSync('token');
-            } catch (e) {
-
-            } // Do something when catch error
-            // 切换到登录页面
-            wx.navigateTo({
-              url: '/pages/auth/login/login' });
-
-          } else {
-            resolve(res.data);
-          }
-        } else {
-          reject(res.errMsg);
-        }
-
-      },
-      fail: function fail(err) {
-        reject(err);
-      } });
-
-  });
-}var _default =
-
-{
-  myRequest: myRequest,
-  request: request };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ })
 ]]);

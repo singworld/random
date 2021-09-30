@@ -1,6 +1,10 @@
 <script>
 	import * as user from './util/user.js'
+	var app = getApp();
 	export default {
+		 globalData: {  
+		            hasLogin: false 
+		        },  
 		onLaunch: function() {
 			console.log('App Launch')
 			
@@ -8,14 +12,16 @@
 				      user.loginByWeixin().then(res => {
 						  
 						  console.log("resvue",res)
-				//         app.globalData.hasLogin = true;
+				          this.globalData.hasLogin = true;
+						  console.log("globalData.hasLogin",this.globalData.hasLogin)
 				
 				//         wx.navigateBack({
 				//           delta: 1
 				//         })
 				      }).catch((err) => {
-				        app.globalData.hasLogin = false;
-				        util.showErrorToast('微信登录失败');
+
+				        this.globalData.hasLogin = false;
+				        uni.showErrorToast('微信登录失败');
 				      });
 				
 				

@@ -13,6 +13,23 @@ Vue.filter('formatDate',(date)=>{
 	return year+'-'+month+'-'+day
 })
 
+Vue.filter('formatSex',(gender)=>{
+	
+	console.log("gendergender",gender)
+	if(gender===1){
+		return "man"
+	}else if(gender ===2){
+		return "woman"
+	}
+	
+	
+	// const nDate = new Date(date)
+	// const year = nDate.getFullYear()
+	// const month = nDate.getMonth().toString().padStart(2,0)
+	// const day = nDate.getDay().toString().padStart(2,0)
+	// return year+'-'+month+'-'+day
+})
+
 App.mpType = 'app'
 
 // 引入全局uView
