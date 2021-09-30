@@ -28,7 +28,7 @@
 			}
 		},
 		onLoad() {
-		
+			console.log("页面加载")
 		},
 		methods: {
 			getUser(){

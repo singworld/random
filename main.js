@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import App from './App'
-import { myRequest } from './util/api.js'
+// import util from './util/api.js'
 
 Vue.config.productionTip = false
-Vue.prototype.$myRuquest = myRequest
+// Vue.prototype.$myRuquest = util.myRequest
 
 Vue.filter('formatDate',(date)=>{
 	const nDate = new Date(date)
