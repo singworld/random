@@ -15,7 +15,6 @@ Vue.filter('formatDate',(date)=>{
 
 Vue.filter('formatSex',(gender)=>{
 	
-	console.log("gendergender",gender)
 	if(gender===1){
 		return "man"
 	}else if(gender ===2){

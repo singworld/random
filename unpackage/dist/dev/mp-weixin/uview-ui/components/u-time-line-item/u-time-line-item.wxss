@@ -1,0 +1,39 @@
+@charset "UTF-8";
+/**
+ * 下方引入的为uView UI的集成样式文件，为scss预处理器，其中包含了一些"u-"开头的自定义变量
+ * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
+ */
+.u-time-axis-item.data-v-20f9d6c0 {
+
+  display: flex;
+  flex-direction: row;
+
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  margin-bottom: 32rpx;
+}
+.u-time-axis-node.data-v-20f9d6c0 {
+  position: absolute;
+  top: 12rpx;
+  left: -40rpx;
+  -webkit-transform-origin: 0;
+          transform-origin: 0;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  font-size: 24rpx;
+}
+.u-dot.data-v-20f9d6c0 {
+  height: 16rpx;
+  width: 16rpx;
+  border-radius: 100rpx;
+  background: #ddd;
+}
+

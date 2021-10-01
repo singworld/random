@@ -96,13 +96,37 @@ var components
 try {
   components = {
     uAvatar: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 67))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-avatar/u-avatar */ "uview-ui/components/u-avatar/u-avatar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-avatar/u-avatar.vue */ 66))
     },
     uButton: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 60))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 73))
+    },
+    uGap: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-gap/u-gap */ "uview-ui/components/u-gap/u-gap").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-gap/u-gap.vue */ 80))
+    },
+    uCard: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-card/u-card */ "uview-ui/components/u-card/u-card").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-card/u-card.vue */ 87))
+    },
+    uSwipeAction: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-swipe-action/u-swipe-action */ "uview-ui/components/u-swipe-action/u-swipe-action").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-swipe-action/u-swipe-action.vue */ 94))
+    },
+    uPopup: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 101))
     },
     uLine: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-line/u-line */ "uview-ui/components/u-line/u-line").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-line/u-line.vue */ 74))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-line/u-line */ "uview-ui/components/u-line/u-line").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-line/u-line.vue */ 108))
+    },
+    uUpload: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-upload/u-upload */ "uview-ui/components/u-upload/u-upload").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-upload/u-upload.vue */ 115))
+    },
+    uIcon: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-icon/u-icon */ "uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-icon/u-icon.vue */ 122))
+    },
+    uInput: function() {
+      return Promise.all(/*! import() | uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-input/u-input.vue */ 129))
+    },
+    uTabbar: function() {
+      return Promise.all(/*! import() | uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 137))
     }
   }
 } catch (e) {
@@ -170,7 +194,66 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 23));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -202,37 +285,73 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _util = _interopRequireDefault(__webpack_require__(/*! ../../util/util.js */ 11));
-var _api = _interopRequireDefault(__webpack_require__(/*! ../../util/api.js */ 10));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default = { data: function data() {return { userInfo: { nickName: '小可爱', avatarUrl: null, gender: 1 } };}, onLoad: function onLoad() {console.log("页面加载");var userInfo = uni.getStorageSync("userInfo");if (userInfo.nickName) this.userInfo = userInfo;}, computed: { welcomeMessage: function welcomeMessage() {var now = new Date();var hour = now.getHours();var message = "早上好";if (hour < 6) {message = "凌晨好，";} else if (hour < 9) {message = "早上好，";} else if (hour < 12) {message = "上午好，";} else if (hour < 14) {message = "中午好，";} else if (hour < 17) {message = "下午好，";} else if (hour < 19) {message = "傍晚好，";} else
+var _api = _interopRequireDefault(__webpack_require__(/*! ../../util/api.js */ 10));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
+{
+
+
+
+  data: function data() {
+    return {
+      thumb: "https://wx.jianxiaoxin.com/wx/storage/fetch/9ykjwr5fb8947rmilsx9.png",
+      action: _api.default.Upload,
+      remark: "",
+      TabbarList: null,
+      activeId: null,
+      activeIndex: null,
+      customStyle: {
+        marginTop: '20px', // 注意驼峰命名，并且值必须用引号包括，因为这是对象
+        color: 'white',
+        width: "350rpx",
+        background: "#FF99CC" },
+
+
+      userInfo: {
+        nickName: '小可爱',
+        avatarUrl: null,
+        gender: 1 },
+
+
+      current: 0,
+
+      taskList: [],
+      disabled: false,
+      btnWidth: 180,
+      show: false,
+      options: [
+      {
+        text: '打卡',
+        style: {
+          backgroundColor: '#007aff' } },
+
+
+      {
+        text: '删除',
+        style: {
+          backgroundColor: '#dd524d' } }] };
+
+
+
+
+
+
+
+
+
+  },
+
+
+  computed: {
+    welcomeMessage: function welcomeMessage() {
+
+      var now = new Date();
+      var hour = now.getHours();
+      var message = "早上好";
+      if (hour < 6) {message = "凌晨好，";} else
+      if (hour < 9) {message = "早上好，";} else
+      if (hour < 12) {message = "上午好，";} else
+      if (hour < 14) {message = "中午好，";} else
+      if (hour < 17) {message = "下午好，";} else
+      if (hour < 19) {message = "傍晚好，";} else
       if (hour < 22) {message = "晚上好，";} else
       {message = "夜里好，";}
       return message;
@@ -241,25 +360,63 @@ var _default = { data: function data() {return { userInfo: { nickName: '小可�
 
 
   methods: {
+
+
+    submit: function submit() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var token, header, message;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                // let files = [];
+                // // 通过filter，筛选出上传进度为100的文件(因为某些上传失败的文件，进度值不为100，这个是可选的操作)
+                // files = this.$refs.uUpload.lists.filter(val => {
+                // 	return val.progress == 100;
+                // })
+                // 如果您不需要进行太多的处理，直接如下即可
+                // files = this.$refs.uUpload.lists;
+                token = uni.getStorageSync('token');
+
+                console.log("token", _this.activeTask);
+
+                _this.$refs.uUpload.formData = {
+                  'remark': _this.remark,
+                  'activeId': _this.activeId };
+
+
+
+
+                header = {
+                  'Content-Type': 'application/json',
+                  'X-Litemall-Token': uni.getStorageSync('token') };
+
+
+                _this.$refs.uUpload.header = header;_context.next = 7;return (
+                  _this.$refs.uUpload.upload());case 7:message = _context.sent;
+
+                _this.taskList.splice(_this.activeIndex, 1);
+                _this.show = false;case 10:case "end":return _context.stop();}}}, _callee);}))();
+
+    },
     getUser: function getUser() {
-      console.log("abc");
+      // console.log("abc")
     },
 
-    getUserProfile: function getUserProfile() {var _this = this;
+    upload: function upload() {
+      console.log("this.$refs.uUpload", this.$refs.uUpload.lists);
+    },
+
+
+    getUserProfile: function getUserProfile() {var _this2 = this;
       uni.getUserProfile({
         desc: '获取头像',
         success: function success(res) {
           console.log("userInfo", res.userInfo);
-          _this.userInfo = res.userInfo;
+          _this2.userInfo = res.userInfo;
           //写入数据库
-          _this.saveUserInfo();
+          _this2.saveUserInfo();
         },
         fail: function fail(e) {
           console.log("eeeee", e);
         } });
 
     },
-
+    //保持头像
     saveUserInfo: function saveUserInfo() {
       _util.default.request(_api.default.SaveUserInfoApi, {
         userInfo: this.userInfo },
@@ -276,7 +433,75 @@ var _default = { data: function data() {return { userInfo: { nickName: '小可�
       catch(function (err) {
         console.log(err);
       });
-    } } };exports.default = _default;
+    },
+    getTaskIndex: function getTaskIndex() {var _this3 = this;
+      _util.default.request(_api.default.TaskIndex).then(function (res) {
+        console.log("getTaskIndex", res);
+        if (res.errno === 0) {
+          _this3.taskList = res.data.taskList;
+          // this.taskList.map((val, idx) => {
+          // 	this.taskList[idx].show = false;
+          // })
+          //
+          // wx.setStorageSync('userInfo', res.data.userInfo);
+        } else {
+          console.log(res);
+        }
+      }).
+
+      catch(function (err) {
+        console.log(err);
+      });
+    },
+
+    successUpload: function successUpload(response, file, fileList, $event) {
+      // 上传成功在表单的某个字段里加一个值
+      // this.ruleForm.fileList.push(file.response.result[0].url)
+
+      this.$u.toast("\u4E0A\u4F20\u6210\u529F");
+      console.log(response);
+    },
+    uploadOver: function uploadOver(lists, name) {
+      console.log("name", name);
+    },
+    click: function click(index, flag) {
+      if (flag == 1) {
+        this.taskList.splice(index, 1);
+        this.$u.toast("\u5220\u9664\u4E86\u7B2C".concat(index, "\u4E2Acell"));
+      } else {
+        // this.taskList[index].show = false;
+        // this.taskList.splice(index, 1);
+        // this.$u.toast(`打卡成功`);
+        this.activeIndex = index;
+        this.activeId = this.taskList[index].id;
+        this.show = true;
+      }
+    },
+    // 如果打开一个的时候，不需要关闭其他，则无需实现本方法
+    open: function open(index) {var _this4 = this;
+      // 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
+      // 原本为'false'，再次设置为'false'会无效
+      this.taskList[index].show = true;
+      this.taskList.map(function (val, idx) {
+        if (index != idx) _this4.taskList[idx].show = false;
+      });
+
+    } },
+
+
+  onLoad: function onLoad() {
+    console.log("页面加载");
+    var userInfo = uni.getStorageSync("userInfo");
+    if (userInfo.nickName) this.userInfo = userInfo;
+
+    this.TabbarList = _api.default.TabbarList;
+
+
+
+  },
+  onShow: function onShow() {
+    this.getTaskIndex();
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

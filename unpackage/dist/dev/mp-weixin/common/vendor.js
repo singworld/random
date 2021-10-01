@@ -8648,14 +8648,54 @@ function login() {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var WxApiRoot = 'http://192.168.0.112:8080/wx/';var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var WxApiRoot = 'http://192.168.0.102:8080/wx/';var _default =
 
 
 
 {
   AuthLoginByWeixin: WxApiRoot + 'auth/login_by_tt', //微信登录
-  SaveUserInfoApi: WxApiRoot + 'auth/saveUserInfo' //微信登录
-};exports.default = _default;
+  SaveUserInfoApi: WxApiRoot + 'auth/saveUserInfo', //保存头像
+  TaskIndex: WxApiRoot + 'home/taskindex', //获取任务
+  Upload: WxApiRoot + 'home/upload', //上传打卡图片upload
+  GetTaskArchive: WxApiRoot + 'home/getTaskArchive', //获取归档的日志
+
+
+
+
+
+
+
+
+
+
+
+
+
+  TabbarList: [{
+    iconPath: "home",
+    selectedIconPath: "home-fill",
+    text: '我的任务',
+    // count: 2,
+    // isDot: true,
+    customIcon: false,
+    pagePath: '/pages/index/index' },
+
+  {
+    iconPath: "https://cdn.uviewui.com/uview/common/min_button.png",
+    selectedIconPath: "https://cdn.uviewui.com/uview/common/min_button_select.png",
+    text: '发布',
+    midButton: true,
+    customIcon: false,
+    pagePath: '/pages/todo/index' },
+
+  {
+    iconPath: "account",
+    selectedIconPath: "account-fill",
+    text: '打卡记录',
+    // count: 23,
+    // isDot: false,
+    customIcon: false,
+    pagePath: '/pages/center/index' }] };exports.default = _default;
 
 /***/ }),
 /* 11 */
@@ -11317,6 +11357,155 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   topTips: 975,
   sticky: 970,
   indexListSticky: 965 };exports.default = _default;
+
+/***/ }),
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */
+/*!******************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/util/emitter.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 递归使用 call 方式this指向
+                                                                                                      * @param componentName // 需要找的组件的名称
+                                                                                                      * @param eventName // 事件名称
+                                                                                                      * @param params // 需要传递的参数
+                                                                                                      */
+function _broadcast(componentName, eventName, params) {
+  // 循环子节点找到名称一样的子节点 否则 递归 当前子节点
+  this.$children.map(function (child) {
+    if (componentName === child.$options.name) {
+      child.$emit.apply(child, [eventName].concat(params));
+    } else {
+      _broadcast.apply(child, [componentName, eventName].concat(params));
+    }
+  });
+}var _default =
+{
+  methods: {
+    /**
+              * 派发 (向上查找) (一个)
+              * @param componentName // 需要找的组件的名称
+              * @param eventName // 事件名称
+              * @param params // 需要传递的参数
+              */
+    dispatch: function dispatch(componentName, eventName, params) {
+      var parent = this.$parent || this.$root; //$parent 找到最近的父节点 $root 根节点
+      var name = parent.$options.name; // 获取当前组件实例的name
+      // 如果当前有节点 && 当前没名称 且 当前名称等于需要传进来的名称的时候就去查找当前的节点
+      // 循环出当前名称的一样的组件实例
+      while (parent && (!name || name !== componentName)) {
+        parent = parent.$parent;
+        if (parent) {
+          name = parent.$options.name;
+        }
+      }
+      // 有节点表示当前找到了name一样的实例
+      if (parent) {
+        parent.$emit.apply(parent, [eventName].concat(params));
+      }
+    },
+    /**
+        * 广播 (向下查找) (广播多个)
+        * @param componentName // 需要找的组件的名称
+        * @param eventName // 事件名称
+        * @param params // 需要传递的参数
+        */
+    broadcast: function broadcast(componentName, eventName, params) {
+      _broadcast.call(this, componentName, eventName, params);
+    } } };exports.default = _default;
 
 /***/ })
 ]]);

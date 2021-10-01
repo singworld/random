@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/center/index"
+    "pages/center/index",
+    "pages/todo/index"
   ],
   "subPackages": [],
   "window": {

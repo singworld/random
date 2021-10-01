@@ -1,4 +1,9 @@
 {
   "navigationBarTitleText": "uView-center",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-time-line": "/uview-ui/components/u-time-line/u-time-line",
+    "u-time-line-item": "/uview-ui/components/u-time-line-item/u-time-line-item",
+    "u-image": "/uview-ui/components/u-image/u-image",
+    "u-tabbar": "/uview-ui/components/u-tabbar/u-tabbar"
+  }
 }

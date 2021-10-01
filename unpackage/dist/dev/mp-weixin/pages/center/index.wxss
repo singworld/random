@@ -4,29 +4,30 @@
  * uView自定义的css类名和scss变量，均以"u-"开头，不会造成冲突，请放心使用 
  */
 .content.data-v-0f3320de {
+  margin: auto;
+  width: 88%;
+}
+.u-node.data-v-0f3320de {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 100rpx;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: center;
-  padding: 40rpx;
+  background: #d0d0d0;
 }
-.logo.data-v-0f3320de {
-  height: 200rpx;
-  width: 200rpx;
-  margin-top: 100rpx;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 50rpx;
+.u-order-title.data-v-0f3320de {
+  color: #333333;
+  font-weight: bold;
+  font-size: 32rpx;
 }
-.text-area.data-v-0f3320de {
-  display: flex;
-  justify-content: center;
-}
-.title.data-v-0f3320de {
+.u-order-desc.data-v-0f3320de {
+  color: #969696;
   font-size: 28rpx;
-  color: #606266;
+  margin-bottom: 6rpx;
 }
-.link-demo.data-v-0f3320de {
-  margin-top: 80rpx;
+.u-order-time.data-v-0f3320de {
+  color: #c8c8c8;
+  font-size: 26rpx;
 }
 

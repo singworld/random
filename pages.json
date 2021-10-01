@@ -15,7 +15,14 @@
 				"navigationBarTitleText": "uView-center"
 			}
 		}
-	],
+        ,{
+            "path" : "pages/todo/index",
+			 "style": {
+				"navigationBarTitleText": "uView-todo"
+			 }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "桐桐要干嘛",
