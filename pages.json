@@ -12,13 +12,13 @@
 		{
 			"path": "pages/center/index",
 			"style": {
-				"navigationBarTitleText": "uView-center"
+				"navigationBarTitleText": "桐桐要干嘛"
 			}
 		}
         ,{
             "path" : "pages/todo/index",
 			 "style": {
-				"navigationBarTitleText": "uView-todo"
+				"navigationBarTitleText": "桐桐要干嘛"
 			 }
             
         }
@@ -43,6 +43,11 @@
 	        "text": "我的日程"
 	    }, {
 	        "pagePath": "pages/center/index",
+	        "iconPath": "static/center.png",
+	        "selectedIconPath": "static/center-selected.png",
+	        "text": "打卡记录"
+	    }, {
+	        "pagePath": "pages/todo/index",
 	        "iconPath": "static/center.png",
 	        "selectedIconPath": "static/center-selected.png",
 	        "text": "打卡记录"

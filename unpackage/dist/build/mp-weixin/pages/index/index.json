@@ -1,0 +1,16 @@
+{
+  "navigationBarTitleText": "桐桐要干嘛",
+  "usingComponents": {
+    "u-avatar": "/uview-ui/components/u-avatar/u-avatar",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "u-card": "/uview-ui/components/u-card/u-card",
+    "u-swipe-action": "/uview-ui/components/u-swipe-action/u-swipe-action",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "u-upload": "/uview-ui/components/u-upload/u-upload",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-tabbar": "/uview-ui/components/u-tabbar/u-tabbar"
+  }
+}

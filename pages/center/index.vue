@@ -36,6 +36,9 @@
 			this.TabbarList = api.TabbarList;
 			this.getTaskArchive()
 		},
+		onShow(){
+			this.getTaskArchive()
+		},
 		methods: {
 					getTaskArchive(){
 						util.request(api.GetTaskArchive).then(res => {

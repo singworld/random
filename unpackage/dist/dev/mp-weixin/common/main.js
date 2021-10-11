@@ -127,33 +127,60 @@ var app = getApp();var _default =
   globalData: {
     hasLogin: false },
 
-  onLaunch: function onLaunch() {var _this = this;
-    console.log('App Launch');
+  onLaunch: function onLaunch() {
 
-    user.checkLogin().catch(function (e) {
-      user.loginByWeixin().then(function (res) {
+    var updateManager = uni.getUpdateManager();
 
-        console.log("resvue", res);
-        _this.globalData.hasLogin = true;
-        console.log("globalData.hasLogin", _this.globalData.hasLogin);
+    updateManager.onCheckForUpdate(function (res) {
+      // 请求完新版本信息的回调
+      console.log("更新", res.hasUpdate);
+    });
 
-        //         wx.navigateBack({
-        //           delta: 1
-        //         })
-      }).catch(function (err) {
+    updateManager.onUpdateReady(function (res) {
+      uni.showModal({
+        title: '更新提示',
+        content: '新版本已经准备好，是否重启应用？',
+        success: function success(res) {
+          if (res.confirm) {
+            // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+            updateManager.applyUpdate();
+          }
+        } });
 
-        _this.globalData.hasLogin = false;
-        uni.showErrorToast('微信登录失败');
-      });
-
-
-
-    }).catch(function (err) {
-      uni.showToast({
-        title: '失败',
-        duration: 2000 });
 
     });
+
+    updateManager.onUpdateFailed(function (res) {
+      console.log('新版更新失败', res);
+    });
+
+    console.log('App Launch');
+
+    // uni.clearStorageSync();
+    // user.checkLogin().catch((e) => {
+    // 	      user.loginByWeixin().then(res => {
+
+    // 			  console.log("resvue",res)
+    // 	          this.globalData.hasLogin = true;
+    // 			  console.log("globalData.hasLogin",this.globalData.hasLogin)
+
+    // 	//         wx.navigateBack({
+    // 	//           delta: 1
+    // 	//         })
+    // 	      }).catch((err) => {
+
+    // 	        this.globalData.hasLogin = false;
+    // 	        uni.showErrorToast('微信登录失败');
+    // 	      });
+
+
+
+    //       }).catch((err) => {
+    //         uni.showToast({
+    //             title: '失败',
+    //             duration: 2000
+    //         });
+    //       });
 
 
 

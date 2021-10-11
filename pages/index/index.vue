@@ -61,7 +61,7 @@
 					<view class="u-line">
 						<u-line class="u-line" color="#FF99CC" hair-line="false" margin="0rpx"></u-line> 
 					</view>
-					<u-upload :on-uploaded="uploadOver" :on-success="successUpload" :action="action"  ref="uUpload" :custom-btn="true" :auto-upload="false" max-count="1" >
+					<u-upload  :action="action"  ref="uUpload" :custom-btn="true" :auto-upload="false" max-count="1" >
 						<view slot="addBtn" class="slot-btn"  hover-class="slot-btn__hover" hover-stay-time="150">
 							<u-icon name="plus" size="200" :color="$u.color['lightColor']"></u-icon>
 						</view>
@@ -90,6 +90,8 @@
 <script>
 	import util from "../../util/util.js"
 	import api from "../../util/api.js"
+	import * as user from '../../util/user.js'
+	var app = getApp();
 	export default {
 		
 		
@@ -197,15 +199,7 @@
 							this.show=false
 							
 						},
-			getUser(){
-				// console.log("abc")
-			},
-			
-			upload(){
-				console.log("this.$refs.uUpload",this.$refs.uUpload.lists)
-			},
-			
-			
+
 			getUserProfile() {
 				uni.getUserProfile({
 					 desc: '获取头像',
@@ -258,16 +252,7 @@
 				});
 			},
 			
-			 successUpload (response, file, fileList, $event) {
-			      // 上传成功在表单的某个字段里加一个值
-			        // this.ruleForm.fileList.push(file.response.result[0].url)
-					
-					this.$u.toast(`上传成功`);
-					console.log(response)
-			    },
-			uploadOver(lists, name){
-				console.log("name",name)
-			},
+		
 			click(index, flag) {
 				if(flag == 1) {
 					this.taskList.splice(index, 1);
@@ -292,20 +277,100 @@
 				
 			}
 	
-		},			
+		},	
+		//发送给朋友
+		onShareAppMessage(res) {
+			// 此处的distSource为分享者的部分信息，需要传递给其他人
+			let distSource = uni.getStorageSync('distSource');
+			if (distSource) {
+				return {
+					title: '欢迎使用',
+					type: 0,
+					path: '/pages/index/index?id=' + distSource,
+					summary: "",
+					imageUrl: "https://58d.oss-cn-hangzhou.aliyuncs.com/goods/ttg_1596073788000.png"
+				}
+			}
+		},
+		//分享到朋友圈
+		onShareTimeline(res) {
+			let distSource = uni.getStorageSync('distSource');
+			if (distSource) {
+				return {
+					title: '欢迎使用',
+					type: 0,
+					query: 'id=' + distSource,
+					summary: "",
+					imageUrl: ""
+				}
+			}
+		},
+
+				
 		onLoad() {
 			console.log("页面加载")
+				wx.showShareMenu({
+					withShareTicket:true,
+					//设置下方的Menus菜单，才能够让发送给朋友与分享到朋友圈两个按钮可以点击
+					menus:["shareAppMessage","shareTimeline"]
+				})
+			
+			
 			let userInfo = uni.getStorageSync("userInfo")
-			if(userInfo.nickName) this.userInfo=userInfo
+			// if(userInfo.nickName) this.userInfo=userInfo
+			
+			console.log("onload里面的userInfo",userInfo)
+			
+			let token = uni.getStorageSync("token")
+			console.log("onload里面的token",token)
+			uni.removeStorageSync('token');
 			
 			this.TabbarList = api.TabbarList;
+			
+			// uni.clearStorage();
+			user.checkLogin().catch((e) => {
+				      user.loginByWeixin().then(res => {
+						  
+						  console.log("resvue",res)
+				          app.globalData.hasLogin = true;
+						  console.log("globalData.hasLogin",app.globalData.hasLogin)
+							this.getTaskIndex()
+				//         wx.navigateBack({
+				//           delta: 1
+				//         })
+				      }).catch((err) => {
+			
+				        app.globalData.hasLogin = false;
+				        console.log('微信登录失败');
+				      });
+				
+				
+				
+			      }).catch((err) => {
+			        uni.showToast({
+			            title: '失败',
+			            duration: 2000
+			        });
+			      });
+			
+			
 			
 			
 			
 		},
 		onShow(){
 			this.getTaskIndex()
+			// let userInfo = uni.getStorageSync("userInfo")
+			// console.log("onshow 里面的userInfo",userInfo)
+			// if(userInfo.nickName) this.userInfo=userInfo
 		},
+		
+		onReady(){
+			
+			let userInfo = uni.getStorageSync("userInfo")
+			console.log("onReady 里面的userInfo",userInfo)
+			if(userInfo.nickName) this.userInfo=userInfo
+		}
 		
 	}
 </script>

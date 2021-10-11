@@ -1,6 +1,6 @@
-(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],[
-/* 0 */,
-/* 1 */
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
+
+/***/ 1:
 /*!************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js ***!
   \************************************************************/
@@ -914,7 +914,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"桐桐要干嘛","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -2021,7 +2021,984 @@ var uni$1 = uni;var _default =
 uni$1;exports.default = _default;
 
 /***/ }),
-/* 2 */
+
+/***/ 10:
+/*!************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/util/api.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var WxApiRoot = 'https://wx.jianxiaoxin.com/wx/';
+// const WxApiRoot = 'http://192.168.0.114:8080/wx/'
+var _default =
+
+
+{
+  AuthLoginByWeixin: WxApiRoot + 'auth/login_by_tt', //微信登录
+  SaveUserInfoApi: WxApiRoot + 'auth/saveUserInfo', //保存头像
+  TaskIndex: WxApiRoot + 'home/taskindex', //获取任务
+  Upload: WxApiRoot + 'home/upload', //上传打卡图片upload
+  GetTaskArchive: WxApiRoot + 'home/getTaskArchive', //获取归档的日志
+  SaveTtlist: WxApiRoot + 'home/saveTtlist', //保持ttlist
+  GetConfig: WxApiRoot + 'home/getConfig', //获取配置
+  ModifyConfig: WxApiRoot + 'home/modifyConfig', //保持配置
+  AddConfig: WxApiRoot + 'home/addConfig',
+
+
+
+
+
+
+
+
+
+
+
+
+  TabbarList: [{
+    iconPath: "home",
+    selectedIconPath: "home-fill",
+    text: '我的任务',
+    // count: 2,
+    // isDot: true,
+    customIcon: false,
+    pagePath: '/pages/index/index' },
+
+  {
+    iconPath: "https://cdn.uviewui.com/uview/common/min_button.png",
+    selectedIconPath: "https://cdn.uviewui.com/uview/common/min_button_select.png",
+    text: '发布',
+    midButton: true,
+    customIcon: false,
+    pagePath: '/pages/todo/index' },
+
+  {
+    iconPath: "account",
+    selectedIconPath: "account-fill",
+    text: '打卡记录',
+    // count: 23,
+    // isDot: false,
+    customIcon: false,
+    pagePath: '/pages/center/index' }] };exports.default = _default;
+
+/***/ }),
+
+/***/ 11:
+/*!*************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/util/util.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _api = _interopRequireDefault(__webpack_require__(/*! ./api.js */ 10));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var myRequest = function myRequest(options) {
+  return new Promise(function (resolve, reject) {
+    uni.request({
+      url: _api.default.WxApiRoot + options.url,
+      method: options.method || 'GET',
+      data: options.data || {},
+      success: function success(res) {
+        if (res.data.status !== 0) {
+          return uni.showToast({
+            title: '获取数据失败' });
+
+        }
+        resolve(res);
+      },
+      fail: function fail(err) {
+        uni.showToast({
+          title: '请求接口失败' });
+
+        reject(err);
+      } });
+
+  });
+};
+
+
+/**
+    * 封封微信的的request
+    */
+function request(url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "GET";
+  return new Promise(function (resolve, reject) {
+    uni.request({
+      url: url,
+      data: data,
+      method: method,
+      header: {
+        'Content-Type': 'application/json',
+        'X-Litemall-Token': uni.getStorageSync('token') },
+
+      success: function success(res) {
+
+        if (res.statusCode == 200) {
+
+          if (res.data.errno == 501) {
+            // 清除登录相关内容
+            try {
+              uni.removeStorageSync('userInfo');
+              uni.removeStorageSync('token');
+            } catch (e) {
+
+            } // Do something when catch error
+            // 切换到登录页面
+            wx.navigateTo({
+              url: '/pages/auth/login/login' });
+
+          } else {
+            resolve(res.data);
+          }
+        } else {
+          reject(res.errMsg);
+        }
+
+      },
+      fail: function fail(err) {
+        reject(err);
+      } });
+
+  });
+}var _default =
+
+{
+  myRequest: myRequest,
+  request: request };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 137:
+/*!******************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/util/emitter.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 递归使用 call 方式this指向
+                                                                                                      * @param componentName // 需要找的组件的名称
+                                                                                                      * @param eventName // 事件名称
+                                                                                                      * @param params // 需要传递的参数
+                                                                                                      */
+function _broadcast(componentName, eventName, params) {
+  // 循环子节点找到名称一样的子节点 否则 递归 当前子节点
+  this.$children.map(function (child) {
+    if (componentName === child.$options.name) {
+      child.$emit.apply(child, [eventName].concat(params));
+    } else {
+      _broadcast.apply(child, [componentName, eventName].concat(params));
+    }
+  });
+}var _default =
+{
+  methods: {
+    /**
+              * 派发 (向上查找) (一个)
+              * @param componentName // 需要找的组件的名称
+              * @param eventName // 事件名称
+              * @param params // 需要传递的参数
+              */
+    dispatch: function dispatch(componentName, eventName, params) {
+      var parent = this.$parent || this.$root; //$parent 找到最近的父节点 $root 根节点
+      var name = parent.$options.name; // 获取当前组件实例的name
+      // 如果当前有节点 && 当前没名称 且 当前名称等于需要传进来的名称的时候就去查找当前的节点
+      // 循环出当前名称的一样的组件实例
+      while (parent && (!name || name !== componentName)) {
+        parent = parent.$parent;
+        if (parent) {
+          name = parent.$options.name;
+        }
+      }
+      // 有节点表示当前找到了name一样的实例
+      if (parent) {
+        parent.$emit.apply(parent, [eventName].concat(params));
+      }
+    },
+    /**
+        * 广播 (向下查找) (广播多个)
+        * @param componentName // 需要找的组件的名称
+        * @param eventName // 事件名称
+        * @param params // 需要传递的参数
+        */
+    broadcast: function broadcast(componentName, eventName, params) {
+      _broadcast.call(this, componentName, eventName, params);
+    } } };exports.default = _default;
+
+/***/ }),
+
+/***/ 14:
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 15:
+/*!******************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/index.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 16));
+
+
+
+var _request = _interopRequireDefault(__webpack_require__(/*! ./libs/request */ 17));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _queryParams = _interopRequireDefault(__webpack_require__(/*! ./libs/function/queryParams.js */ 21));
+
+var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/function/route.js */ 22));
+
+var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFormat.js */ 26));
+
+var _timeFrom = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFrom.js */ 27));
+
+var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 28));
+
+var _guid = _interopRequireDefault(__webpack_require__(/*! ./libs/function/guid.js */ 29));
+
+var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/function/color.js */ 30));
+
+var _type2icon = _interopRequireDefault(__webpack_require__(/*! ./libs/function/type2icon.js */ 31));
+
+var _randomArray = _interopRequireDefault(__webpack_require__(/*! ./libs/function/randomArray.js */ 32));
+
+var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepClone.js */ 19));
+
+var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepMerge.js */ 18));
+
+var _addUnit = _interopRequireDefault(__webpack_require__(/*! ./libs/function/addUnit.js */ 33));
+
+
+var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 20));
+
+var _random = _interopRequireDefault(__webpack_require__(/*! ./libs/function/random.js */ 34));
+
+var _trim = _interopRequireDefault(__webpack_require__(/*! ./libs/function/trim.js */ 35));
+
+var _toast = _interopRequireDefault(__webpack_require__(/*! ./libs/function/toast.js */ 36));
+
+var _getParent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/getParent.js */ 37));
+
+var _$parent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/$parent.js */ 38));
+
+
+
+var _sys = __webpack_require__(/*! ./libs/function/sys.js */ 39);
+
+var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 40));
+
+var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 41));
+
+
+
+var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 42));
+
+var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 43));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 引入全局mixin
+// 引入关于是否mixin集成小程序分享的配置
+// import wxshare from './libs/mixin/mpShare.js'
+// 全局挂载引入http相关请求拦截插件
+function wranning(str) {// 开发环境进行信息输出,主要是一些报错信息
+  // 这个环境的来由是在程序编写时候,点击hx编辑器运行调试代码的时候,详见:
+  // 	https://uniapp.dcloud.io/frame?id=%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83%e5%92%8c%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83
+  if (true) {console.warn(str);}} // 尝试判断在根目录的/store中是否有$u.mixin.js，此文件uView默认为需要挂在到全局的vuex的state变量
+// HX2.6.11版本,放到try中,控制台依然会警告,暂时不用此方式，
+// let vuexStore = {};
+// try {
+// 	vuexStore = require("@/store/$u.mixin.js");
+// } catch (e) {
+// 	//TODO handle the exception
+// }
+// post类型对象参数转为get类型url参数
+var $u = { queryParams: _queryParams.default, route: _route.default, timeFormat: _timeFormat.default, date: _timeFormat.default, // 另名date
+  timeFrom: _timeFrom.default, colorGradient: _colorGradient.default.colorGradient, colorToRgba: _colorGradient.default.colorToRgba, guid: _guid.default, color: _color.default, sys: _sys.sys, os: _sys.os, type2icon: _type2icon.default, randomArray: _randomArray.default, wranning: wranning, get: _request.default.get,
+  post: _request.default.post,
+  put: _request.default.put,
+  'delete': _request.default.delete,
+  hexToRgb: _colorGradient.default.hexToRgb,
+  rgbToHex: _colorGradient.default.rgbToHex,
+  test: _test.default,
+  random: _random.default,
+  deepClone: _deepClone.default,
+  deepMerge: _deepMerge.default,
+  getParent: _getParent.default,
+  $parent: _$parent.default,
+  addUnit: _addUnit.default,
+  trim: _trim.default,
+  type: ['primary', 'success', 'error', 'warning', 'info'],
+  http: _request.default,
+  toast: _toast.default,
+  config: _config.default, // uView配置信息相关，比如版本号
+  zIndex: _zIndex.default,
+  debounce: _debounce.default,
+  throttle: _throttle.default };
+
+
+// $u挂载到uni对象上
+uni.$u = $u;
+
+var install = function install(Vue) {
+  Vue.mixin(_mixin.default);
+  if (Vue.prototype.openShare) {
+    Vue.mixin(mpShare);
+  }
+  // Vue.mixin(vuexStore);
+  // 时间格式化，同时两个名称，date和timeFormat
+  Vue.filter('timeFormat', function (timestamp, format) {
+    return (0, _timeFormat.default)(timestamp, format);
+  });
+  Vue.filter('date', function (timestamp, format) {
+    return (0, _timeFormat.default)(timestamp, format);
+  });
+  // 将多久以前的方法，注入到全局过滤器
+  Vue.filter('timeFrom', function (timestamp, format) {
+    return (0, _timeFrom.default)(timestamp, format);
+  });
+  Vue.prototype.$u = $u;
+};var _default =
+
+{
+  install: install };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 16:
+/*!*****************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/mixin/mixin.js ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(uni) {module.exports = {
+  data: function data() {
+    return {};
+  },
+  onLoad: function onLoad() {
+    // getRect挂载到$u上，因为这方法需要使用in(this)，所以无法把它独立成一个单独的文件导出
+    this.$u.getRect = this.$uGetRect;
+  },
+  methods: {
+    // 查询节点信息
+    // 目前此方法在支付宝小程序中无法获取组件跟接点的尺寸，为支付宝的bug(2020-07-21)
+    // 解决办法为在组件根部再套一个没有任何作用的view元素
+    $uGetRect: function $uGetRect(selector, all) {var _this = this;
+      return new Promise(function (resolve) {
+        uni.createSelectorQuery().
+        in(_this)[all ? 'selectAll' : 'select'](selector).
+        boundingClientRect(function (rect) {
+          if (all && Array.isArray(rect) && rect.length) {
+            resolve(rect);
+          }
+          if (!all && rect) {
+            resolve(rect);
+          }
+        }).
+        exec();
+      });
+    },
+    getParentData: function getParentData() {var _this2 = this;var parentName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      // 避免在created中去定义parent变量
+      if (!this.parent) this.parent = false;
+      // 这里的本质原理是，通过获取父组件实例(也即u-radio-group的this)
+      // 将父组件this中对应的参数，赋值给本组件(u-radio的this)的parentData对象中对应的属性
+      // 之所以需要这么做，是因为所有端中，头条小程序不支持通过this.parent.xxx去监听父组件参数的变化
+      this.parent = this.$u.$parent.call(this, parentName);
+      if (this.parent) {
+        // 历遍parentData中的属性，将parent中的同名属性赋值给parentData
+        Object.keys(this.parentData).map(function (key) {
+          _this2.parentData[key] = _this2.parent[key];
+        });
+      }
+    },
+    // 阻止事件冒泡
+    preventEvent: function preventEvent(e) {
+      e && e.stopPropagation && e.stopPropagation();
+    } },
+
+  onReachBottom: function onReachBottom() {
+    uni.$emit('uOnReachBottom');
+  },
+  beforeDestroy: function beforeDestroy() {var _this3 = this;
+    // 判断当前页面是否存在parent和chldren，一般在checkbox和checkbox-group父子联动的场景会有此情况
+    // 组件销毁时，移除子组件在父组件children数组中的实例，释放资源，避免数据混乱
+    if (this.parent && uni.$u.test.array(this.parent.children)) {
+      // 组件销毁时，移除父组件中的children数组中对应的实例
+      var childrenList = this.parent.children;
+      childrenList.map(function (child, index) {
+        // 如果相等，则移除
+        if (child === _this3) {
+          childrenList.splice(index, 1);
+        }
+      });
+    }
+  } };
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 17:
+/*!*******************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/request/index.js ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ../function/deepMerge */ 18));
+var _test = _interopRequireDefault(__webpack_require__(/*! ../function/test */ 20));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var
+Request = /*#__PURE__*/function () {_createClass(Request, [{ key: "setConfig",
+    // 设置全局默认配置
+    value: function setConfig(customConfig) {
+      // 深度合并对象，否则会造成对象深层属性丢失
+      this.config = (0, _deepMerge.default)(this.config, customConfig);
+    }
+
+    // 主要请求部分
+  }, { key: "request", value: function request() {var _this = this;var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      // 检查请求拦截
+      if (this.interceptor.request && typeof this.interceptor.request === 'function') {
+        var tmpConfig = {};
+        var interceptorRequest = this.interceptor.request(options);
+        if (interceptorRequest === false) {
+          // 返回一个处于pending状态中的Promise，来取消原promise，避免进入then()回调
+          return new Promise(function () {});
+        }
+        this.options = interceptorRequest;
+      }
+      options.dataType = options.dataType || this.config.dataType;
+      options.responseType = options.responseType || this.config.responseType;
+      options.url = options.url || '';
+      options.params = options.params || {};
+      options.header = Object.assign({}, this.config.header, options.header);
+      options.method = options.method || this.config.method;
+
+      return new Promise(function (resolve, reject) {
+        options.complete = function (response) {
+          // 请求返回后，隐藏loading(如果请求返回快的话，可能会没有loading)
+          uni.hideLoading();
+          // 清除定时器，如果请求回来了，就无需loading
+          clearTimeout(_this.config.timer);
+          _this.config.timer = null;
+          // 判断用户对拦截返回数据的要求，如果originalData为true，返回所有的数据(response)到拦截器，否则只返回response.data
+          if (_this.config.originalData) {
+            // 判断是否存在拦截器
+            if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
+              var resInterceptors = _this.interceptor.response(response);
+              // 如果拦截器不返回false，就将拦截器返回的内容给this.$u.post的then回调
+              if (resInterceptors !== false) {
+                resolve(resInterceptors);
+              } else {
+                // 如果拦截器返回false，意味着拦截器定义者认为返回有问题，直接接入catch回调
+                reject(response);
+              }
+            } else {
+              // 如果要求返回原始数据，就算没有拦截器，也返回最原始的数据
+              resolve(response);
+            }
+          } else {
+            if (response.statusCode == 200) {
+              if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
+                var _resInterceptors = _this.interceptor.response(response.data);
+                if (_resInterceptors !== false) {
+                  resolve(_resInterceptors);
+                } else {
+                  reject(response.data);
+                }
+              } else {
+                // 如果不是返回原始数据(originalData=false)，且没有拦截器的情况下，返回纯数据给then回调
+                resolve(response.data);
+              }
+            } else {
+              // 不返回原始数据的情况下，服务器状态码不为200，modal弹框提示
+              // if(response.errMsg) {
+              // 	uni.showModal({
+              // 		title: response.errMsg
+              // 	});
+              // }
+              reject(response);
+            }
+          }
+        };
+
+        // 判断用户传递的URL是否/开头,如果不是,加上/，这里使用了uView的test.js验证库的url()方法
+        options.url = _test.default.url(options.url) ? options.url : _this.config.baseUrl + (options.url.indexOf('/') == 0 ?
+        options.url : '/' + options.url);
+
+        // 是否显示loading
+        // 加一个是否已有timer定时器的判断，否则有两个同时请求的时候，后者会清除前者的定时器id
+        // 而没有清除前者的定时器，导致前者超时，一直显示loading
+        if (_this.config.showLoading && !_this.config.timer) {
+          _this.config.timer = setTimeout(function () {
+            uni.showLoading({
+              title: _this.config.loadingText,
+              mask: _this.config.loadingMask });
+
+            _this.config.timer = null;
+          }, _this.config.loadingTime);
+        }
+        uni.request(options);
+      });
+      // .catch(res => {
+      // 	// 如果返回reject()，不让其进入this.$u.post().then().catch()后面的catct()
+      // 	// 因为很多人都会忘了写后面的catch()，导致报错捕获不到catch
+      // 	return new Promise(()=>{});
+      // })
+    } }]);
+
+  function Request() {var _this2 = this;_classCallCheck(this, Request);
+    this.config = {
+      baseUrl: '', // 请求的根域名
+      // 默认的请求头
+      header: {},
+      method: 'POST',
+      // 设置为json，返回后uni.request会对数据进行一次JSON.parse
+      dataType: 'json',
+      // 此参数无需处理，因为5+和支付宝小程序不支持，默认为text即可
+      responseType: 'text',
+      showLoading: true, // 是否显示请求中的loading
+      loadingText: '请求中...',
+      loadingTime: 800, // 在此时间内，请求还没回来的话，就显示加载中动画，单位ms
+      timer: null, // 定时器
+      originalData: false, // 是否在拦截器中返回服务端的原始数据，见文档说明
+      loadingMask: true // 展示loading的时候，是否给一个透明的蒙层，防止触摸穿透
+    };
+
+    // 拦截器
+    this.interceptor = {
+      // 请求前的拦截
+      request: null,
+      // 请求后的拦截
+      response: null };
+
+
+    // get请求
+    this.get = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        method: 'GET',
+        url: url,
+        header: header,
+        data: data });
+
+    };
+
+    // post请求
+    this.post = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        url: url,
+        method: 'POST',
+        header: header,
+        data: data });
+
+    };
+
+    // put请求，不支持支付宝小程序(HX2.6.15)
+    this.put = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        url: url,
+        method: 'PUT',
+        header: header,
+        data: data });
+
+    };
+
+    // delete请求，不支持支付宝和头条小程序(HX2.6.15)
+    this.delete = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        url: url,
+        method: 'DELETE',
+        header: header,
+        data: data });
+
+    };
+  }return Request;}();var _default =
+
+new Request();exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 18:
+/*!************************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/deepMerge.js ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./deepClone */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// JS对象深度合并
+function deepMerge() {var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var source = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  target = (0, _deepClone.default)(target);
+  if (typeof target !== 'object' || typeof source !== 'object') return false;
+  for (var prop in source) {
+    if (!source.hasOwnProperty(prop)) continue;
+    if (prop in target) {
+      if (typeof target[prop] !== 'object') {
+        target[prop] = source[prop];
+      } else {
+        if (typeof source[prop] !== 'object') {
+          target[prop] = source[prop];
+        } else {
+          if (target[prop].concat && source[prop].concat) {
+            target[prop] = target[prop].concat(source[prop]);
+          } else {
+            target[prop] = deepMerge(target[prop], source[prop]);
+          }
+        }
+      }
+    } else {
+      target[prop] = source[prop];
+    }
+  }
+  return target;
+}var _default =
+
+deepMerge;exports.default = _default;
+
+/***/ }),
+
+/***/ 187:
+/*!**********************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/components/uni-luck-draw/utils.js ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getImage = getImage;exports.resolveImage = exports.changeUnits = exports.rpx2px = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var windowWidth = uni.getSystemInfoSync().windowWidth;
+// uni-app@2.9起, 屏幕最多适配到960, 超出则按375计算
+if (windowWidth > 960) windowWidth = 375;
+
+var rpx2px = function rpx2px(value) {
+  if (typeof value === 'string') value = Number(value.replace(/[a-z]*/g, ''));
+  return windowWidth / 750 * value;
+};exports.rpx2px = rpx2px;
+
+var changeUnits = function changeUnits(value) {
+  return Number(value.replace(/^(\-*[0-9.]*)([a-z%]*)$/, function (value, num, unit) {
+    switch (unit) {
+      case 'px':
+        num *= 1;
+        break;
+      case 'rpx':
+        num = rpx2px(num);
+        break;
+      default:
+        num *= 1;
+        break;}
+
+    return num;
+  }));
+};exports.changeUnits = changeUnits;
+
+var resolveImage = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(img, canvas) {var srcName,resolveName,imgObj,_args = arguments;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:srcName = _args.length > 2 && _args[2] !== undefined ? _args[2] : 'src';resolveName = _args.length > 3 && _args[3] !== undefined ? _args[3] : '$resolve';
+
+
+
+
+
+            imgObj = canvas.createImage();
+
+            // 成功回调
+            imgObj.onload = function () {
+              img[resolveName](imgObj);
+            };
+            // 失败回调
+            imgObj.onerror = function (err) {
+              console.error(err);
+              // img['$reject']()
+            };
+            // 设置src
+            imgObj.src = img[srcName];case 6:case "end":return _context.stop();}}}, _callee);}));return function resolveImage(_x, _x2) {return _ref.apply(this, arguments);};}();
+
+
+// let fsm
+// let tempImageFlag = 0
+// export const base64src = function(base64data) {
+//   return new Promise((resolve, reject) => {
+//     // 如果不是base64就直接返回路径
+//     if (!/^data:image\/([a-z]+);base64,/.test(base64data)) return resolve(base64data)
+//     const [, format, bodyData] = /data:image\/([a-z]+);base64,(.*)/.exec(base64data) || []
+//     if (!format) return resolve(base64data)
+//     const filePath = `${wx.env.USER_DATA_PATH}/lucky_${Date.now()}${tempImageFlag++}.${format}`
+//     const buffer = wx.base64ToArrayBuffer(bodyData)
+//     wx.getFileSystemManager().writeFile({
+//       filePath,
+//       data: buffer,
+//       encoding: 'binary',
+//       success: () => resolve(filePath),
+//       fail: (res) => {
+//         console.error('API `fsm.writeFile` 进入失败回调', {
+//           errMsg: res.errMsg,
+//           ArrayBuffer: buffer
+//         })
+//         reject(new Error('base64图片缓存失败'))
+//       }
+//     })
+//   })
+// }
+
+// 旧版canvas引入图片的方法
+// export const resolveImage = async (res, img, imgName = 'src', resolveName = '$resolve') => {
+//   const src = img[imgName]
+//   const $resolve = img[resolveName]
+//
+//   // 如果是base64就调用base64src()方法把图片写入本地, 然后渲染临时路径
+//   if (/^data:image\/([a-z]+);base64,/.test(src)) {
+//     const path = await base64src(src)
+//     $resolve({ ...res.detail, path })
+//     return
+//   }
+//
+//   // 如果是本地图片, 直接返回
+//   if (src.indexOf('http') !== 0) {
+//     $resolve({ ...res.detail, path:src })
+//     return
+//   }
+//   // 如果是网络图片, 则通过getImageInfo()方法获取图片宽高
+//   uni.getImageInfo({
+//     src: src,
+//     success: (imgObj) => $resolve(imgObj),
+//     fail: () => console.error('API `uni.getImageInfo` 加载图片失败', src)
+//   })
+// }
+exports.resolveImage = resolveImage;
+function getImage(canvasId) {var _this = this;
+  return new Promise(function (resolve, reject) {
+    uni.canvasToTempFilePath({
+      canvasId: canvasId,
+      success: function success(res) {return resolve(res);},
+      fail: function fail(err) {return reject(err);} },
+    _this);
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 188:
+/*!*********************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/components/lucky-canvas/index.js ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./dist/lucky-canvas.cjs.min.js */ 189);
+
+/***/ }),
+
+/***/ 189:
+/*!*****************************************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/components/lucky-canvas/dist/lucky-canvas.cjs.min.js ***!
+  \*****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: !0 });
+/*! *****************************************************************************
+                                                                          Copyright (c) Microsoft Corporation.
+                                                                          
+                                                                          Permission to use, copy, modify, and/or distribute this software for any
+                                                                          purpose with or without fee is hereby granted.
+                                                                          
+                                                                          THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+                                                                          REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+                                                                          AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+                                                                          INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+                                                                          LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+                                                                          OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+                                                                          PERFORMANCE OF THIS SOFTWARE.
+                                                                          ***************************************************************************** */
+var _t = function t(e, i) {return (_t = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (t, e) {t.__proto__ = e;} || function (t, e) {for (var i in e) {Object.prototype.hasOwnProperty.call(e, i) && (t[i] = e[i]);}})(e, i);};function e(e, i) {if ("function" != typeof i && null !== i) throw new TypeError("Class extends value " + String(i) + " is not a constructor or null");function n() {this.constructor = e;}_t(e, i), e.prototype = null === i ? Object.create(i) : (n.prototype = i.prototype, new n());}var _i = function i() {return (_i = Object.assign || function (t) {for (var e, i = 1, n = arguments.length; i < n; i++) {for (var r in e = arguments[i]) {Object.prototype.hasOwnProperty.call(e, r) && (t[r] = e[r]);}}return t;}).apply(this, arguments);};function n(t, e, i, n) {return new (i || (i = Promise))(function (r, o) {function s(t) {try {u(n.next(t));} catch (t) {o(t);}}function a(t) {try {u(n.throw(t));} catch (t) {o(t);}}function u(t) {var e;t.done ? r(t.value) : (e = t.value, e instanceof i ? e : new i(function (t) {t(e);})).then(s, a);}u((n = n.apply(t, e || [])).next());});}function r(t, e) {var i,n,r,o,s = { label: 0, sent: function sent() {if (1 & r[0]) throw r[1];return r[1];}, trys: [], ops: [] };return o = { next: a(0), throw: a(1), return: a(2) }, "function" == typeof Symbol && (o[Symbol.iterator] = function () {return this;}), o;function a(o) {return function (a) {return function (o) {if (i) throw new TypeError("Generator is already executing.");for (; s;) {try {if (i = 1, n && (r = 2 & o[0] ? n.return : o[0] ? n.throw || ((r = n.return) && r.call(n), 0) : n.next) && !(r = r.call(n, o[1])).done) return r;switch (n = 0, r && (o = [2 & o[0], r.value]), o[0]) {case 0:case 1:r = o;break;case 4:return s.label++, { value: o[1], done: !1 };case 5:s.label++, n = o[1], o = [0];continue;case 7:o = s.ops.pop(), s.trys.pop();continue;default:if (!(r = s.trys, (r = r.length > 0 && r[r.length - 1]) || 6 !== o[0] && 2 !== o[0])) {s = 0;continue;}if (3 === o[0] && (!r || o[1] > r[0] && o[1] < r[3])) {s.label = o[1];break;}if (6 === o[0] && s.label < r[1]) {s.label = r[1], r = o;break;}if (r && s.label < r[2]) {s.label = r[2], s.ops.push(o);break;}r[2] && s.ops.pop(), s.trys.pop();continue;}o = e.call(t, s);} catch (t) {o = [6, t], n = 0;} finally {i = r = 0;}}if (5 & o[0]) throw o[1];return { value: o[0] ? o[1] : void 0, done: !0 };}([o, a]);};}}function o(t, e) {for (var i = 0, n = e.length, r = t.length; i < n; i++, r++) {t[r] = e[i];}return t;}String.prototype.includes || (String.prototype.includes = function (t, e) {return "number" != typeof e && (e = 0), !(e + t.length > this.length) && -1 !== this.indexOf(t, e);}), Array.prototype.find || Object.defineProperty(Array.prototype, "find", { value: function value(t) {if (null == this) throw new TypeError('"this" is null or not defined');var e = Object(this),i = e.length >>> 0;if ("function" != typeof t) throw new TypeError("predicate must be a function");for (var n = arguments[1], r = 0; r < i;) {var o = e[r];if (t.call(n, o, r, e)) return o;r++;}} });var s = function s(t) {for (var e = [], i = 1; i < arguments.length; i++) {e[i - 1] = arguments[i];}return e.some(function (e) {return Object.prototype.toString.call(t).slice(8, -1).toLowerCase() === e;});},a = function a(t) {return [].filter.call(t, function (t) {return "\n" !== t;}).join("");},u = function u(t) {if ("string" != typeof t) return !1;if ("transparent" === (t = t.toLocaleLowerCase().trim())) return !1;if (/^rgba/.test(t)) {var e = /([^\s,]+)\)$/.exec(t);if (0 === (null === (i = e) ? 0 : "object" == typeof i ? NaN : "number" == typeof i ? i : "string" == typeof i ? "%" === i[i.length - 1] ? Number(i.slice(0, -1)) / 100 : Number(i) : NaN)) return !1;}var i;return !0;},h = function () {function t() {this.subs = [];}return t.prototype.addSub = function (t) {this.subs.includes(t) || this.subs.push(t);}, t.prototype.notify = function () {this.subs.forEach(function (t) {t.update();});}, t;}(),c = ("__proto__" in {});function l(t, e, i, n) {Object.defineProperty(t, e, { value: i, enumerable: !!n, writable: !0, configurable: !0 });}var f = Array.prototype,d = Object.create(f);["push", "pop", "shift", "unshift", "sort", "splice", "reverse"].forEach(function (t) {d[t] = function () {for (var e = [], i = 0; i < arguments.length; i++) {e[i] = arguments[i];}var n = f[t].apply(this, e),r = this.__luckyOb__;return ["push", "unshift", "splice"].includes(t) && r.walk(this), r.dep.notify(), n;};});var p = function () {function t(t) {this.dep = new h(), l(t, "__luckyOb__", this), Array.isArray(t) && (c ? t.__proto__ = d : Object.getOwnPropertyNames(d).forEach(function (e) {l(t, e, d[e]);})), this.walk(t);}return t.prototype.walk = function (t) {Object.keys(t).forEach(function (e) {m(t, e, t[e]);});}, t;}();function g(t) {if (t && "object" == typeof t) return "__luckyOb__" in t ? t.__luckyOb__ : new p(t);}function m(t, e, i) {var n = new h(),r = Object.getOwnPropertyDescriptor(t, e);if (!r || !1 !== r.configurable) {var o = r && r.get,s = r && r.set;o && !s || 2 !== arguments.length || (i = t[e]);var a = g(i);Object.defineProperty(t, e, { get: function get() {var e = o ? o.call(t) : i;return h.target && (n.addSub(h.target), a && a.dep.addSub(h.target)), e;}, set: function set(e) {e !== i && (i = e, o && !s || (s ? s.call(t, e) : i = e, a = g(e), n.notify()));} });}}var v = 0,b = function () {function t(t, e, i, n) {void 0 === n && (n = {}), this.id = v++, this.$lucky = t, this.expr = e, this.deep = !!n.deep, this.getter = "function" == typeof e ? e : function (t) {t += ".";for (var e = [], i = "", n = 0; n < t.length; n++) {var r = t[n];if (/\[|\./.test(r)) e.push(i), i = "";else {if (/\W/.test(r)) continue;i += r;}}return function (t) {return e.reduce(function (t, e) {return t[e];}, t);};}(e), this.cb = i, this.value = this.get();}return t.prototype.get = function () {h.target = this;var t = this.getter.call(this.$lucky, this.$lucky);return this.deep && function (t) {var e = function e(t) {s(t, "array", "object") && Object.keys(t).forEach(function (i) {var n = t[i];e(n);});};e(t);}(t), h.target = null, t;}, t.prototype.update = function () {var t = this.get(),e = this.value;this.value = t, this.cb.call(this.$lucky, t, e);}, t;}(),y = function () {function t(t) {var e = this;this.htmlFontSize = 16, this.rAF = function () {}, this.boxWidth = 0, this.boxHeight = 0, this.setHTMLFontSize(), "string" == typeof t ? t = { el: t } : 1 === t.nodeType && (t = { el: "", divElement: t }), t = t, this.config = t, this.setDpr(), this.initWindowFunction(), t.flag || (t.flag = "WEB"), Object.prototype.hasOwnProperty.call(t, "ob") || (t.ob = !0), t.el && (t.divElement = document.querySelector(t.el)), t.divElement && (t.canvasElement = document.createElement("canvas"), t.divElement.appendChild(t.canvasElement)), this.resetWidthAndHeight(), t.canvasElement && (t.ctx = t.canvasElement.getContext("2d"), t.canvasElement.setAttribute("package", "lucky-canvas@1.5.4"), t.canvasElement.addEventListener("click", function (t) {return e.handleClick(t);}), t.canvasElement.addEventListener("mousemove", function (t) {return e.handleMouseMove(t);}), t.canvasElement.addEventListener("mousedown", function (t) {return e.handleMouseDown(t);}), t.canvasElement.addEventListener("mouseup", function (t) {return e.handleMouseUp(t);})), this.ctx = t.ctx, t.ctx ? this.boxWidth && this.boxHeight || console.error("无法获取到宽度或高度") : console.error("无法获取到 CanvasContext2D");}return t.prototype.init = function (t) {this.setDpr(), this.setHTMLFontSize(), this.resetWidthAndHeight(), this.zoomCanvas();}, t.prototype.handleClick = function (t) {}, t.prototype.handleMouseDown = function (t) {}, t.prototype.handleMouseUp = function (t) {}, t.prototype.handleMouseMove = function (t) {}, t.prototype.conversionAxis = function (t, e) {return [0, 0];}, t.prototype.setDpr = function () {var t = this.config;t.dpr || (window ? window.dpr = t.dpr = window.devicePixelRatio || 1 : t.dpr || console.error(t, "未传入 dpr 可能会导致绘制异常"));}, t.prototype.setHTMLFontSize = function () {window && (this.htmlFontSize = +window.getComputedStyle(document.documentElement).fontSize.slice(0, -2));}, t.prototype.resetWidthAndHeight = function () {var t = this.config,e = 0,i = 0;t.divElement && (e = t.divElement.offsetWidth, i = t.divElement.offsetHeight), this.boxWidth = this.getLength(t.width) || e, this.boxHeight = this.getLength(t.height) || i, t.divElement && (t.divElement.style.overflow = "hidden", t.divElement.style.width = this.boxWidth + "px", t.divElement.style.height = this.boxHeight + "px");}, t.prototype.initWindowFunction = function () {var t = this.config;if (window) return this.rAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (t) {window.setTimeout(t, 1e3 / 60);}, t.setTimeout = window.setTimeout, t.setInterval = window.setInterval, t.clearTimeout = window.clearTimeout, void (t.clearInterval = window.clearInterval);if (t.rAF) this.rAF = t.rAF;else if (t.setTimeout) {var e = t.setTimeout;this.rAF = function (t) {return e(t, 16.7);};} else this.rAF = function (t) {return setTimeout(t, 16.7);};}, t.prototype.zoomCanvas = function () {var t = this.config,e = this.ctx,i = t.canvasElement,n = t.dpr,r = [this.boxWidth * n, this.boxHeight * n],o = r[0],s = r[1],a = function a(t) {return (t * n - t) / (t * n) * (n / 2) * 100;};i && (i.width = o, i.height = s, i.style.width = o + "px", i.style.height = s + "px", i.style.transform = "scale(" + 1 / n + ") translate(" + -a(o) + "%, " + -a(s) + "%)", e.scale(n, n));}, t.prototype.loadImg = function (t, e, i) {var n = this;return void 0 === i && (i = "$resolve"), new Promise(function (r, o) {if (t || o("=> '" + e.src + "' 不能为空或不合法"), "WEB" === n.config.flag) {var s = new Image();s.src = t, s.onload = function () {return r(s);}, s.onerror = function () {return o("=> '" + e.src + "' 图片加载失败");};} else e[i] = r;});}, t.prototype.drawImage = function (t, e, i, n, r) {var o,s = this.config,a = this.ctx;return ["WEB", "MP-WX"].includes(s.flag) ? o = t : ["UNI-H5", "UNI-MP", "TARO-H5", "TARO-MP"].includes(s.flag) && (o = t.path), a.drawImage(o, e, i, n, r);}, t.prototype.getLength = function (t) {return s(t, "number") ? t : s(t, "string") ? this.changeUnits(t) : 0;}, t.prototype.changeUnits = function (t, e) {var i = this;return void 0 === e && (e = 1), Number(t.replace(/^([-]*[0-9.]*)([a-z%]*)$/, function (t, n, r) {var o = { "%": function _(t) {return t * (e / 100);}, px: function px(t) {return 1 * t;}, rem: function rem(t) {return t * i.htmlFontSize;} }[r];if (o) return o(n);var s = i.config.unitFunc;return s ? s(n, r) : n;}));}, t.prototype.$set = function (t, e, i) {t && "object" == typeof t && m(t, e, i);}, t.prototype.$computed = function (t, e, i) {var n = this;Object.defineProperty(t, e, { get: function get() {return i.call(n);} });}, t.prototype.$watch = function (t, e, i) {void 0 === i && (i = {}), "object" == typeof e && (e = (i = e).handler);var n = new b(this, t, e, i);return i.immediate && e.call(this, n.value), function () {};}, t;}(),w = function w(t) {return Math.PI / 180 * t;},x = function x(t, e) {return [+(Math.cos(t) * e).toFixed(8), +(Math.sin(t) * e).toFixed(8)];},z = function z(t, e) {var i = -t / e;return [i, -i * t + e];},I = function I(t, e, i, n, r, o) {var s;if (void 0 === o && (o = !0), Math.abs(r - n).toFixed(8) >= w(180).toFixed(8)) {var a = (r + n) / 2;return o ? (I(t, e, i, n, a, o), I(t, e, i, a, r, o)) : (I(t, e, i, a, r, o), I(t, e, i, n, a, o)), !1;}o || (n = (s = [r, n])[0], r = s[1]);var u = x(n, i),h = u[0],c = u[1],l = x(r, i),f = l[0],d = l[1],p = z(h, c),g = p[0],m = p[1],v = z(f, d),b = v[0],y = v[1],k = (y - m) / (g - b),S = (b * m - g * y) / (b - g);isNaN(k) && (Math.abs(h) === +i.toFixed(8) && (k = h), Math.abs(f) === +i.toFixed(8) && (k = f)), g === 1 / 0 || g === -1 / 0 ? S = b * k + y : b !== 1 / 0 && b !== -1 / 0 || (S = g * k + m), e.lineTo(h, c), t.indexOf("MP") > 0 ? e.quadraticCurveTo(k, S, f, d) : e.arcTo(k, S, f, d, i);},k = function k(t, e, i, n, r, o, s, a) {i || (i = s);var u = w(90 / Math.PI / n * s),h = w(90 / Math.PI / i * s),c = r + u,l = o - u,f = r + h,d = o - h;e.beginPath(), e.fillStyle = a, e.moveTo.apply(e, x(c, n)), I(t, e, n, c, l, !0), d > f ? I(t, e, i, f, d, !1) : e.lineTo.apply(e, x((r + o) / 2, s / 2 / Math.abs(Math.sin((r - o) / 2)))), e.closePath(), e.fill();},S = function S(t, e, i, n, r, o, s) {var a = Math.min(n, r);o > a / 2 && (o = a / 2), t.beginPath(), t.fillStyle = s, t.moveTo(e + o, i), t.lineTo(e + o, i), t.lineTo(e + n - o, i), t.quadraticCurveTo(e + n, i, e + n, i + o), t.lineTo(e + n, i + r - o), t.quadraticCurveTo(e + n, i + r, e + n - o, i + r), t.lineTo(e + o, i + r), t.quadraticCurveTo(e, i + r, e, i + r - o), t.lineTo(e, i + o), t.quadraticCurveTo(e, i, e + o, i), t.closePath(), t.fill();},C = { easeIn: function easeIn(t, e, i, n) {return t >= n && (t = n), i * (t /= n) * t + e;}, easeOut: function easeOut(t, e, i, n) {return t >= n && (t = n), -i * (t /= n) * (t - 2) + e;} },T = { easeIn: function easeIn(t, e, i, n) {return t >= n && (t = n), -i * Math.cos(t / n * (Math.PI / 2)) + i + e;}, easeOut: function easeOut(t, e, i, n) {return t >= n && (t = n), i * Math.sin(t / n * (Math.PI / 2)) + e;} },W = { easeIn: function easeIn(t, e, i, n) {return t >= n && (t = n), 0 == t ? e : i * Math.pow(2, 10 * (t / n - 1)) + e;}, easeOut: function easeOut(t, e, i, n) {return t >= n && (t = n), t == n ? e + i : i * (1 - Math.pow(2, -10 * t / n)) + e;} },O = { easeIn: function easeIn(t, e, i, n) {return t >= n && (t = n), -i * (Math.sqrt(1 - (t /= n) * t) - 1) + e;}, easeOut: function easeOut(t, e, i, n) {return t >= n && (t = n), i * Math.sqrt(1 - (t = t / n - 1) * t) + e;} },_ = Object.freeze({ __proto__: null, quad: C, cubic: { easeIn: function easeIn(t, e, i, n) {return t >= n && (t = n), i * (t /= n) * t * t + e;}, easeOut: function easeOut(t, e, i, n) {return t >= n && (t = n), i * ((t = t / n - 1) * t * t + 1) + e;} }, quart: { easeIn: function easeIn(t, e, i, n) {return t >= n && (t = n), i * (t /= n) * t * t * t + e;}, easeOut: function easeOut(t, e, i, n) {return t >= n && (t = n), -i * ((t = t / n - 1) * t * t * t - 1) + e;} }, quint: { easeIn: function easeIn(t, e, i, n) {return t >= n && (t = n), i * (t /= n) * t * t * t * t + e;}, easeOut: function easeOut(t, e, i, n) {return t >= n && (t = n), i * ((t = t / n - 1) * t * t * t * t + 1) + e;} }, sine: T, expo: W, circ: O }),E = function (t) {function o(e, i) {var n;void 0 === i && (i = {});var r = t.call(this, e) || this;return r.blocks = [], r.prizes = [], r.buttons = [], r.defaultConfig = {}, r._defaultConfig = { gutter: "0px", offsetDegree: 0, speed: 20, speedFunction: "quad", accelerationTime: 2500, decelerationTime: 2500, stopRange: .8 }, r.defaultStyle = {}, r._defaultStyle = { fontSize: "18px", fontColor: "#000", fontStyle: "sans-serif", fontWeight: "400", lineHeight: "", background: "rgba(0,0,0,0)", wordWrap: !0, lengthLimit: "90%" }, r.Radius = 0, r.prizeRadius = 0, r.prizeDeg = 0, r.prizeRadian = 0, r.rotateDeg = 0, r.maxBtnRadius = 0, r.startTime = 0, r.endTime = 0, r.stopDeg = 0, r.endDeg = 0, r.FPS = 16.6, r.blockImgs = [[]], r.prizeImgs = [[]], r.btnImgs = [[]], e.ob && (r.initData(i), r.initWatch()), r.initComputed(), null === (n = e.beforeCreate) || void 0 === n || n.call(r), r.init({ blockImgs: r.blocks.map(function (t) {return t.imgs;}), prizeImgs: r.prizes.map(function (t) {return t.imgs;}), btnImgs: r.buttons.map(function (t) {return t.imgs;}) }), r;}return e(o, t), o.prototype.initData = function (t) {this.$set(this, "blocks", t.blocks || []), this.$set(this, "prizes", t.prizes || []), this.$set(this, "buttons", t.buttons || []), this.$set(this, "defaultConfig", t.defaultConfig || {}), this.$set(this, "defaultStyle", t.defaultStyle || {}), this.$set(this, "startCallback", t.start), this.$set(this, "endCallback", t.end);}, o.prototype.initComputed = function () {var t = this;this.$computed(this, "_defaultConfig", function () {return _i({ gutter: "0px", offsetDegree: 0, speed: 20, speedFunction: "quad", accelerationTime: 2500, decelerationTime: 2500, stopRange: .8 }, t.defaultConfig);}), this.$computed(this, "_defaultStyle", function () {return _i({ fontSize: "18px", fontColor: "#000", fontStyle: "sans-serif", fontWeight: "400", background: "rgba(0,0,0,0)", wordWrap: !0, lengthLimit: "90%" }, t.defaultStyle);});}, o.prototype.initWatch = function () {var t = this;this.$watch("blocks", function (e) {return t.init({ blockImgs: e.map(function (t) {return t.imgs;}) });}, { deep: !0 }), this.$watch("prizes", function (e) {return t.init({ prizeImgs: e.map(function (t) {return t.imgs;}) });}, { deep: !0 }), this.$watch("buttons", function (e) {return t.init({ btnImgs: e.map(function (t) {return t.imgs;}) });}, { deep: !0 }), this.$watch("defaultConfig", function () {return t.draw();}, { deep: !0 }), this.$watch("defaultStyle", function () {return t.draw();}, { deep: !0 }), this.$watch("startCallback", function () {return t.init({});}), this.$watch("endCallback", function () {return t.init({});});}, o.prototype.init = function (e) {var i,n,r = this;t.prototype.init.call(this);var o = this.config,s = this.ctx;this.Radius = Math.min(this.boxWidth, this.boxHeight) / 2, null === (i = o.beforeInit) || void 0 === i || i.call(this), s.translate(this.Radius, this.Radius), this.draw(), this.draw(), Object.keys(e).forEach(function (t) {var i = t,n = { blockImgs: "blocks", prizeImgs: "prizes", btnImgs: "buttons" }[i],o = e[i];o && o.forEach(function (t, e) {t && t.forEach(function (t, o) {r.loadAndCacheImg(n, e, i, o, function () {r.draw();});});});}), null === (n = o.afterInit) || void 0 === n || n.call(this);}, o.prototype.handleClick = function (t) {var e,i = this.ctx;i.beginPath(), i.arc(0, 0, this.maxBtnRadius, 0, 2 * Math.PI, !1), i.isPointInPath(t.offsetX, t.offsetY) && (this.startTime || null === (e = this.startCallback) || void 0 === e || e.call(this, t));}, o.prototype.loadAndCacheImg = function (t, e, i, o, s) {return n(this, void 0, void 0, function () {var n,a,u = this;return r(this, function (r) {return (n = this[t][e]) && n.imgs && (a = n.imgs[o]) ? (this[i][e] || (this[i][e] = []), this.loadImg(a.src, a).then(function (t) {u[i][e][o] = t, s.call(u);}).catch(function (i) {console.error(t + "[" + e + "].imgs[" + o + "] " + i);}), [2]) : [2];});});}, o.prototype.computedWidthAndHeight = function (t, e, i, n) {if (!e.width && !e.height) return [t.width, t.height];if (e.width && !e.height) {var r = this.getWidth(e.width, i);return [r, t.height * (r / t.width)];}if (!e.width && e.height) {var o = this.getHeight(e.height, n);return [t.width * (o / t.height), o];}return [this.getWidth(e.width, i), this.getHeight(e.height, n)];}, o.prototype.draw = function () {var t,e,i = this,n = this,r = n.config,o = n.ctx,s = n._defaultConfig,h = n._defaultStyle;null === (t = r.beforeDraw) || void 0 === t || t.call(this, o), o.clearRect(-this.Radius, -this.Radius, 2 * this.Radius, 2 * this.Radius), this.prizeRadius = this.blocks.reduce(function (t, e, n) {return u(e.background) && (o.beginPath(), o.fillStyle = e.background, o.arc(0, 0, t, 0, 2 * Math.PI, !1), o.fill()), e.imgs && e.imgs.forEach(function (e, r) {if (i.blockImgs[n]) {var s = i.blockImgs[n][r];if (s) {var a = i.computedWidthAndHeight(s, e, 2 * t, 2 * t),u = a[0],h = a[1],c = [i.getOffsetX(u), i.getHeight(e.top, 2 * t) - t],l = c[0],f = c[1];o.save(), e.rotate && o.rotate(w(i.rotateDeg)), i.drawImage(s, l, f, u, h), o.restore();}}}), t - i.getLength(e.padding && e.padding.split(" ")[0]);}, this.Radius), this.prizeDeg = 360 / this.prizes.length, this.prizeRadian = w(this.prizeDeg);var c = w(-90 + this.rotateDeg + s.offsetDegree),l = function l(t) {return i.getOffsetX(o.measureText(t).width);},f = function f(t, e, n) {var r = t.lineHeight || h.lineHeight || t.fontSize || h.fontSize;return i.getHeight(t.top, e) + (n + 1) * i.getLength(r);};o.save(), this.prizes.forEach(function (t, e) {var n = c + e * i.prizeRadian,d = i.prizeRadius - i.maxBtnRadius,p = t.background || h.background;u(p) && function (t, e, i, n, r, o, s, a) {s ? k(t, e, i, n, r, o, s, a) : (e.beginPath(), e.fillStyle = a, e.moveTo(0, 0), e.arc(0, 0, n, r, o, !1), e.closePath(), e.fill());}(r.flag, o, i.maxBtnRadius, i.prizeRadius, n - i.prizeRadian / 2, n + i.prizeRadian / 2, i.getLength(s.gutter), p);var g = Math.cos(n) * i.prizeRadius,m = Math.sin(n) * i.prizeRadius;o.translate(g, m), o.rotate(n + w(90)), t.imgs && t.imgs.forEach(function (t, n) {if (i.prizeImgs[e]) {var r = i.prizeImgs[e][n];if (r) {var o = i.computedWidthAndHeight(r, t, i.prizeRadian * i.prizeRadius, d),s = o[0],a = o[1],u = [i.getOffsetX(s), i.getHeight(t.top, d)],h = u[0],c = u[1];i.drawImage(r, h, c, s, a);}}}), t.fonts && t.fonts.forEach(function (t) {var e = t.fontColor || h.fontColor,n = t.fontWeight || h.fontWeight,r = i.getLength(t.fontSize || h.fontSize),u = t.fontStyle || h.fontStyle;o.fillStyle = e, o.font = n + " " + (r >> 0) + "px " + u;var c = [],p = String(t.text);if (Object.prototype.hasOwnProperty.call(t, "wordWrap") ? t.wordWrap : h.wordWrap) {p = a(p);for (var g = "", m = 0; m < p.length; m++) {g += p[m];var v = o.measureText(g).width,b = (i.prizeRadius - f(t, d, c.length)) * Math.tan(i.prizeRadian / 2) * 2 - i.getLength(s.gutter);v > i.getWidth(t.lengthLimit || h.lengthLimit, b) && (c.push(g.slice(0, -1)), g = p[m]);}g && c.push(g), c.length || c.push(p);} else c = p.split("\n");c.filter(function (t) {return !!t;}).forEach(function (e, i) {o.fillText(e, l(e), f(t, d, i));});}), o.rotate(w(360) - n - w(90)), o.translate(-g, -m);}), o.restore(), this.buttons.forEach(function (t, e) {var n = i.getHeight(t.radius);i.maxBtnRadius = Math.max(i.maxBtnRadius, n), u(t.background) && (o.beginPath(), o.fillStyle = t.background, o.arc(0, 0, n, 0, 2 * Math.PI, !1), o.fill()), t.pointer && u(t.background) && (o.beginPath(), o.fillStyle = t.background, o.moveTo(-n, 0), o.lineTo(n, 0), o.lineTo(0, 2 * -n), o.closePath(), o.fill()), t.imgs && t.imgs.forEach(function (t, r) {if (i.btnImgs[e]) {var o = i.btnImgs[e][r];if (o) {var s = i.computedWidthAndHeight(o, t, 2 * n, 2 * n),a = s[0],u = s[1],h = [i.getOffsetX(a), i.getHeight(t.top, n)],c = h[0],l = h[1];i.drawImage(o, c, l, a, u);}}}), t.fonts && t.fonts.forEach(function (t) {var e = t.fontColor || h.fontColor,r = t.fontWeight || h.fontWeight,s = i.getLength(t.fontSize || h.fontSize),a = t.fontStyle || h.fontStyle;o.fillStyle = e, o.font = r + " " + (s >> 0) + "px " + a, String(t.text).split("\n").forEach(function (e, i) {o.fillText(e, l(e), f(t, n, i));});});}), null === (e = r.afterDraw) || void 0 === e || e.call(this, o);}, o.prototype.play = function () {this.startTime || (this.startTime = Date.now(), this.prizeFlag = void 0, this.run());}, o.prototype.stop = function (t) {this.prizeFlag = t < 0 ? -1 : t % this.prizes.length, -1 === this.prizeFlag && (this.rotateDeg = this.prizeDeg / 2 - this._defaultConfig.offsetDegree, this.draw());}, o.prototype.run = function (t) {void 0 === t && (t = 0);var e = this,i = e.rAF,n = e.prizeFlag,r = e.prizeDeg,o = e.rotateDeg,s = e._defaultConfig,a = Date.now() - this.startTime;if (a >= s.accelerationTime && void 0 !== n) {this.FPS = a / t, this.endTime = Date.now(), this.stopDeg = o;for (var u = (Math.random() * r - r / 2) * this.getLength(s.stopRange), h = 0; ++h;) {var c = 360 * h - n * r - o - s.offsetDegree + u;if (_[s.speedFunction].easeOut(this.FPS, this.stopDeg, c, s.decelerationTime) - this.stopDeg > s.speed) {this.endDeg = c;break;}}return this.slowDown();}this.rotateDeg = (o + _[s.speedFunction].easeIn(a, 0, s.speed, s.accelerationTime)) % 360, this.draw(), i(this.run.bind(this, t + 1));}, o.prototype.slowDown = function () {var t,e = this,n = e.rAF,r = e.prizes,o = e.prizeFlag,s = e.stopDeg,a = e.endDeg,u = e._defaultConfig,h = Date.now() - this.endTime;if (-1 !== o) {if (h >= u.decelerationTime) return this.startTime = 0, void (null === (t = this.endCallback) || void 0 === t || t.call(this, _i({}, r.find(function (t, e) {return e === o;}))));this.rotateDeg = _[u.speedFunction].easeOut(h, s, a, u.decelerationTime) % 360, this.draw(), n(this.slowDown.bind(this));} else this.startTime = 0;}, o.prototype.getWidth = function (t, e) {return void 0 === e && (e = this.prizeRadian * this.prizeRadius), s(t, "number") ? t : s(t, "string") ? this.changeUnits(t, e) : 0;}, o.prototype.getHeight = function (t, e) {return void 0 === e && (e = this.prizeRadius), s(t, "number") ? t : s(t, "string") ? this.changeUnits(t, e) : 0;}, o.prototype.getOffsetX = function (t) {return -t / 2;}, o.prototype.conversionAxis = function (t, e) {var i = this.config;return [t / i.dpr - this.Radius, e / i.dpr - this.Radius];}, o;}(y),P = function (t) {function h(e, i) {var n;void 0 === i && (i = {});var r = t.call(this, e) || this;r.rows = 3, r.cols = 3, r.blocks = [], r.prizes = [], r.buttons = [], r.defaultConfig = {}, r._defaultConfig = { gutter: 5, speed: 20, accelerationTime: 2500, decelerationTime: 2500 }, r.defaultStyle = {}, r._defaultStyle = { borderRadius: 20, fontColor: "#000", fontSize: "18px", fontStyle: "sans-serif", fontWeight: "400", lineHeight: "", background: "rgba(0,0,0,0)", shadow: "", wordWrap: !0, lengthLimit: "90%" }, r.activeStyle = {}, r._activeStyle = { background: "#ffce98", shadow: "", fontStyle: "", fontWeight: "", fontSize: "", lineHeight: "", fontColor: "" }, r.cellWidth = 0, r.cellHeight = 0, r.startTime = 0, r.endTime = 0, r.currIndex = 0, r.stopIndex = 0, r.endIndex = 0, r.demo = !1, r.timer = 0, r.FPS = 16.6, r.prizeFlag = -1, r.cells = [], r.blockImgs = [[]], r.btnImgs = [[]], r.prizeImgs = [], e.ob && (r.initData(i), r.initWatch()), r.initComputed(), null === (n = e.beforeCreate) || void 0 === n || n.call(r);var o = r.buttons.map(function (t) {return t.imgs;});return r.button && o.push(r.button.imgs), r.init({ blockImgs: r.blocks.map(function (t) {return t.imgs;}), prizeImgs: r.prizes.map(function (t) {return t.imgs;}), btnImgs: o }), r;}return e(h, t), h.prototype.initData = function (t) {this.$set(this, "rows", Number(t.rows) || 3), this.$set(this, "cols", Number(t.cols) || 3), this.$set(this, "blocks", t.blocks || []), this.$set(this, "prizes", t.prizes || []), this.$set(this, "buttons", t.buttons || []), this.$set(this, "button", t.button), this.$set(this, "defaultConfig", t.defaultConfig || {}), this.$set(this, "defaultStyle", t.defaultStyle || {}), this.$set(this, "activeStyle", t.activeStyle || {}), this.$set(this, "startCallback", t.start), this.$set(this, "endCallback", t.end);}, h.prototype.initComputed = function () {var t = this;this.$computed(this, "_defaultConfig", function () {var e = _i({ gutter: 5, speed: 20, accelerationTime: 2500, decelerationTime: 2500 }, t.defaultConfig);return e.gutter = t.getLength(e.gutter), e.speed = e.speed / 40, e;}), this.$computed(this, "_defaultStyle", function () {return _i({ borderRadius: 20, fontColor: "#000", fontSize: "18px", fontStyle: "sans-serif", fontWeight: "400", background: "rgba(0,0,0,0)", shadow: "", wordWrap: !0, lengthLimit: "90%" }, t.defaultStyle);}), this.$computed(this, "_activeStyle", function () {return _i({ background: "#ffce98", shadow: "" }, t.activeStyle);});}, h.prototype.initWatch = function () {var t = this;this.$watch("blocks", function (e) {return t.init({ blockImgs: e.map(function (t) {return t.imgs;}) });}, { deep: !0 }), this.$watch("prizes", function (e) {return t.init({ prizeImgs: e.map(function (t) {return t.imgs;}) });}, { deep: !0 }), this.$watch("buttons", function (e) {var i = e.map(function (t) {return t.imgs;});return t.button && i.push(t.button.imgs), t.init({ btnImgs: i });}, { deep: !0 }), this.$watch("button", function () {var e = t.buttons.map(function (t) {return t.imgs;});return t.button && e.push(t.button.imgs), t.init({ btnImgs: e });}, { deep: !0 }), this.$watch("rows", function () {return t.init({});}), this.$watch("cols", function () {return t.init({});}), this.$watch("defaultConfig", function () {return t.draw();}, { deep: !0 }), this.$watch("defaultStyle", function () {return t.draw();}, { deep: !0 }), this.$watch("activeStyle", function () {return t.draw();}, { deep: !0 }), this.$watch("startCallback", function () {return t.init({});}), this.$watch("endCallback", function () {return t.init({});});}, h.prototype.init = function (e) {var i,n,r = this;t.prototype.init.call(this);var o = this,s = o.config;o.ctx, o.button, null === (i = s.beforeInit) || void 0 === i || i.call(this), this.draw(), Object.keys(e).forEach(function (t) {var i = t,n = e[i],o = { blockImgs: "blocks", prizeImgs: "prizes", btnImgs: "buttons" }[i];n && n.forEach(function (t, e) {t && t.forEach(function (t, n) {r.loadAndCacheImg(o, e, i, n, function () {r.draw();});});});}), null === (n = s.afterInit) || void 0 === n || n.call(this);}, h.prototype.handleClick = function (t) {var e = this,i = this.ctx;o(o([], this.buttons), [this.button]).forEach(function (n) {var r;if (n) {var o = e.getGeometricProperty([n.x, n.y, n.col || 1, n.row || 1]),s = o[0],a = o[1],u = o[2],h = o[3];i.beginPath(), i.rect(s, a, u, h), i.isPointInPath(t.offsetX, t.offsetY) && (e.startTime || ("function" == typeof n.callback && n.callback.call(e, n), null === (r = e.startCallback) || void 0 === r || r.call(e, t, n)));}});}, h.prototype.loadAndCacheImg = function (t, e, i, o, s) {return n(this, void 0, void 0, function () {var n,a,u,h = this;return r(this, function (r) {return n = this[t][e], "buttons" === t && !this.buttons.length && this.button && (n = this.button), n && n.imgs && (a = n.imgs[o]) ? (this[i][e] || (this[i][e] = []), u = [this.loadImg(a.src, a), a.activeSrc && this.loadImg(a.activeSrc, a, "$activeResolve")], Promise.all(u).then(function (t) {var n = t[0],r = t[1];h[i][e][o] = { defaultImg: n, activeImg: r }, s.call(h);}).catch(function (i) {console.error(t + "[" + e + "].imgs[" + o + "] " + i);}), [2]) : [2];});});}, h.prototype.computedWidthAndHeight = function (t, e, i) {if (!e.width && !e.height) return [t.width, t.height];if (e.width && !e.height) {var n = this.getWidth(e.width, i.col);return [n, t.height * (n / t.width)];}if (!e.width && e.height) {var r = this.getHeight(e.height, i.row);return [t.width * (r / t.height), r];}return [this.getWidth(e.width, i.col), this.getHeight(e.height, i.row)];}, h.prototype.draw = function () {var t,e,i = this,n = this,r = n.config,h = n.ctx,c = n._defaultConfig,l = n._defaultStyle,f = n._activeStyle;null === (t = r.beforeDraw) || void 0 === t || t.call(this, h), h.clearRect(0, 0, this.boxWidth, this.boxHeight), this.cells = o(o([], this.prizes), this.buttons), this.button && this.cells.push(this.button), this.cells.forEach(function (t) {t.col = t.col || 1, t.row = t.row || 1;}), this.prizeArea = this.blocks.reduce(function (t, e) {var n = t.x,r = t.y,o = t.w,a = t.h,c = function (t) {var e,i = (null === (e = t.padding) || void 0 === e ? void 0 : e.replace(/px/g, "").split(" ").map(function (t) {return ~~t;})) || [0],n = 0,r = 0,o = 0,a = 0;switch (i.length) {case 1:n = r = o = a = i[0];break;case 2:n = r = i[0], o = a = i[1];break;case 3:n = i[0], o = a = i[1], r = i[2];break;default:n = i[0], r = i[1], o = i[2], a = i[3];}var u = { paddingTop: n, paddingBottom: r, paddingLeft: o, paddingRight: a };for (var h in u) {u[h] = Object.prototype.hasOwnProperty.call(t, h) && s(t[h], "string", "number") ? ~~String(t[h]).replace(/px/g, "") : u[h];}return [n, r, o, a];}(e),f = c[0],d = c[1],p = c[2],g = c[3],m = e.borderRadius ? i.getLength(e.borderRadius) : 0,v = e.background || l.background;return u(v) && S(h, n, r, o, a, m, i.handleBackground(n, r, o, a, v)), { x: n + p, y: r + f, w: o - p - g, h: a - f - d };}, { x: 0, y: 0, w: this.boxWidth, h: this.boxHeight }), this.cellWidth = (this.prizeArea.w - c.gutter * (this.cols - 1)) / this.cols, this.cellHeight = (this.prizeArea.h - c.gutter * (this.rows - 1)) / this.rows, this.cells.forEach(function (t, e) {var n = i.getGeometricProperty([t.x, t.y, t.col, t.row]),o = n[0],s = n[1],c = n[2],d = n[3],p = !1;(void 0 === i.prizeFlag || i.prizeFlag > -1) && (p = e === i.currIndex % i.prizes.length >> 0);var g = p ? f.background : t.background || l.background;if (u(g)) {var m = (p ? f.shadow : t.shadow || l.shadow).replace(/px/g, "").split(",")[0].split(" ").map(function (t, e) {return e < 3 ? Number(t) : t;});4 === m.length && (h.shadowColor = m[3], h.shadowOffsetX = m[0] * r.dpr, h.shadowOffsetY = m[1] * r.dpr, h.shadowBlur = m[2], m[0] > 0 ? c -= m[0] : (c += m[0], o -= m[0]), m[1] > 0 ? d -= m[1] : (d += m[1], s -= m[1])), S(h, o, s, c, d, i.getLength(t.borderRadius ? t.borderRadius : l.borderRadius), i.handleBackground(o, s, c, d, g)), h.shadowColor = "rgba(0, 0, 0, 0)", h.shadowOffsetX = 0, h.shadowOffsetY = 0, h.shadowBlur = 0;}var v = "prizeImgs";e >= i.prizes.length && (v = "btnImgs", e -= i.prizes.length), t.imgs && t.imgs.forEach(function (n, r) {if (i[v][e]) {var a = i[v][e][r];if (a) {var u = p && a.activeImg || a.defaultImg;if (u) {var h = i.computedWidthAndHeight(u, n, t),c = h[0],l = h[1],f = [o + i.getOffsetX(c, t.col), s + i.getHeight(n.top, t.row)],d = f[0],g = f[1];i.drawImage(u, d, g, c, l);}}}}), t.fonts && t.fonts.forEach(function (e) {var n = p && f.fontStyle ? f.fontStyle : e.fontStyle || l.fontStyle,r = p && f.fontWeight ? f.fontWeight : e.fontWeight || l.fontWeight,u = p && f.fontSize ? i.getLength(f.fontSize) : i.getLength(e.fontSize || l.fontSize),c = p && f.lineHeight ? f.lineHeight : e.lineHeight || l.lineHeight || e.fontSize || l.fontSize;h.font = r + " " + (u >> 0) + "px " + n, h.fillStyle = p && f.fontColor ? f.fontColor : e.fontColor || l.fontColor;var d = [],g = String(e.text);if (Object.prototype.hasOwnProperty.call(e, "wordWrap") ? e.wordWrap : l.wordWrap) {g = a(g);for (var m = "", v = 0; v < g.length; v++) {m += g[v], h.measureText(m).width > i.getWidth(e.lengthLimit || l.lengthLimit, t.col) && (d.push(m.slice(0, -1)), m = g[v]);}m && d.push(m), d.length || d.push(g);} else d = g.split("\n");d.forEach(function (n, r) {h.fillText(n, o + i.getOffsetX(h.measureText(n).width, t.col), s + i.getHeight(e.top, t.row) + (r + 1) * i.getLength(c));});});}), null === (e = r.afterDraw) || void 0 === e || e.call(this, h);}, h.prototype.handleBackground = function (t, e, i, n, r) {var o = this.ctx;return r.includes("linear-gradient") && (r = function (t, e, i, n, r, o) {var s = /linear-gradient\((.+)\)/.exec(o)[1].split(",").map(function (t) {return t.trim();}),a = s.shift(),u = [0, 0, 0, 0];if (a.includes("deg")) {var h = function h(t) {return Math.tan(t / 180 * Math.PI);};(a = a.slice(0, -3) % 360) >= 0 && a < 45 ? u = [e, i + r, e + n, i + r - n * h(a - 0)] : a >= 45 && a < 90 ? u = [e, i + r, e + n - r * h(a - 45), i] : a >= 90 && a < 135 ? u = [e + n, i + r, e + n - r * h(a - 90), i] : a >= 135 && a < 180 ? u = [e + n, i + r, e, i + n * h(a - 135)] : a >= 180 && a < 225 ? u = [e + n, i, e, i + n * h(a - 180)] : a >= 225 && a < 270 ? u = [e + n, i, e + r * h(a - 225), i + r] : a >= 270 && a < 315 ? u = [e, i, e + r * h(a - 270), i + r] : a >= 315 && a < 360 && (u = [e, i, e + n, i + r - n * h(a - 315)]);} else a.includes("top") ? u = [e, i + r, e, i] : a.includes("bottom") ? u = [e, i, e, i + r] : a.includes("left") ? u = [e + n, i, e, i] : a.includes("right") && (u = [e, i, e + n, i]);var c = t.createLinearGradient.apply(t, u.map(function (t) {return t >> 0;}));return s.reduce(function (t, e, i) {var n = e.split(" ");return 1 === n.length ? t.addColorStop(i, n[0]) : 2 === n.length && t.addColorStop.apply(t, n), t;}, c);}(o, t, e, i, n, r)), r;}, h.prototype.play = function () {var t = this.config.clearInterval;this.startTime || (t(this.timer), this.startTime = Date.now(), this.prizeFlag = void 0, this.run());}, h.prototype.stop = function (t) {this.prizeFlag = t < 0 ? -1 : t % this.prizes.length, -1 === this.prizeFlag && (this.currIndex = 0, this.draw());}, h.prototype.run = function (t) {void 0 === t && (t = 0);var e = this,i = e.rAF,n = e.currIndex,r = e.prizes,o = e.prizeFlag,s = e.startTime,a = e._defaultConfig,u = Date.now() - s;if (u >= a.accelerationTime && void 0 !== o) {this.FPS = u / t, this.endTime = Date.now(), this.stopIndex = n;for (var h = 0; ++h;) {var c = r.length * h + o - (n >> 0);if (C.easeOut(this.FPS, this.stopIndex, c, a.decelerationTime) - this.stopIndex > a.speed) {this.endIndex = c;break;}}return this.slowDown();}this.currIndex = (n + C.easeIn(u, .1, a.speed, a.accelerationTime)) % r.length, this.draw(), i(this.run.bind(this, t + 1));}, h.prototype.slowDown = function () {var t,e = this,n = e.rAF,r = e.prizes,o = e.prizeFlag,s = e.stopIndex,a = e.endIndex,u = e._defaultConfig,h = Date.now() - this.endTime;if (-1 !== o) {if (h > u.decelerationTime) return this.startTime = 0, void (null === (t = this.endCallback) || void 0 === t || t.call(this, _i({}, r.find(function (t, e) {return e === o;}))));this.currIndex = C.easeOut(h, s, a, u.decelerationTime) % r.length, this.draw(), n(this.slowDown.bind(this));} else this.startTime = 0;}, h.prototype.walk = function () {var t = this,e = this.config,i = e.setInterval;(0, e.clearInterval)(this.timer), this.timer = i(function () {t.currIndex += 1, t.draw();}, 1300);}, h.prototype.getGeometricProperty = function (t) {var e = t[0],i = t[1],n = t[2],r = t[3],o = this.cellWidth,s = this.cellHeight,a = this._defaultConfig.gutter,u = [this.prizeArea.x + (o + a) * e, this.prizeArea.y + (s + a) * i];return n && r && u.push(o * n + a * (n - 1), s * r + a * (r - 1)), u;}, h.prototype.getWidth = function (t, e) {return void 0 === e && (e = 1), s(t, "number") ? t : s(t, "string") ? this.changeUnits(t, this.cellWidth * e + this._defaultConfig.gutter * (e - 1)) : 0;}, h.prototype.getHeight = function (t, e) {return void 0 === e && (e = 1), s(t, "number") ? t : s(t, "string") ? this.changeUnits(t, this.cellHeight * e + this._defaultConfig.gutter * (e - 1)) : 0;}, h.prototype.getOffsetX = function (t, e) {return void 0 === e && (e = 1), (this.cellWidth * e + this._defaultConfig.gutter * (e - 1) - t) / 2;}, h.prototype.conversionAxis = function (t, e) {var i = this.config;return [t / i.dpr, e / i.dpr];}, h;}(y);exports.LuckyGrid = P, exports.LuckyWheel = E;
+
+/***/ }),
+
+/***/ 19:
+/*!************************************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/deepClone.js ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 判断arr是否为一个数组，返回一个bool值
+function isArray(arr) {
+  return Object.prototype.toString.call(arr) === '[object Array]';
+}
+
+// 深度克隆
+function deepClone(obj) {
+  // 对常见的“非”值，直接返回原来值
+  if ([null, undefined, NaN, false].includes(obj)) return obj;
+  if (typeof obj !== "object" && typeof obj !== 'function') {
+    //原始类型直接返回
+    return obj;
+  }
+  var o = isArray(obj) ? [] : {};
+  for (var i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      o[i] = typeof obj[i] === "object" ? deepClone(obj[i]) : obj[i];
+    }
+  }
+  return o;
+}var _default =
+
+deepClone;exports.default = _default;
+
+/***/ }),
+
+/***/ 2:
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -7548,7 +8525,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"桐桐要干嘛","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7569,14 +8546,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"桐桐要干嘛","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"桐桐要干嘛","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7662,7 +8639,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"uView-demo","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"桐桐要干嘛","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8069,1327 +9046,8 @@ internalMixin(Vue);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
 
 /***/ }),
-/* 3 */
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 4 */
-/*!*************************************************************!*\
-  !*** ./node_modules/@dcloudio/uni-i18n/dist/uni-i18n.es.js ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.compileI18nJsonStr = compileI18nJsonStr;exports.hasI18nJson = hasI18nJson;exports.initVueI18n = initVueI18n;exports.isI18nStr = isI18nStr;exports.normalizeLocale = normalizeLocale;exports.parseI18nJson = parseI18nJson;exports.isString = exports.LOCALE_ZH_HANT = exports.LOCALE_ZH_HANS = exports.LOCALE_FR = exports.LOCALE_ES = exports.LOCALE_EN = exports.I18n = exports.Formatter = void 0;function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function _iterableToArrayLimit(arr, i) {if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var isArray = Array.isArray;
-var isObject = function isObject(val) {return val !== null && typeof val === 'object';};
-var defaultDelimiters = ['{', '}'];var
-BaseFormatter = /*#__PURE__*/function () {
-  function BaseFormatter() {_classCallCheck(this, BaseFormatter);
-    this._caches = Object.create(null);
-  }_createClass(BaseFormatter, [{ key: "interpolate", value: function interpolate(
-    message, values) {var delimiters = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : defaultDelimiters;
-      if (!values) {
-        return [message];
-      }
-      var tokens = this._caches[message];
-      if (!tokens) {
-        tokens = parse(message, delimiters);
-        this._caches[message] = tokens;
-      }
-      return compile(tokens, values);
-    } }]);return BaseFormatter;}();exports.Formatter = BaseFormatter;
-
-var RE_TOKEN_LIST_VALUE = /^(?:\d)+/;
-var RE_TOKEN_NAMED_VALUE = /^(?:\w)+/;
-function parse(format, _ref) {var _ref2 = _slicedToArray(_ref, 2),startDelimiter = _ref2[0],endDelimiter = _ref2[1];
-  var tokens = [];
-  var position = 0;
-  var text = '';
-  while (position < format.length) {
-    var char = format[position++];
-    if (char === startDelimiter) {
-      if (text) {
-        tokens.push({ type: 'text', value: text });
-      }
-      text = '';
-      var sub = '';
-      char = format[position++];
-      while (char !== undefined && char !== endDelimiter) {
-        sub += char;
-        char = format[position++];
-      }
-      var isClosed = char === endDelimiter;
-      var type = RE_TOKEN_LIST_VALUE.test(sub) ?
-      'list' :
-      isClosed && RE_TOKEN_NAMED_VALUE.test(sub) ?
-      'named' :
-      'unknown';
-      tokens.push({ value: sub, type: type });
-    }
-    //  else if (char === '%') {
-    //   // when found rails i18n syntax, skip text capture
-    //   if (format[position] !== '{') {
-    //     text += char
-    //   }
-    // }
-    else {
-        text += char;
-      }
-  }
-  text && tokens.push({ type: 'text', value: text });
-  return tokens;
-}
-function compile(tokens, values) {
-  var compiled = [];
-  var index = 0;
-  var mode = isArray(values) ?
-  'list' :
-  isObject(values) ?
-  'named' :
-  'unknown';
-  if (mode === 'unknown') {
-    return compiled;
-  }
-  while (index < tokens.length) {
-    var token = tokens[index];
-    switch (token.type) {
-      case 'text':
-        compiled.push(token.value);
-        break;
-      case 'list':
-        compiled.push(values[parseInt(token.value, 10)]);
-        break;
-      case 'named':
-        if (mode === 'named') {
-          compiled.push(values[token.value]);
-        } else
-        {
-          if (true) {
-            console.warn("Type of token '".concat(token.type, "' and format of value '").concat(mode, "' don't match!"));
-          }
-        }
-        break;
-      case 'unknown':
-        if (true) {
-          console.warn("Detect 'unknown' type of token!");
-        }
-        break;}
-
-    index++;
-  }
-  return compiled;
-}
-
-var LOCALE_ZH_HANS = 'zh-Hans';exports.LOCALE_ZH_HANS = LOCALE_ZH_HANS;
-var LOCALE_ZH_HANT = 'zh-Hant';exports.LOCALE_ZH_HANT = LOCALE_ZH_HANT;
-var LOCALE_EN = 'en';exports.LOCALE_EN = LOCALE_EN;
-var LOCALE_FR = 'fr';exports.LOCALE_FR = LOCALE_FR;
-var LOCALE_ES = 'es';exports.LOCALE_ES = LOCALE_ES;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var hasOwn = function hasOwn(val, key) {return hasOwnProperty.call(val, key);};
-var defaultFormatter = new BaseFormatter();
-function include(str, parts) {
-  return !!parts.find(function (part) {return str.indexOf(part) !== -1;});
-}
-function startsWith(str, parts) {
-  return parts.find(function (part) {return str.indexOf(part) === 0;});
-}
-function normalizeLocale(locale, messages) {
-  if (!locale) {
-    return;
-  }
-  locale = locale.trim().replace(/_/g, '-');
-  if (messages && messages[locale]) {
-    return locale;
-  }
-  locale = locale.toLowerCase();
-  if (locale.indexOf('zh') === 0) {
-    if (locale.indexOf('-hans') !== -1) {
-      return LOCALE_ZH_HANS;
-    }
-    if (locale.indexOf('-hant') !== -1) {
-      return LOCALE_ZH_HANT;
-    }
-    if (include(locale, ['-tw', '-hk', '-mo', '-cht'])) {
-      return LOCALE_ZH_HANT;
-    }
-    return LOCALE_ZH_HANS;
-  }
-  var lang = startsWith(locale, [LOCALE_EN, LOCALE_FR, LOCALE_ES]);
-  if (lang) {
-    return lang;
-  }
-}var
-I18n = /*#__PURE__*/function () {
-  function I18n(_ref3) {var locale = _ref3.locale,fallbackLocale = _ref3.fallbackLocale,messages = _ref3.messages,watcher = _ref3.watcher,formater = _ref3.formater;_classCallCheck(this, I18n);
-    this.locale = LOCALE_EN;
-    this.fallbackLocale = LOCALE_EN;
-    this.message = {};
-    this.messages = {};
-    this.watchers = [];
-    if (fallbackLocale) {
-      this.fallbackLocale = fallbackLocale;
-    }
-    this.formater = formater || defaultFormatter;
-    this.messages = messages || {};
-    this.setLocale(locale || LOCALE_EN);
-    if (watcher) {
-      this.watchLocale(watcher);
-    }
-  }_createClass(I18n, [{ key: "setLocale", value: function setLocale(
-    locale) {var _this = this;
-      var oldLocale = this.locale;
-      this.locale = normalizeLocale(locale, this.messages) || this.fallbackLocale;
-      if (!this.messages[this.locale]) {
-        // 可能初始化时不存在
-        this.messages[this.locale] = {};
-      }
-      this.message = this.messages[this.locale];
-      // 仅发生变化时，通知
-      if (oldLocale !== this.locale) {
-        this.watchers.forEach(function (watcher) {
-          watcher(_this.locale, oldLocale);
-        });
-      }
-    } }, { key: "getLocale", value: function getLocale()
-    {
-      return this.locale;
-    } }, { key: "watchLocale", value: function watchLocale(
-    fn) {var _this2 = this;
-      var index = this.watchers.push(fn) - 1;
-      return function () {
-        _this2.watchers.splice(index, 1);
-      };
-    } }, { key: "add", value: function add(
-    locale, message) {var override = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var curMessages = this.messages[locale];
-      if (curMessages) {
-        if (override) {
-          Object.assign(curMessages, message);
-        } else
-        {
-          Object.keys(message).forEach(function (key) {
-            if (!hasOwn(curMessages, key)) {
-              curMessages[key] = message[key];
-            }
-          });
-        }
-      } else
-      {
-        this.messages[locale] = message;
-      }
-    } }, { key: "f", value: function f(
-    message, values, delimiters) {
-      return this.formater.interpolate(message, values, delimiters).join('');
-    } }, { key: "t", value: function t(
-    key, locale, values) {
-      var message = this.message;
-      if (typeof locale === 'string') {
-        locale = normalizeLocale(locale, this.messages);
-        locale && (message = this.messages[locale]);
-      } else
-      {
-        values = locale;
-      }
-      if (!hasOwn(message, key)) {
-        console.warn("Cannot translate the value of keypath ".concat(key, ". Use the value of keypath as default."));
-        return key;
-      }
-      return this.formater.interpolate(message[key], values).join('');
-    } }]);return I18n;}();exports.I18n = I18n;
-
-
-var ignoreVueI18n = true;
-function watchAppLocale(appVm, i18n) {
-  appVm.$watch(function () {return appVm.$locale;}, function (newLocale) {
-    i18n.setLocale(newLocale);
-  });
-}
-function initVueI18n(locale) {var messages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var fallbackLocale = arguments.length > 2 ? arguments[2] : undefined;var watcher = arguments.length > 3 ? arguments[3] : undefined;
-  // 兼容旧版本入参
-  if (typeof locale !== 'string') {var _ref4 =
-    [
-    messages,
-    locale];locale = _ref4[0];messages = _ref4[1];
-
-  }
-  if (typeof locale !== 'string') {
-    locale =
-    typeof uni !== 'undefined' && uni.getLocale && uni.getLocale() ||
-    LOCALE_EN;
-  }
-  if (typeof fallbackLocale !== 'string') {
-    fallbackLocale =
-    typeof __uniConfig !== 'undefined' && __uniConfig.fallbackLocale ||
-    LOCALE_EN;
-  }
-  var i18n = new I18n({
-    locale: locale,
-    fallbackLocale: fallbackLocale,
-    messages: messages,
-    watcher: watcher });
-
-  var _t = function t(key, values) {
-    if (typeof getApp !== 'function') {
-      // app view
-      /* eslint-disable no-func-assign */
-      _t = function t(key, values) {
-        return i18n.t(key, values);
-      };
-    } else
-    {
-      var appVm = getApp().$vm;
-      watchAppLocale(appVm, i18n);
-      if (!appVm.$t || !appVm.$i18n || ignoreVueI18n) {
-        // if (!locale) {
-        //   i18n.setLocale(getDefaultLocale())
-        // }
-        /* eslint-disable no-func-assign */
-        _t = function t(key, values) {
-          // 触发响应式
-          appVm.$locale;
-          return i18n.t(key, values);
-        };
-      } else
-      {
-        /* eslint-disable no-func-assign */
-        _t = function t(key, values) {
-          var $i18n = appVm.$i18n;
-          var silentTranslationWarn = $i18n.silentTranslationWarn;
-          $i18n.silentTranslationWarn = true;
-          var msg = appVm.$t(key, values);
-          $i18n.silentTranslationWarn = silentTranslationWarn;
-          if (msg !== key) {
-            return msg;
-          }
-          return i18n.t(key, $i18n.locale, values);
-        };
-      }
-    }
-    return _t(key, values);
-  };
-  return {
-    i18n: i18n,
-    f: function f(message, values, delimiters) {
-      return i18n.f(message, values, delimiters);
-    },
-    t: function t(key, values) {
-      return _t(key, values);
-    },
-    add: function add(locale, message) {var override = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      return i18n.add(locale, message, override);
-    },
-    watch: function watch(fn) {
-      return i18n.watchLocale(fn);
-    },
-    getLocale: function getLocale() {
-      return i18n.getLocale();
-    },
-    setLocale: function setLocale(newLocale) {
-      return i18n.setLocale(newLocale);
-    } };
-
-}
-
-var isString = function isString(val) {return typeof val === 'string';};exports.isString = isString;
-var formater;
-function hasI18nJson(jsonObj, delimiters) {
-  if (!formater) {
-    formater = new BaseFormatter();
-  }
-  return walkJsonObj(jsonObj, function (jsonObj, key) {
-    var value = jsonObj[key];
-    if (isString(value)) {
-      if (isI18nStr(value, delimiters)) {
-        return true;
-      }
-    } else
-    {
-      return hasI18nJson(value, delimiters);
-    }
-  });
-}
-function parseI18nJson(jsonObj, values, delimiters) {
-  if (!formater) {
-    formater = new BaseFormatter();
-  }
-  walkJsonObj(jsonObj, function (jsonObj, key) {
-    var value = jsonObj[key];
-    if (isString(value)) {
-      if (isI18nStr(value, delimiters)) {
-        jsonObj[key] = compileStr(value, values, delimiters);
-      }
-    } else
-    {
-      parseI18nJson(value, values, delimiters);
-    }
-  });
-  return jsonObj;
-}
-function compileI18nJsonStr(jsonStr, _ref5) {var locale = _ref5.locale,locales = _ref5.locales,delimiters = _ref5.delimiters;
-  if (!isI18nStr(jsonStr, delimiters)) {
-    return jsonStr;
-  }
-  if (!formater) {
-    formater = new BaseFormatter();
-  }
-  var localeValues = [];
-  Object.keys(locales).forEach(function (name) {
-    if (name !== locale) {
-      localeValues.push({
-        locale: name,
-        values: locales[name] });
-
-    }
-  });
-  localeValues.unshift({ locale: locale, values: locales[locale] });
-  try {
-    return JSON.stringify(compileJsonObj(JSON.parse(jsonStr), localeValues, delimiters), null, 2);
-  }
-  catch (e) {}
-  return jsonStr;
-}
-function isI18nStr(value, delimiters) {
-  return value.indexOf(delimiters[0]) > -1;
-}
-function compileStr(value, values, delimiters) {
-  return formater.interpolate(value, values, delimiters).join('');
-}
-function compileValue(jsonObj, key, localeValues, delimiters) {
-  var value = jsonObj[key];
-  if (isString(value)) {
-    // 存在国际化
-    if (isI18nStr(value, delimiters)) {
-      jsonObj[key] = compileStr(value, localeValues[0].values, delimiters);
-      if (localeValues.length > 1) {
-        // 格式化国际化语言
-        var valueLocales = jsonObj[key + 'Locales'] = {};
-        localeValues.forEach(function (localValue) {
-          valueLocales[localValue.locale] = compileStr(value, localValue.values, delimiters);
-        });
-      }
-    }
-  } else
-  {
-    compileJsonObj(value, localeValues, delimiters);
-  }
-}
-function compileJsonObj(jsonObj, localeValues, delimiters) {
-  walkJsonObj(jsonObj, function (jsonObj, key) {
-    compileValue(jsonObj, key, localeValues, delimiters);
-  });
-  return jsonObj;
-}
-function walkJsonObj(jsonObj, walk) {
-  if (isArray(jsonObj)) {
-    for (var i = 0; i < jsonObj.length; i++) {
-      if (walk(jsonObj, i)) {
-        return true;
-      }
-    }
-  } else
-  if (isObject(jsonObj)) {
-    for (var key in jsonObj) {
-      if (walk(jsonObj, key)) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 5 */
-/*!***********************************************************************!*\
-  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/pages.json ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */
-/*!*************************************************************************!*\
-  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/util/user.js ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.checkLogin = checkLogin;exports.loginByWeixin = loginByWeixin;var _api = _interopRequireDefault(__webpack_require__(/*! ./api.js */ 10));
-var _util = _interopRequireDefault(__webpack_require__(/*! ./util.js */ 11));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-/**
-                                                                                                                                                        * 判断用户是否登录
-                                                                                                                                                        */
-function checkLogin() {
-  return new Promise(function (resolve, reject) {
-    if (uni.getStorageSync('userInfo') && uni.getStorageSync('token')) {
-      checkSession().then(function () {
-        resolve(true);
-      }).catch(function () {
-        reject(false);
-      });
-    } else {
-      reject(false);
-    }
-  });
-}
-
-/**
-   * Promise封装wx.checkSession
-   */
-function checkSession() {
-  return new Promise(function (resolve, reject) {
-    uni.checkSession({
-      success: function success() {
-        resolve(true);
-      },
-      fail: function fail() {
-        reject(false);
-      } });
-
-  });
-}
-
-
-/**
-   * 调用微信登录
-   */
-function loginByWeixin() {
-
-  return new Promise(function (resolve, reject) {
-    return login().then(function (res) {
-      //登录远程服务器
-      _util.default.request(_api.default.AuthLoginByWeixin, {
-        code: res.code },
-      'POST').then(function (res) {
-        if (res.errno === 0) {
-          //存储用户信息
-          uni.setStorageSync('token', res.data.token);
-          uni.setStorageSync('userInfo', res.data.userInfo);
-          resolve(res);
-        } else {
-          reject(res);
-        }
-      }).
-
-      catch(function (err) {
-        reject(err);
-      });
-
-
-    }).catch(function (err) {
-      reject(err);
-    });
-  });
-}
-
-
-/**
-   * Promise封装wx.login
-   */
-function login() {
-  return new Promise(function (resolve, reject) {
-    uni.login({
-      success: function success(res) {
-        if (res.code) {
-          resolve(res);
-        } else {
-          reject(res);
-        }
-      },
-      fail: function fail(err) {
-        reject(err);
-      } });
-
-  });
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 10 */
-/*!************************************************************************!*\
-  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/util/api.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var WxApiRoot = 'http://192.168.0.102:8080/wx/';var _default =
-
-
-
-{
-  AuthLoginByWeixin: WxApiRoot + 'auth/login_by_tt', //微信登录
-  SaveUserInfoApi: WxApiRoot + 'auth/saveUserInfo', //保存头像
-  TaskIndex: WxApiRoot + 'home/taskindex', //获取任务
-  Upload: WxApiRoot + 'home/upload', //上传打卡图片upload
-  GetTaskArchive: WxApiRoot + 'home/getTaskArchive', //获取归档的日志
-
-
-
-
-
-
-
-
-
-
-
-
-
-  TabbarList: [{
-    iconPath: "home",
-    selectedIconPath: "home-fill",
-    text: '我的任务',
-    // count: 2,
-    // isDot: true,
-    customIcon: false,
-    pagePath: '/pages/index/index' },
-
-  {
-    iconPath: "https://cdn.uviewui.com/uview/common/min_button.png",
-    selectedIconPath: "https://cdn.uviewui.com/uview/common/min_button_select.png",
-    text: '发布',
-    midButton: true,
-    customIcon: false,
-    pagePath: '/pages/todo/index' },
-
-  {
-    iconPath: "account",
-    selectedIconPath: "account-fill",
-    text: '打卡记录',
-    // count: 23,
-    // isDot: false,
-    customIcon: false,
-    pagePath: '/pages/center/index' }] };exports.default = _default;
-
-/***/ }),
-/* 11 */
-/*!*************************************************************************!*\
-  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/util/util.js ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _api = _interopRequireDefault(__webpack_require__(/*! ./api.js */ 10));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-var myRequest = function myRequest(options) {
-  return new Promise(function (resolve, reject) {
-    uni.request({
-      url: _api.default.WxApiRoot + options.url,
-      method: options.method || 'GET',
-      data: options.data || {},
-      success: function success(res) {
-        if (res.data.status !== 0) {
-          return uni.showToast({
-            title: '获取数据失败' });
-
-        }
-        resolve(res);
-      },
-      fail: function fail(err) {
-        uni.showToast({
-          title: '请求接口失败' });
-
-        reject(err);
-      } });
-
-  });
-};
-
-
-/**
-    * 封封微信的的request
-    */
-function request(url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "GET";
-  return new Promise(function (resolve, reject) {
-    uni.request({
-      url: url,
-      data: data,
-      method: method,
-      header: {
-        'Content-Type': 'application/json',
-        'X-Litemall-Token': uni.getStorageSync('token') },
-
-      success: function success(res) {
-
-        if (res.statusCode == 200) {
-
-          if (res.data.errno == 501) {
-            // 清除登录相关内容
-            try {
-              uni.removeStorageSync('userInfo');
-              uni.removeStorageSync('token');
-            } catch (e) {
-
-            } // Do something when catch error
-            // 切换到登录页面
-            wx.navigateTo({
-              url: '/pages/auth/login/login' });
-
-          } else {
-            resolve(res.data);
-          }
-        } else {
-          reject(res.errMsg);
-        }
-
-      },
-      fail: function fail(err) {
-        reject(err);
-      } });
-
-  });
-}var _default =
-
-{
-  myRequest: myRequest,
-  request: request };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 12 */,
-/* 13 */,
-/* 14 */
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 15 */
-/*!******************************************************************************!*\
-  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/index.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 16));
-
-
-
-var _request = _interopRequireDefault(__webpack_require__(/*! ./libs/request */ 17));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var _queryParams = _interopRequireDefault(__webpack_require__(/*! ./libs/function/queryParams.js */ 21));
-
-var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/function/route.js */ 22));
-
-var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFormat.js */ 26));
-
-var _timeFrom = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFrom.js */ 27));
-
-var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 28));
-
-var _guid = _interopRequireDefault(__webpack_require__(/*! ./libs/function/guid.js */ 29));
-
-var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/function/color.js */ 30));
-
-var _type2icon = _interopRequireDefault(__webpack_require__(/*! ./libs/function/type2icon.js */ 31));
-
-var _randomArray = _interopRequireDefault(__webpack_require__(/*! ./libs/function/randomArray.js */ 32));
-
-var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepClone.js */ 19));
-
-var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepMerge.js */ 18));
-
-var _addUnit = _interopRequireDefault(__webpack_require__(/*! ./libs/function/addUnit.js */ 33));
-
-
-var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 20));
-
-var _random = _interopRequireDefault(__webpack_require__(/*! ./libs/function/random.js */ 34));
-
-var _trim = _interopRequireDefault(__webpack_require__(/*! ./libs/function/trim.js */ 35));
-
-var _toast = _interopRequireDefault(__webpack_require__(/*! ./libs/function/toast.js */ 36));
-
-var _getParent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/getParent.js */ 37));
-
-var _$parent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/$parent.js */ 38));
-
-
-
-var _sys = __webpack_require__(/*! ./libs/function/sys.js */ 39);
-
-var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 40));
-
-var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 41));
-
-
-
-var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 42));
-
-var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 43));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 引入全局mixin
-// 引入关于是否mixin集成小程序分享的配置
-// import wxshare from './libs/mixin/mpShare.js'
-// 全局挂载引入http相关请求拦截插件
-function wranning(str) {// 开发环境进行信息输出,主要是一些报错信息
-  // 这个环境的来由是在程序编写时候,点击hx编辑器运行调试代码的时候,详见:
-  // 	https://uniapp.dcloud.io/frame?id=%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83%e5%92%8c%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83
-  if (true) {console.warn(str);}} // 尝试判断在根目录的/store中是否有$u.mixin.js，此文件uView默认为需要挂在到全局的vuex的state变量
-// HX2.6.11版本,放到try中,控制台依然会警告,暂时不用此方式，
-// let vuexStore = {};
-// try {
-// 	vuexStore = require("@/store/$u.mixin.js");
-// } catch (e) {
-// 	//TODO handle the exception
-// }
-// post类型对象参数转为get类型url参数
-var $u = { queryParams: _queryParams.default, route: _route.default, timeFormat: _timeFormat.default, date: _timeFormat.default, // 另名date
-  timeFrom: _timeFrom.default, colorGradient: _colorGradient.default.colorGradient, colorToRgba: _colorGradient.default.colorToRgba, guid: _guid.default, color: _color.default, sys: _sys.sys, os: _sys.os, type2icon: _type2icon.default, randomArray: _randomArray.default, wranning: wranning, get: _request.default.get,
-  post: _request.default.post,
-  put: _request.default.put,
-  'delete': _request.default.delete,
-  hexToRgb: _colorGradient.default.hexToRgb,
-  rgbToHex: _colorGradient.default.rgbToHex,
-  test: _test.default,
-  random: _random.default,
-  deepClone: _deepClone.default,
-  deepMerge: _deepMerge.default,
-  getParent: _getParent.default,
-  $parent: _$parent.default,
-  addUnit: _addUnit.default,
-  trim: _trim.default,
-  type: ['primary', 'success', 'error', 'warning', 'info'],
-  http: _request.default,
-  toast: _toast.default,
-  config: _config.default, // uView配置信息相关，比如版本号
-  zIndex: _zIndex.default,
-  debounce: _debounce.default,
-  throttle: _throttle.default };
-
-
-// $u挂载到uni对象上
-uni.$u = $u;
-
-var install = function install(Vue) {
-  Vue.mixin(_mixin.default);
-  if (Vue.prototype.openShare) {
-    Vue.mixin(mpShare);
-  }
-  // Vue.mixin(vuexStore);
-  // 时间格式化，同时两个名称，date和timeFormat
-  Vue.filter('timeFormat', function (timestamp, format) {
-    return (0, _timeFormat.default)(timestamp, format);
-  });
-  Vue.filter('date', function (timestamp, format) {
-    return (0, _timeFormat.default)(timestamp, format);
-  });
-  // 将多久以前的方法，注入到全局过滤器
-  Vue.filter('timeFrom', function (timestamp, format) {
-    return (0, _timeFrom.default)(timestamp, format);
-  });
-  Vue.prototype.$u = $u;
-};var _default =
-
-{
-  install: install };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 16 */
-/*!*****************************************************************************************!*\
-  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/mixin/mixin.js ***!
-  \*****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(uni) {module.exports = {
-  data: function data() {
-    return {};
-  },
-  onLoad: function onLoad() {
-    // getRect挂载到$u上，因为这方法需要使用in(this)，所以无法把它独立成一个单独的文件导出
-    this.$u.getRect = this.$uGetRect;
-  },
-  methods: {
-    // 查询节点信息
-    // 目前此方法在支付宝小程序中无法获取组件跟接点的尺寸，为支付宝的bug(2020-07-21)
-    // 解决办法为在组件根部再套一个没有任何作用的view元素
-    $uGetRect: function $uGetRect(selector, all) {var _this = this;
-      return new Promise(function (resolve) {
-        uni.createSelectorQuery().
-        in(_this)[all ? 'selectAll' : 'select'](selector).
-        boundingClientRect(function (rect) {
-          if (all && Array.isArray(rect) && rect.length) {
-            resolve(rect);
-          }
-          if (!all && rect) {
-            resolve(rect);
-          }
-        }).
-        exec();
-      });
-    },
-    getParentData: function getParentData() {var _this2 = this;var parentName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-      // 避免在created中去定义parent变量
-      if (!this.parent) this.parent = false;
-      // 这里的本质原理是，通过获取父组件实例(也即u-radio-group的this)
-      // 将父组件this中对应的参数，赋值给本组件(u-radio的this)的parentData对象中对应的属性
-      // 之所以需要这么做，是因为所有端中，头条小程序不支持通过this.parent.xxx去监听父组件参数的变化
-      this.parent = this.$u.$parent.call(this, parentName);
-      if (this.parent) {
-        // 历遍parentData中的属性，将parent中的同名属性赋值给parentData
-        Object.keys(this.parentData).map(function (key) {
-          _this2.parentData[key] = _this2.parent[key];
-        });
-      }
-    },
-    // 阻止事件冒泡
-    preventEvent: function preventEvent(e) {
-      e && e.stopPropagation && e.stopPropagation();
-    } },
-
-  onReachBottom: function onReachBottom() {
-    uni.$emit('uOnReachBottom');
-  },
-  beforeDestroy: function beforeDestroy() {var _this3 = this;
-    // 判断当前页面是否存在parent和chldren，一般在checkbox和checkbox-group父子联动的场景会有此情况
-    // 组件销毁时，移除子组件在父组件children数组中的实例，释放资源，避免数据混乱
-    if (this.parent && uni.$u.test.array(this.parent.children)) {
-      // 组件销毁时，移除父组件中的children数组中对应的实例
-      var childrenList = this.parent.children;
-      childrenList.map(function (child, index) {
-        // 如果相等，则移除
-        if (child === _this3) {
-          childrenList.splice(index, 1);
-        }
-      });
-    }
-  } };
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 17 */
-/*!*******************************************************************************************!*\
-  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/request/index.js ***!
-  \*******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ../function/deepMerge */ 18));
-var _test = _interopRequireDefault(__webpack_require__(/*! ../function/test */ 20));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var
-Request = /*#__PURE__*/function () {_createClass(Request, [{ key: "setConfig",
-    // 设置全局默认配置
-    value: function setConfig(customConfig) {
-      // 深度合并对象，否则会造成对象深层属性丢失
-      this.config = (0, _deepMerge.default)(this.config, customConfig);
-    }
-
-    // 主要请求部分
-  }, { key: "request", value: function request() {var _this = this;var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      // 检查请求拦截
-      if (this.interceptor.request && typeof this.interceptor.request === 'function') {
-        var tmpConfig = {};
-        var interceptorRequest = this.interceptor.request(options);
-        if (interceptorRequest === false) {
-          // 返回一个处于pending状态中的Promise，来取消原promise，避免进入then()回调
-          return new Promise(function () {});
-        }
-        this.options = interceptorRequest;
-      }
-      options.dataType = options.dataType || this.config.dataType;
-      options.responseType = options.responseType || this.config.responseType;
-      options.url = options.url || '';
-      options.params = options.params || {};
-      options.header = Object.assign({}, this.config.header, options.header);
-      options.method = options.method || this.config.method;
-
-      return new Promise(function (resolve, reject) {
-        options.complete = function (response) {
-          // 请求返回后，隐藏loading(如果请求返回快的话，可能会没有loading)
-          uni.hideLoading();
-          // 清除定时器，如果请求回来了，就无需loading
-          clearTimeout(_this.config.timer);
-          _this.config.timer = null;
-          // 判断用户对拦截返回数据的要求，如果originalData为true，返回所有的数据(response)到拦截器，否则只返回response.data
-          if (_this.config.originalData) {
-            // 判断是否存在拦截器
-            if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
-              var resInterceptors = _this.interceptor.response(response);
-              // 如果拦截器不返回false，就将拦截器返回的内容给this.$u.post的then回调
-              if (resInterceptors !== false) {
-                resolve(resInterceptors);
-              } else {
-                // 如果拦截器返回false，意味着拦截器定义者认为返回有问题，直接接入catch回调
-                reject(response);
-              }
-            } else {
-              // 如果要求返回原始数据，就算没有拦截器，也返回最原始的数据
-              resolve(response);
-            }
-          } else {
-            if (response.statusCode == 200) {
-              if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
-                var _resInterceptors = _this.interceptor.response(response.data);
-                if (_resInterceptors !== false) {
-                  resolve(_resInterceptors);
-                } else {
-                  reject(response.data);
-                }
-              } else {
-                // 如果不是返回原始数据(originalData=false)，且没有拦截器的情况下，返回纯数据给then回调
-                resolve(response.data);
-              }
-            } else {
-              // 不返回原始数据的情况下，服务器状态码不为200，modal弹框提示
-              // if(response.errMsg) {
-              // 	uni.showModal({
-              // 		title: response.errMsg
-              // 	});
-              // }
-              reject(response);
-            }
-          }
-        };
-
-        // 判断用户传递的URL是否/开头,如果不是,加上/，这里使用了uView的test.js验证库的url()方法
-        options.url = _test.default.url(options.url) ? options.url : _this.config.baseUrl + (options.url.indexOf('/') == 0 ?
-        options.url : '/' + options.url);
-
-        // 是否显示loading
-        // 加一个是否已有timer定时器的判断，否则有两个同时请求的时候，后者会清除前者的定时器id
-        // 而没有清除前者的定时器，导致前者超时，一直显示loading
-        if (_this.config.showLoading && !_this.config.timer) {
-          _this.config.timer = setTimeout(function () {
-            uni.showLoading({
-              title: _this.config.loadingText,
-              mask: _this.config.loadingMask });
-
-            _this.config.timer = null;
-          }, _this.config.loadingTime);
-        }
-        uni.request(options);
-      });
-      // .catch(res => {
-      // 	// 如果返回reject()，不让其进入this.$u.post().then().catch()后面的catct()
-      // 	// 因为很多人都会忘了写后面的catch()，导致报错捕获不到catch
-      // 	return new Promise(()=>{});
-      // })
-    } }]);
-
-  function Request() {var _this2 = this;_classCallCheck(this, Request);
-    this.config = {
-      baseUrl: '', // 请求的根域名
-      // 默认的请求头
-      header: {},
-      method: 'POST',
-      // 设置为json，返回后uni.request会对数据进行一次JSON.parse
-      dataType: 'json',
-      // 此参数无需处理，因为5+和支付宝小程序不支持，默认为text即可
-      responseType: 'text',
-      showLoading: true, // 是否显示请求中的loading
-      loadingText: '请求中...',
-      loadingTime: 800, // 在此时间内，请求还没回来的话，就显示加载中动画，单位ms
-      timer: null, // 定时器
-      originalData: false, // 是否在拦截器中返回服务端的原始数据，见文档说明
-      loadingMask: true // 展示loading的时候，是否给一个透明的蒙层，防止触摸穿透
-    };
-
-    // 拦截器
-    this.interceptor = {
-      // 请求前的拦截
-      request: null,
-      // 请求后的拦截
-      response: null };
-
-
-    // get请求
-    this.get = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        method: 'GET',
-        url: url,
-        header: header,
-        data: data });
-
-    };
-
-    // post请求
-    this.post = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        url: url,
-        method: 'POST',
-        header: header,
-        data: data });
-
-    };
-
-    // put请求，不支持支付宝小程序(HX2.6.15)
-    this.put = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        url: url,
-        method: 'PUT',
-        header: header,
-        data: data });
-
-    };
-
-    // delete请求，不支持支付宝和头条小程序(HX2.6.15)
-    this.delete = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        url: url,
-        method: 'DELETE',
-        header: header,
-        data: data });
-
-    };
-  }return Request;}();var _default =
-
-new Request();exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 18 */
-/*!************************************************************************************************!*\
-  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/deepMerge.js ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./deepClone */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-// JS对象深度合并
-function deepMerge() {var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var source = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  target = (0, _deepClone.default)(target);
-  if (typeof target !== 'object' || typeof source !== 'object') return false;
-  for (var prop in source) {
-    if (!source.hasOwnProperty(prop)) continue;
-    if (prop in target) {
-      if (typeof target[prop] !== 'object') {
-        target[prop] = source[prop];
-      } else {
-        if (typeof source[prop] !== 'object') {
-          target[prop] = source[prop];
-        } else {
-          if (target[prop].concat && source[prop].concat) {
-            target[prop] = target[prop].concat(source[prop]);
-          } else {
-            target[prop] = deepMerge(target[prop], source[prop]);
-          }
-        }
-      }
-    } else {
-      target[prop] = source[prop];
-    }
-  }
-  return target;
-}var _default =
-
-deepMerge;exports.default = _default;
-
-/***/ }),
-/* 19 */
-/*!************************************************************************************************!*\
-  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/deepClone.js ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 判断arr是否为一个数组，返回一个bool值
-function isArray(arr) {
-  return Object.prototype.toString.call(arr) === '[object Array]';
-}
-
-// 深度克隆
-function deepClone(obj) {
-  // 对常见的“非”值，直接返回原来值
-  if ([null, undefined, NaN, false].includes(obj)) return obj;
-  if (typeof obj !== "object" && typeof obj !== 'function') {
-    //原始类型直接返回
-    return obj;
-  }
-  var o = isArray(obj) ? [] : {};
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      o[i] = typeof obj[i] === "object" ? deepClone(obj[i]) : obj[i];
-    }
-  }
-  return o;
-}var _default =
-
-deepClone;exports.default = _default;
-
-/***/ }),
-/* 20 */
+/***/ 20:
 /*!*******************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/test.js ***!
   \*******************************************************************************************/
@@ -9630,7 +9288,8 @@ function code(value) {var len = arguments.length > 1 && arguments[1] !== undefin
   code: code };exports.default = _default;
 
 /***/ }),
-/* 21 */
+
+/***/ 21:
 /*!**************************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/queryParams.js ***!
   \**************************************************************************************************/
@@ -9698,7 +9357,8 @@ function queryParams() {var data = arguments.length > 0 && arguments[0] !== unde
 queryParams;exports.default = _default;
 
 /***/ }),
-/* 22 */
+
+/***/ 22:
 /*!********************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/route.js ***!
   \********************************************************************************************/
@@ -9831,7 +9491,8 @@ new Router().route;exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 23 */
+
+/***/ 23:
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
@@ -9841,7 +9502,8 @@ new Router().route;exports.default = _default;
 module.exports = __webpack_require__(/*! regenerator-runtime */ 24);
 
 /***/ }),
-/* 24 */
+
+/***/ 24:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -9888,7 +9550,8 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 25 */
+
+/***/ 25:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -10619,7 +10282,8 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 26 */
+
+/***/ 26:
 /*!*************************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/timeFormat.js ***!
   \*************************************************************************************************/
@@ -10680,7 +10344,8 @@ function timeFormat() {var dateTime = arguments.length > 0 && arguments[0] !== u
 timeFormat;exports.default = _default;
 
 /***/ }),
-/* 27 */
+
+/***/ 27:
 /*!***********************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/timeFrom.js ***!
   \***********************************************************************************************/
@@ -10737,7 +10402,8 @@ function timeFrom() {var dateTime = arguments.length > 0 && arguments[0] !== und
 timeFrom;exports.default = _default;
 
 /***/ }),
-/* 28 */
+
+/***/ 28:
 /*!****************************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/colorGradient.js ***!
   \****************************************************************************************************/
@@ -10880,7 +10546,8 @@ function colorToRgba(color) {var alpha = arguments.length > 1 && arguments[1] !=
   colorToRgba: colorToRgba };exports.default = _default;
 
 /***/ }),
-/* 29 */
+
+/***/ 29:
 /*!*******************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/guid.js ***!
   \*******************************************************************************************/
@@ -10931,7 +10598,39 @@ function guid() {var len = arguments.length > 0 && arguments[0] !== undefined ? 
 guid;exports.default = _default;
 
 /***/ }),
-/* 30 */
+
+/***/ 3:
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 30:
 /*!********************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/color.js ***!
   \********************************************************************************************/
@@ -10978,7 +10677,8 @@ var color = {
 color;exports.default = _default;
 
 /***/ }),
-/* 31 */
+
+/***/ 31:
 /*!************************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/type2icon.js ***!
   \************************************************************************************************/
@@ -11023,7 +10723,8 @@ function type2icon() {var type = arguments.length > 0 && arguments[0] !== undefi
 type2icon;exports.default = _default;
 
 /***/ }),
-/* 32 */
+
+/***/ 32:
 /*!**************************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/randomArray.js ***!
   \**************************************************************************************************/
@@ -11040,7 +10741,8 @@ function randomArray() {var array = arguments.length > 0 && arguments[0] !== und
 randomArray;exports.default = _default;
 
 /***/ }),
-/* 33 */
+
+/***/ 33:
 /*!**********************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/addUnit.js ***!
   \**********************************************************************************************/
@@ -11058,7 +10760,8 @@ function addUnit() {var value = arguments.length > 0 && arguments[0] !== undefin
 }
 
 /***/ }),
-/* 34 */
+
+/***/ 34:
 /*!*********************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/random.js ***!
   \*********************************************************************************************/
@@ -11078,7 +10781,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 random;exports.default = _default;
 
 /***/ }),
-/* 35 */
+
+/***/ 35:
 /*!*******************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/trim.js ***!
   \*******************************************************************************************/
@@ -11103,7 +10807,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 trim;exports.default = _default;
 
 /***/ }),
-/* 36 */
+
+/***/ 36:
 /*!********************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/toast.js ***!
   \********************************************************************************************/
@@ -11123,7 +10828,8 @@ toast;exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 37 */
+
+/***/ 37:
 /*!************************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/getParent.js ***!
   \************************************************************************************************/
@@ -11180,7 +10886,8 @@ function getParent(name, keys) {
 }
 
 /***/ }),
-/* 38 */
+
+/***/ 38:
 /*!**********************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/$parent.js ***!
   \**********************************************************************************************/
@@ -11208,7 +10915,8 @@ function $parent() {var name = arguments.length > 0 && arguments[0] !== undefine
 }
 
 /***/ }),
-/* 39 */
+
+/***/ 39:
 /*!******************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/sys.js ***!
   \******************************************************************************************/
@@ -11226,7 +10934,437 @@ function sys() {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 40 */
+
+/***/ 4:
+/*!*************************************************************!*\
+  !*** ./node_modules/@dcloudio/uni-i18n/dist/uni-i18n.es.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.compileI18nJsonStr = compileI18nJsonStr;exports.hasI18nJson = hasI18nJson;exports.initVueI18n = initVueI18n;exports.isI18nStr = isI18nStr;exports.normalizeLocale = normalizeLocale;exports.parseI18nJson = parseI18nJson;exports.isString = exports.LOCALE_ZH_HANT = exports.LOCALE_ZH_HANS = exports.LOCALE_FR = exports.LOCALE_ES = exports.LOCALE_EN = exports.I18n = exports.Formatter = void 0;function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function _iterableToArrayLimit(arr, i) {if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var isArray = Array.isArray;
+var isObject = function isObject(val) {return val !== null && typeof val === 'object';};
+var defaultDelimiters = ['{', '}'];var
+BaseFormatter = /*#__PURE__*/function () {
+  function BaseFormatter() {_classCallCheck(this, BaseFormatter);
+    this._caches = Object.create(null);
+  }_createClass(BaseFormatter, [{ key: "interpolate", value: function interpolate(
+    message, values) {var delimiters = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : defaultDelimiters;
+      if (!values) {
+        return [message];
+      }
+      var tokens = this._caches[message];
+      if (!tokens) {
+        tokens = parse(message, delimiters);
+        this._caches[message] = tokens;
+      }
+      return compile(tokens, values);
+    } }]);return BaseFormatter;}();exports.Formatter = BaseFormatter;
+
+var RE_TOKEN_LIST_VALUE = /^(?:\d)+/;
+var RE_TOKEN_NAMED_VALUE = /^(?:\w)+/;
+function parse(format, _ref) {var _ref2 = _slicedToArray(_ref, 2),startDelimiter = _ref2[0],endDelimiter = _ref2[1];
+  var tokens = [];
+  var position = 0;
+  var text = '';
+  while (position < format.length) {
+    var char = format[position++];
+    if (char === startDelimiter) {
+      if (text) {
+        tokens.push({ type: 'text', value: text });
+      }
+      text = '';
+      var sub = '';
+      char = format[position++];
+      while (char !== undefined && char !== endDelimiter) {
+        sub += char;
+        char = format[position++];
+      }
+      var isClosed = char === endDelimiter;
+      var type = RE_TOKEN_LIST_VALUE.test(sub) ?
+      'list' :
+      isClosed && RE_TOKEN_NAMED_VALUE.test(sub) ?
+      'named' :
+      'unknown';
+      tokens.push({ value: sub, type: type });
+    }
+    //  else if (char === '%') {
+    //   // when found rails i18n syntax, skip text capture
+    //   if (format[position] !== '{') {
+    //     text += char
+    //   }
+    // }
+    else {
+        text += char;
+      }
+  }
+  text && tokens.push({ type: 'text', value: text });
+  return tokens;
+}
+function compile(tokens, values) {
+  var compiled = [];
+  var index = 0;
+  var mode = isArray(values) ?
+  'list' :
+  isObject(values) ?
+  'named' :
+  'unknown';
+  if (mode === 'unknown') {
+    return compiled;
+  }
+  while (index < tokens.length) {
+    var token = tokens[index];
+    switch (token.type) {
+      case 'text':
+        compiled.push(token.value);
+        break;
+      case 'list':
+        compiled.push(values[parseInt(token.value, 10)]);
+        break;
+      case 'named':
+        if (mode === 'named') {
+          compiled.push(values[token.value]);
+        } else
+        {
+          if (true) {
+            console.warn("Type of token '".concat(token.type, "' and format of value '").concat(mode, "' don't match!"));
+          }
+        }
+        break;
+      case 'unknown':
+        if (true) {
+          console.warn("Detect 'unknown' type of token!");
+        }
+        break;}
+
+    index++;
+  }
+  return compiled;
+}
+
+var LOCALE_ZH_HANS = 'zh-Hans';exports.LOCALE_ZH_HANS = LOCALE_ZH_HANS;
+var LOCALE_ZH_HANT = 'zh-Hant';exports.LOCALE_ZH_HANT = LOCALE_ZH_HANT;
+var LOCALE_EN = 'en';exports.LOCALE_EN = LOCALE_EN;
+var LOCALE_FR = 'fr';exports.LOCALE_FR = LOCALE_FR;
+var LOCALE_ES = 'es';exports.LOCALE_ES = LOCALE_ES;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var hasOwn = function hasOwn(val, key) {return hasOwnProperty.call(val, key);};
+var defaultFormatter = new BaseFormatter();
+function include(str, parts) {
+  return !!parts.find(function (part) {return str.indexOf(part) !== -1;});
+}
+function startsWith(str, parts) {
+  return parts.find(function (part) {return str.indexOf(part) === 0;});
+}
+function normalizeLocale(locale, messages) {
+  if (!locale) {
+    return;
+  }
+  locale = locale.trim().replace(/_/g, '-');
+  if (messages && messages[locale]) {
+    return locale;
+  }
+  locale = locale.toLowerCase();
+  if (locale.indexOf('zh') === 0) {
+    if (locale.indexOf('-hans') !== -1) {
+      return LOCALE_ZH_HANS;
+    }
+    if (locale.indexOf('-hant') !== -1) {
+      return LOCALE_ZH_HANT;
+    }
+    if (include(locale, ['-tw', '-hk', '-mo', '-cht'])) {
+      return LOCALE_ZH_HANT;
+    }
+    return LOCALE_ZH_HANS;
+  }
+  var lang = startsWith(locale, [LOCALE_EN, LOCALE_FR, LOCALE_ES]);
+  if (lang) {
+    return lang;
+  }
+}var
+I18n = /*#__PURE__*/function () {
+  function I18n(_ref3) {var locale = _ref3.locale,fallbackLocale = _ref3.fallbackLocale,messages = _ref3.messages,watcher = _ref3.watcher,formater = _ref3.formater;_classCallCheck(this, I18n);
+    this.locale = LOCALE_EN;
+    this.fallbackLocale = LOCALE_EN;
+    this.message = {};
+    this.messages = {};
+    this.watchers = [];
+    if (fallbackLocale) {
+      this.fallbackLocale = fallbackLocale;
+    }
+    this.formater = formater || defaultFormatter;
+    this.messages = messages || {};
+    this.setLocale(locale || LOCALE_EN);
+    if (watcher) {
+      this.watchLocale(watcher);
+    }
+  }_createClass(I18n, [{ key: "setLocale", value: function setLocale(
+    locale) {var _this = this;
+      var oldLocale = this.locale;
+      this.locale = normalizeLocale(locale, this.messages) || this.fallbackLocale;
+      if (!this.messages[this.locale]) {
+        // 可能初始化时不存在
+        this.messages[this.locale] = {};
+      }
+      this.message = this.messages[this.locale];
+      // 仅发生变化时，通知
+      if (oldLocale !== this.locale) {
+        this.watchers.forEach(function (watcher) {
+          watcher(_this.locale, oldLocale);
+        });
+      }
+    } }, { key: "getLocale", value: function getLocale()
+    {
+      return this.locale;
+    } }, { key: "watchLocale", value: function watchLocale(
+    fn) {var _this2 = this;
+      var index = this.watchers.push(fn) - 1;
+      return function () {
+        _this2.watchers.splice(index, 1);
+      };
+    } }, { key: "add", value: function add(
+    locale, message) {var override = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var curMessages = this.messages[locale];
+      if (curMessages) {
+        if (override) {
+          Object.assign(curMessages, message);
+        } else
+        {
+          Object.keys(message).forEach(function (key) {
+            if (!hasOwn(curMessages, key)) {
+              curMessages[key] = message[key];
+            }
+          });
+        }
+      } else
+      {
+        this.messages[locale] = message;
+      }
+    } }, { key: "f", value: function f(
+    message, values, delimiters) {
+      return this.formater.interpolate(message, values, delimiters).join('');
+    } }, { key: "t", value: function t(
+    key, locale, values) {
+      var message = this.message;
+      if (typeof locale === 'string') {
+        locale = normalizeLocale(locale, this.messages);
+        locale && (message = this.messages[locale]);
+      } else
+      {
+        values = locale;
+      }
+      if (!hasOwn(message, key)) {
+        console.warn("Cannot translate the value of keypath ".concat(key, ". Use the value of keypath as default."));
+        return key;
+      }
+      return this.formater.interpolate(message[key], values).join('');
+    } }]);return I18n;}();exports.I18n = I18n;
+
+
+var ignoreVueI18n = true;
+function watchAppLocale(appVm, i18n) {
+  appVm.$watch(function () {return appVm.$locale;}, function (newLocale) {
+    i18n.setLocale(newLocale);
+  });
+}
+function initVueI18n(locale) {var messages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var fallbackLocale = arguments.length > 2 ? arguments[2] : undefined;var watcher = arguments.length > 3 ? arguments[3] : undefined;
+  // 兼容旧版本入参
+  if (typeof locale !== 'string') {var _ref4 =
+    [
+    messages,
+    locale];locale = _ref4[0];messages = _ref4[1];
+
+  }
+  if (typeof locale !== 'string') {
+    locale =
+    typeof uni !== 'undefined' && uni.getLocale && uni.getLocale() ||
+    LOCALE_EN;
+  }
+  if (typeof fallbackLocale !== 'string') {
+    fallbackLocale =
+    typeof __uniConfig !== 'undefined' && __uniConfig.fallbackLocale ||
+    LOCALE_EN;
+  }
+  var i18n = new I18n({
+    locale: locale,
+    fallbackLocale: fallbackLocale,
+    messages: messages,
+    watcher: watcher });
+
+  var _t = function t(key, values) {
+    if (typeof getApp !== 'function') {
+      // app view
+      /* eslint-disable no-func-assign */
+      _t = function t(key, values) {
+        return i18n.t(key, values);
+      };
+    } else
+    {
+      var appVm = getApp().$vm;
+      watchAppLocale(appVm, i18n);
+      if (!appVm.$t || !appVm.$i18n || ignoreVueI18n) {
+        // if (!locale) {
+        //   i18n.setLocale(getDefaultLocale())
+        // }
+        /* eslint-disable no-func-assign */
+        _t = function t(key, values) {
+          // 触发响应式
+          appVm.$locale;
+          return i18n.t(key, values);
+        };
+      } else
+      {
+        /* eslint-disable no-func-assign */
+        _t = function t(key, values) {
+          var $i18n = appVm.$i18n;
+          var silentTranslationWarn = $i18n.silentTranslationWarn;
+          $i18n.silentTranslationWarn = true;
+          var msg = appVm.$t(key, values);
+          $i18n.silentTranslationWarn = silentTranslationWarn;
+          if (msg !== key) {
+            return msg;
+          }
+          return i18n.t(key, $i18n.locale, values);
+        };
+      }
+    }
+    return _t(key, values);
+  };
+  return {
+    i18n: i18n,
+    f: function f(message, values, delimiters) {
+      return i18n.f(message, values, delimiters);
+    },
+    t: function t(key, values) {
+      return _t(key, values);
+    },
+    add: function add(locale, message) {var override = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      return i18n.add(locale, message, override);
+    },
+    watch: function watch(fn) {
+      return i18n.watchLocale(fn);
+    },
+    getLocale: function getLocale() {
+      return i18n.getLocale();
+    },
+    setLocale: function setLocale(newLocale) {
+      return i18n.setLocale(newLocale);
+    } };
+
+}
+
+var isString = function isString(val) {return typeof val === 'string';};exports.isString = isString;
+var formater;
+function hasI18nJson(jsonObj, delimiters) {
+  if (!formater) {
+    formater = new BaseFormatter();
+  }
+  return walkJsonObj(jsonObj, function (jsonObj, key) {
+    var value = jsonObj[key];
+    if (isString(value)) {
+      if (isI18nStr(value, delimiters)) {
+        return true;
+      }
+    } else
+    {
+      return hasI18nJson(value, delimiters);
+    }
+  });
+}
+function parseI18nJson(jsonObj, values, delimiters) {
+  if (!formater) {
+    formater = new BaseFormatter();
+  }
+  walkJsonObj(jsonObj, function (jsonObj, key) {
+    var value = jsonObj[key];
+    if (isString(value)) {
+      if (isI18nStr(value, delimiters)) {
+        jsonObj[key] = compileStr(value, values, delimiters);
+      }
+    } else
+    {
+      parseI18nJson(value, values, delimiters);
+    }
+  });
+  return jsonObj;
+}
+function compileI18nJsonStr(jsonStr, _ref5) {var locale = _ref5.locale,locales = _ref5.locales,delimiters = _ref5.delimiters;
+  if (!isI18nStr(jsonStr, delimiters)) {
+    return jsonStr;
+  }
+  if (!formater) {
+    formater = new BaseFormatter();
+  }
+  var localeValues = [];
+  Object.keys(locales).forEach(function (name) {
+    if (name !== locale) {
+      localeValues.push({
+        locale: name,
+        values: locales[name] });
+
+    }
+  });
+  localeValues.unshift({ locale: locale, values: locales[locale] });
+  try {
+    return JSON.stringify(compileJsonObj(JSON.parse(jsonStr), localeValues, delimiters), null, 2);
+  }
+  catch (e) {}
+  return jsonStr;
+}
+function isI18nStr(value, delimiters) {
+  return value.indexOf(delimiters[0]) > -1;
+}
+function compileStr(value, values, delimiters) {
+  return formater.interpolate(value, values, delimiters).join('');
+}
+function compileValue(jsonObj, key, localeValues, delimiters) {
+  var value = jsonObj[key];
+  if (isString(value)) {
+    // 存在国际化
+    if (isI18nStr(value, delimiters)) {
+      jsonObj[key] = compileStr(value, localeValues[0].values, delimiters);
+      if (localeValues.length > 1) {
+        // 格式化国际化语言
+        var valueLocales = jsonObj[key + 'Locales'] = {};
+        localeValues.forEach(function (localValue) {
+          valueLocales[localValue.locale] = compileStr(value, localValue.values, delimiters);
+        });
+      }
+    }
+  } else
+  {
+    compileJsonObj(value, localeValues, delimiters);
+  }
+}
+function compileJsonObj(jsonObj, localeValues, delimiters) {
+  walkJsonObj(jsonObj, function (jsonObj, key) {
+    compileValue(jsonObj, key, localeValues, delimiters);
+  });
+  return jsonObj;
+}
+function walkJsonObj(jsonObj, walk) {
+  if (isArray(jsonObj)) {
+    for (var i = 0; i < jsonObj.length; i++) {
+      if (walk(jsonObj, i)) {
+        return true;
+      }
+    }
+  } else
+  if (isObject(jsonObj)) {
+    for (var key in jsonObj) {
+      if (walk(jsonObj, key)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 40:
 /*!***********************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/debounce.js ***!
   \***********************************************************************************************/
@@ -11265,7 +11403,8 @@ function debounce(func) {var wait = arguments.length > 1 && arguments[1] !== und
 debounce;exports.default = _default;
 
 /***/ }),
-/* 41 */
+
+/***/ 41:
 /*!***********************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/function/throttle.js ***!
   \***********************************************************************************************/
@@ -11307,7 +11446,8 @@ function throttle(func) {var wait = arguments.length > 1 && arguments[1] !== und
 throttle;exports.default = _default;
 
 /***/ }),
-/* 42 */
+
+/***/ 42:
 /*!*******************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/config/config.js ***!
   \*******************************************************************************************/
@@ -11330,7 +11470,8 @@ var version = '1.8.3';var _default =
   'warning'] };exports.default = _default;
 
 /***/ }),
-/* 43 */
+
+/***/ 43:
 /*!*******************************************************************************************!*\
   !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/config/zIndex.js ***!
   \*******************************************************************************************/
@@ -11359,154 +11500,132 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   indexListSticky: 965 };exports.default = _default;
 
 /***/ }),
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */,
-/* 123 */,
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */,
-/* 128 */,
-/* 129 */,
-/* 130 */,
-/* 131 */,
-/* 132 */,
-/* 133 */,
-/* 134 */
-/*!******************************************************************************************!*\
-  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/uview-ui/libs/util/emitter.js ***!
-  \******************************************************************************************/
+
+/***/ 5:
+/*!***********************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/pages.json ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ 66:
+/*!**************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/static/wz.png ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+
+/***/ 9:
+/*!*************************************************************************!*\
+  !*** /Users/singworld/Documents/HBuilderProjects/ttgogogo/util/user.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 递归使用 call 方式this指向
-                                                                                                      * @param componentName // 需要找的组件的名称
-                                                                                                      * @param eventName // 事件名称
-                                                                                                      * @param params // 需要传递的参数
-                                                                                                      */
-function _broadcast(componentName, eventName, params) {
-  // 循环子节点找到名称一样的子节点 否则 递归 当前子节点
-  this.$children.map(function (child) {
-    if (componentName === child.$options.name) {
-      child.$emit.apply(child, [eventName].concat(params));
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.checkLogin = checkLogin;exports.loginByWeixin = loginByWeixin;var _api = _interopRequireDefault(__webpack_require__(/*! ./api.js */ 10));
+var _util = _interopRequireDefault(__webpack_require__(/*! ./util.js */ 11));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+/**
+                                                                                                                                                        * 判断用户是否登录
+                                                                                                                                                        */
+function checkLogin() {
+  return new Promise(function (resolve, reject) {
+    // console.log(uni.getStorageSync('userInfo') , uni.getStorageSync('token'))
+
+    if (uni.getStorageSync('token')) {
+      console.log("判断用户登录");
+      checkSession().then(function () {
+        resolve(true);
+      }).catch(function () {
+        reject(false);
+      });
     } else {
-      _broadcast.apply(child, [componentName, eventName].concat(params));
+      reject(false);
     }
   });
-}var _default =
-{
-  methods: {
-    /**
-              * 派发 (向上查找) (一个)
-              * @param componentName // 需要找的组件的名称
-              * @param eventName // 事件名称
-              * @param params // 需要传递的参数
-              */
-    dispatch: function dispatch(componentName, eventName, params) {
-      var parent = this.$parent || this.$root; //$parent 找到最近的父节点 $root 根节点
-      var name = parent.$options.name; // 获取当前组件实例的name
-      // 如果当前有节点 && 当前没名称 且 当前名称等于需要传进来的名称的时候就去查找当前的节点
-      // 循环出当前名称的一样的组件实例
-      while (parent && (!name || name !== componentName)) {
-        parent = parent.$parent;
-        if (parent) {
-          name = parent.$options.name;
+}
+
+/**
+   * Promise封装wx.checkSession
+   */
+function checkSession() {
+  return new Promise(function (resolve, reject) {
+    uni.checkSession({
+      success: function success() {
+        resolve(true);
+      },
+      fail: function fail() {
+        reject(false);
+      } });
+
+  });
+}
+
+
+/**
+   * 调用微信登录
+   */
+function loginByWeixin() {
+
+  return new Promise(function (resolve, reject) {
+    return login().then(function (res) {
+      //登录远程服务器
+      _util.default.request(_api.default.AuthLoginByWeixin, {
+        code: res.code },
+      'POST').then(function (res) {
+        if (res.errno === 0) {
+          //存储用户信息
+          uni.setStorageSync('token', res.data.token);
+          uni.setStorageSync('userInfo', res.data.userInfo);
+          resolve(res);
+        } else {
+          reject(res);
         }
-      }
-      // 有节点表示当前找到了name一样的实例
-      if (parent) {
-        parent.$emit.apply(parent, [eventName].concat(params));
-      }
-    },
-    /**
-        * 广播 (向下查找) (广播多个)
-        * @param componentName // 需要找的组件的名称
-        * @param eventName // 事件名称
-        * @param params // 需要传递的参数
-        */
-    broadcast: function broadcast(componentName, eventName, params) {
-      _broadcast.call(this, componentName, eventName, params);
-    } } };exports.default = _default;
+      }).
+
+      catch(function (err) {
+        reject(err);
+      });
+
+
+    }).catch(function (err) {
+      reject(err);
+    });
+  });
+}
+
+
+/**
+   * Promise封装wx.login
+   */
+function login() {
+  return new Promise(function (resolve, reject) {
+    uni.login({
+      success: function success(res) {
+        if (res.code) {
+          resolve(res);
+        } else {
+          reject(res);
+        }
+      },
+      fail: function fail(err) {
+        reject(err);
+      } });
+
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ })
-]]);
+
+}]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

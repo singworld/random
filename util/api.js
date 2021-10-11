@@ -1,4 +1,5 @@
-const WxApiRoot = 'http://192.168.0.102:8080/wx/'
+const WxApiRoot = 'https://wx.jianxiaoxin.com/wx/'
+// const WxApiRoot = 'http://192.168.0.114:8080/wx/'
 
 
 
@@ -8,7 +9,10 @@ export default {
 	 TaskIndex : WxApiRoot + 'home/taskindex', //获取任务
 	 Upload : WxApiRoot + 'home/upload', //上传打卡图片upload
 	 GetTaskArchive : WxApiRoot + 'home/getTaskArchive',  //获取归档的日志
-	 
+	 SaveTtlist : WxApiRoot + 'home/saveTtlist',  //保持ttlist
+	 GetConfig : WxApiRoot + 'home/getConfig', //获取配置
+	 ModifyConfig : WxApiRoot + 'home/modifyConfig', //保持配置
+	 AddConfig:WxApiRoot + 'home/addConfig', 
 	 
 	 
 	 

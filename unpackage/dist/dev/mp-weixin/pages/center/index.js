@@ -96,16 +96,16 @@ var components
 try {
   components = {
     uTimeLine: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-time-line/u-time-line */ "uview-ui/components/u-time-line/u-time-line").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-time-line/u-time-line.vue */ 144))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-time-line/u-time-line */ "uview-ui/components/u-time-line/u-time-line").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-time-line/u-time-line.vue */ 147))
     },
     uTimeLineItem: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-time-line-item/u-time-line-item */ "uview-ui/components/u-time-line-item/u-time-line-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-time-line-item/u-time-line-item.vue */ 151))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-time-line-item/u-time-line-item */ "uview-ui/components/u-time-line-item/u-time-line-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-time-line-item/u-time-line-item.vue */ 154))
     },
     uImage: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-image/u-image */ "uview-ui/components/u-image/u-image").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-image/u-image.vue */ 158))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-image/u-image */ "uview-ui/components/u-image/u-image").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-image/u-image.vue */ 161))
     },
     uTabbar: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 137))
+      return Promise.all(/*! import() | uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 140))
     }
   }
 } catch (e) {
@@ -208,7 +208,10 @@ var _util = _interopRequireDefault(__webpack_require__(/*! ../../util/util.js */
 //
 //
 var app = getApp();var _default = { data: function data() {return { TabbarList: null, src: 'https://cdn.uviewui.com/uview/example/fade.jpg', taskList: null };}, onLoad: function onLoad() {// app.globalData.hasLogin = true;
-    this.TabbarList = _api.default.TabbarList;this.getTaskArchive();}, methods: { getTaskArchive: function getTaskArchive() {var _this = this;_util.default.request(_api.default.GetTaskArchive).then(function (res) {console.log("save", res);if (res.errno === 0) {_this.taskList = res.data.taskList;} else {console.log(res);}
+    this.TabbarList = _api.default.TabbarList;this.getTaskArchive();}, onShow: function onShow() {this.getTaskArchive();}, methods: { getTaskArchive: function getTaskArchive() {var _this = this;_util.default.request(_api.default.GetTaskArchive).then(function (res) {console.log("save", res);if (res.errno === 0) {_this.taskList = res.data.taskList;
+        } else {
+          console.log(res);
+        }
       }).
 
       catch(function (err) {

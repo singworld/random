@@ -6,7 +6,10 @@ import util from "./util.js"
  */
 function checkLogin () {
   return new Promise(function(resolve, reject) {
-    if (uni.getStorageSync('userInfo') && uni.getStorageSync('token')) {
+	  // console.log(uni.getStorageSync('userInfo') , uni.getStorageSync('token'))
+	  
+    if (uni.getStorageSync('token')) {
+		console.log("判断用户登录")
       checkSession().then(() => {
         resolve(true);
       }).catch(() => {
