@@ -1,5 +1,7 @@
 const WxApiRoot = 'https://wx.jianxiaoxin.com/wx/'
 // const WxApiRoot = 'http://192.168.0.114:8080/wx/'
+// const WxApiRoot = 'http://127.0.0.1:8080/wx/'
+
 
 
 
@@ -13,7 +15,10 @@ export default {
 	 GetConfig : WxApiRoot + 'home/getConfig', //获取配置
 	 ModifyConfig : WxApiRoot + 'home/modifyConfig', //保持配置
 	 AddConfig:WxApiRoot + 'home/addConfig', 
-	 
+	 GetGoods:WxApiRoot + 'home/getGoods', 
+	 BuyGoods:WxApiRoot + 'home/buyGoods',
+	 GetGift:WxApiRoot + 'home/getGift',
+	 UseGift:WxApiRoot + 'home/useGift',
 	 
 	 
 	 
@@ -37,7 +42,7 @@ export default {
 									{
 										iconPath: "https://cdn.uviewui.com/uview/common/min_button.png",
 										selectedIconPath: "https://cdn.uviewui.com/uview/common/min_button_select.png",
-										text: '发布',
+										text: '选择',
 										midButton: true,
 										customIcon: false,
 										pagePath: '/pages/todo/index',

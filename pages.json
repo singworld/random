@@ -22,6 +22,15 @@
 			 }
             
         }
+        ,{
+            "path" : "pages/goods/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "桐桐要干嘛",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -50,7 +59,7 @@
 	        "pagePath": "pages/todo/index",
 	        "iconPath": "static/center.png",
 	        "selectedIconPath": "static/center-selected.png",
-	        "text": "打卡记录"
+	        "text": "选择"
 	    }]
 	}
 }

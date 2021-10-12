@@ -96,19 +96,19 @@ var components
 try {
   components = {
     uInput: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-input/u-input.vue */ 132))
+      return Promise.all(/*! import() | uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-input/u-input.vue */ 142))
     },
     uButton: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 76))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 86))
     },
     uLoading: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-loading/u-loading */ "uview-ui/components/u-loading/u-loading").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loading/u-loading.vue */ 168))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-loading/u-loading */ "uview-ui/components/u-loading/u-loading").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loading/u-loading.vue */ 178))
     },
     uTabbar: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 140))
+      return Promise.all(/*! import() | uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 150))
     },
     uModal: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 175))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 185))
     }
   }
 } catch (e) {
@@ -237,7 +237,7 @@ var _util = _interopRequireDefault(__webpack_require__(/*! ../../util/util.js */
 //
 //
 //
-var LuckyWheel = function LuckyWheel() {Promise.all(/*! require.ensure | components/uni-luck-draw/lucky-wheel */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-luck-draw/lucky-wheel")]).then((function () {return resolve(__webpack_require__(/*! ../../components/uni-luck-draw/lucky-wheel */ 182));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { LuckyWheel: LuckyWheel }, data: function data() {return { configList: null, value: "hello", show: false, showload: false, content: '点确认添加到任务列表，取消重新选择!', TabbarList: null, blocks: [{ padding: '13px', background: '#FF99CC' }], buttons: [{ radius: '50px', background: '#d64737' }, { radius: '45px', background: '#fff' }, { radius: '41px', background: '#f6c66f', pointer: true }, { radius: '35px', background: '#ffdea0', fonts: [{ text: '简单\n选择', fontSize: '18px', top: -18 }] }], prizes: [], defaultStyle: { fontColor: '#FF99CC', fontSize: '14px' } };}, onLoad: function onLoad() {this.TabbarList = _api.default.TabbarList;this.getTtConfig();},
+var LuckyWheel = function LuckyWheel() {Promise.all(/*! require.ensure | components/uni-luck-draw/lucky-wheel */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-luck-draw/lucky-wheel")]).then((function () {return resolve(__webpack_require__(/*! ../../components/uni-luck-draw/lucky-wheel */ 192));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { LuckyWheel: LuckyWheel }, data: function data() {return { configList: null, value: "hello", show: false, showload: false, content: '点确认添加到任务列表，取消重新选择!', TabbarList: null, blocks: [{ padding: '13px', background: '#FF99CC' }], buttons: [{ radius: '50px', background: '#d64737' }, { radius: '45px', background: '#fff' }, { radius: '41px', background: '#f6c66f', pointer: true }, { radius: '35px', background: '#ffdea0', fonts: [{ text: '简单\n选择', fontSize: '18px', top: -18 }] }], prizes: [], defaultStyle: { fontColor: '#FF99CC', fontSize: '14px' } };}, onLoad: function onLoad() {this.TabbarList = _api.default.TabbarList;this.getTtConfig();},
   methods: {
     modfiy: function modfiy(id, name) {
       console.log("ididi", name);

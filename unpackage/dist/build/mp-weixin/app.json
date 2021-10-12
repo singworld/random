@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/center/index",
-    "pages/todo/index"
+    "pages/todo/index",
+    "pages/goods/index"
   ],
   "subPackages": [],
   "window": {
@@ -33,7 +34,7 @@
         "pagePath": "pages/todo/index",
         "iconPath": "static/center.png",
         "selectedIconPath": "static/center-selected.png",
-        "text": "打卡记录"
+        "text": "选择"
       }
     ]
   },

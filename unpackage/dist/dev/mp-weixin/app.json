@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/center/index",
-    "pages/todo/index"
+    "pages/todo/index",
+    "pages/goods/index"
   ],
   "subPackages": [],
   "window": {

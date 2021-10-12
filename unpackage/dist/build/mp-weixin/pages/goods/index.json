@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "桐桐要干嘛",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "index-u-waterfall-left": "/pages/goods/index-u-waterfall-left",
+    "index-u-waterfall-right": "/pages/goods/index-u-waterfall-right",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-waterfall": "/uview-ui/components/u-waterfall/u-waterfall",
+    "u-lazy-load": "/uview-ui/components/u-lazy-load/u-lazy-load",
+    "u-subsection": "/uview-ui/components/u-subsection/u-subsection",
+    "u-swipe-action": "/uview-ui/components/u-swipe-action/u-swipe-action"
+  }
+}

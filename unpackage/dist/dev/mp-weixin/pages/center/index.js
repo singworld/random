@@ -95,17 +95,20 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    uButton: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 86))
+    },
     uTimeLine: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-time-line/u-time-line */ "uview-ui/components/u-time-line/u-time-line").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-time-line/u-time-line.vue */ 147))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-time-line/u-time-line */ "uview-ui/components/u-time-line/u-time-line").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-time-line/u-time-line.vue */ 157))
     },
     uTimeLineItem: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-time-line-item/u-time-line-item */ "uview-ui/components/u-time-line-item/u-time-line-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-time-line-item/u-time-line-item.vue */ 154))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-time-line-item/u-time-line-item */ "uview-ui/components/u-time-line-item/u-time-line-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-time-line-item/u-time-line-item.vue */ 164))
     },
     uImage: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-image/u-image */ "uview-ui/components/u-image/u-image").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-image/u-image.vue */ 161))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-image/u-image */ "uview-ui/components/u-image/u-image").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-image/u-image.vue */ 171))
     },
     uTabbar: function() {
-      return Promise.all(/*! import() | uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 140))
+      return Promise.all(/*! import() | uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 150))
     }
   }
 } catch (e) {
@@ -162,7 +165,11 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
 
 
 
@@ -207,17 +214,25 @@ var _util = _interopRequireDefault(__webpack_require__(/*! ../../util/util.js */
 //
 //
 //
+//
+//
+//
+//
 var app = getApp();var _default = { data: function data() {return { TabbarList: null, src: 'https://cdn.uviewui.com/uview/example/fade.jpg', taskList: null };}, onLoad: function onLoad() {// app.globalData.hasLogin = true;
-    this.TabbarList = _api.default.TabbarList;this.getTaskArchive();}, onShow: function onShow() {this.getTaskArchive();}, methods: { getTaskArchive: function getTaskArchive() {var _this = this;_util.default.request(_api.default.GetTaskArchive).then(function (res) {console.log("save", res);if (res.errno === 0) {_this.taskList = res.data.taskList;
-        } else {
-          console.log(res);
-        }
-      }).
+    this.TabbarList = _api.default.TabbarList;this.getTaskArchive();}, onShow: function onShow() {this.getTaskArchive();}, methods: { getTaskArchive: function getTaskArchive() {var _this = this;_util.default.request(_api.default.GetTaskArchive).then(function (res) {console.log("save", res);if (res.errno === 0) {_this.taskList = res.data.taskList;} else {console.log(res);}}).
 
       catch(function (err) {
         console.log(err);
       });
+    },
+    // 跳转商品
+    gotogoods: function gotogoods() {
+      console.log("gotogoods");
+      uni.navigateTo({
+        url: '/pages/goods/index' });
+
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
