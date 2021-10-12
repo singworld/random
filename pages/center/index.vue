@@ -1,5 +1,9 @@
 <template>
 	<view class="content">
+		
+		<u-button @click="gotogoods" size="default" type="success">积分使用</u-button>
+
+		
 			<u-time-line>
 				<u-time-line-item :index="index" :show="item.show"
 					v-for="(item, index) in taskList" :key="item.id" >
@@ -51,6 +55,14 @@
 						  console.log(err);
 						});
 					},
+					// 跳转商品
+					gotogoods(){
+						console.log("gotogoods")
+						uni.navigateTo({
+						    url: '/pages/goods/index'
+						});
+					}
+					
 				}
 	}
 </script>

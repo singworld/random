@@ -12,14 +12,23 @@
 		{
 			"path": "pages/center/index",
 			"style": {
-				"navigationBarTitleText": "uView-center"
+				"navigationBarTitleText": "桐桐要干嘛"
 			}
 		}
         ,{
             "path" : "pages/todo/index",
 			 "style": {
-				"navigationBarTitleText": "uView-todo"
+				"navigationBarTitleText": "桐桐要干嘛"
 			 }
+            
+        }
+        ,{
+            "path" : "pages/goods/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "桐桐要干嘛",
+                "enablePullDownRefresh": false
+            }
             
         }
     ],

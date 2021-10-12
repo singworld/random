@@ -1,4 +1,4 @@
-const WxApiRoot = 'http://192.168.0.102:8080/wx/'
+const WxApiRoot = 'http://127.0.0.1:8080/wx/'
 
 
 
