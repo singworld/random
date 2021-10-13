@@ -178,7 +178,7 @@
 							// files = this.$refs.uUpload.lists;
 							let token = uni.getStorageSync('token');
 							
-							console.log("token",this.activeTask)
+							console.log("activeId",this.activeId)
 							
 							this.$refs.uUpload.formData ={
 								'remark':this.remark,
@@ -194,7 +194,7 @@
 							
 							this.$refs.uUpload.header=header
 							let message = await this.$refs.uUpload.upload()
-							
+							this.$refs.uUpload.remove(0)
 							this.taskList.splice(this.activeIndex, 1);
 							this.show=false
 							

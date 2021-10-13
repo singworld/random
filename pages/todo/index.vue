@@ -68,7 +68,6 @@
 		},
 		onLoad() {
 			this.TabbarList = api.TabbarList;
-		
 			this.getTtConfig()
 		},
 		methods: {
@@ -140,20 +139,13 @@
 				  		console.log("save",res)
 				  	  if (res.errno === 0) {
 				  	     let configList  = res.data.configList;
-						 console.log("configList.length",configList.length)
 						 if(configList.length===0){
-							 // configList=[
-								//  {id:1,name:"学英语"},{id:2,name:"看电视"},{id:3,name:"聊天"},{id:4,name:"扎小人"}
-							 // ]
-							 
 							 this.addConfig()
 							 return;
 						 }
 						 
 						 this.configList =configList
-						 console.log("configList",configList)
 						 const prizes = []
-						 // let data = ['学英语', '看电视', '扎小人', '聊天']
 						 configList.forEach((item, index) => {
 							let name= item.name;
 						   prizes.push({
@@ -179,7 +171,6 @@
 				  addConfig(){
 					  this.showload =true
 				  	util.request(api.AddConfig).then(res => {
-				  		console.log("save",res)
 				  	  if (res.errno === 0) {
 						  this.getTtConfig()
 						  this.this.showload =false
