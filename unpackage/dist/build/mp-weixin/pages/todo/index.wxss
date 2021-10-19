@@ -1,1 +1,1 @@
-.content{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40rpx}
+.content{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40rpx}.textleft{margin:auto;font-size:38rpx;color:#606266}.textright{float:right;margin:auto;font-size:38rpx;font-weight:30rpx;color:#606266}

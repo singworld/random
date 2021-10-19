@@ -53,6 +53,7 @@ function loginByWeixin() {
           //存储用户信息
           uni.setStorageSync('token', res.data.token);
 		  uni.setStorageSync('userInfo', res.data.userInfo);
+		  console.log("重新登录成功")
           resolve(res);
         } else {
           reject(res);

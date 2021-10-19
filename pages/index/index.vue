@@ -323,37 +323,13 @@
 			
 			let token = uni.getStorageSync("token")
 			console.log("onload里面的token",token)
-			uni.removeStorageSync('token');
+		
 			
 			this.TabbarList = api.TabbarList;
 			
-			// uni.clearStorage();
-			user.checkLogin().catch((e) => {
-				      user.loginByWeixin().then(res => {
-						  
-						  console.log("resvue",res)
-				          app.globalData.hasLogin = true;
-						  console.log("globalData.hasLogin",app.globalData.hasLogin)
-							this.getTaskIndex()
-				//         wx.navigateBack({
-				//           delta: 1
-				//         })
-				      }).catch((err) => {
-			
-				        app.globalData.hasLogin = false;
-				        console.log('微信登录失败');
-				      });
-				
-				
-				
-			      }).catch((err) => {
-			        uni.showToast({
-			            title: '失败',
-			            duration: 2000
-			        });
-			      });
 			
 			
+			this.getTaskIndex()
 			
 			
 			
@@ -366,7 +342,7 @@
 		},
 		
 		onReady(){
-			this.getTaskIndex()
+			
 			let userInfo = uni.getStorageSync("userInfo")
 			console.log("onReady 里面的userInfo",userInfo)
 			if(userInfo.nickName) this.userInfo=userInfo

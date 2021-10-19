@@ -24,15 +24,17 @@
 		   </view> -->
 		   
 	<view class="">
-		<u-form :model="configList" ref="uForm">
-			<u-form-item prop="[index].name"  :index="index" 
+		<text class="textleft">名称</text> <text class="textright">权重</text>
+		<u-form  ref="uForm">
+			<u-form-item  :index="index" 
 					v-for="(item, index) in configList" :key="item.id">
 				<u-input v-model="item.name" /> 
 				<u-number-box slot="right" v-model="item.weights" @change="item.weights++"></u-number-box>
 			</u-form-item>
 		</u-form>
-		<u-button @click="submit">提交</u-button>
+		<u-button @click="submit">保存配置</u-button>
 	</view>
+	
 		   <u-loading :show="showload" mode="flower"></u-loading>
 		  <!-- <u-modal v-model="show" :content="content" z-index="9999999999999"></u-modal> -->
 		<u-tabbar v-model="current" :list="TabbarList" :mid-button="true" ></u-tabbar>
@@ -51,16 +53,6 @@
 		components: { LuckyWheel },
 		data() {
 			return {
-				rules: {
-						name: [
-							{ 
-								required: true, 
-								max: 10, 
-								message: '不能大于10个字', 
-								trigger: 'change'
-							}
-						],
-				},
 				configList:[],
 				value:"hello",
 				total:1,
@@ -109,6 +101,11 @@
 				util.request(api.AddOrUpdate,this.configList, 'POST').then(res => {
 					console.log("save",res)
 				  if (res.errno === 0) {
+					  //保存成功
+					  uni.showToast({
+					      title: '保存成功',
+					      duration: 2000
+					  });
 					  this.bulidMap()
 				  } else {
 				    console.log(res);
@@ -185,6 +182,7 @@
 					    success:  (res) => {
 					        if (res.confirm) {
 					            console.log('用户点击确定');
+								
 								this.saveTtlist(prize)
 					        } else if (res.cancel) {
 					            console.log('用户点击取消');
@@ -225,7 +223,7 @@
 					  if(!this.configList || this.configList.length<1){
 						  
 						  for (var i = 0; i <6; i++) {
-							this.configList.push({name:"第"+(i+1)+"个任务",weights:1})
+							this.configList.push({id:i,name:"第"+(i+1)+"个任务",weights:1})
 						  }
 						  
 					  }
@@ -279,7 +277,12 @@
 				  		console.log("save",res)
 				  	  if (res.errno === 0) {
 						   uni.switchTab({
-							   url: '/pages/index/index'
+							   url: '/pages/index/index',
+							   success:(res) =>{
+								   let page = getCurrentPages().pop()
+								   if(page == undefined || page == null) return
+								   page.onLoad()
+							   }
 						   });
 				  	  } else {
 				  	    console.log(res);
@@ -302,6 +305,21 @@
 		align-items: center;
 		justify-content: center;
 		padding: 40rpx;
+	}
+	
+	.textleft{
+		margin: auto;
+		font-size: 38rpx;
+		color: $u-content-color;
+		
+	}
+	
+	.textright{
+		float: right;
+		margin: auto;
+		font-size: 38rpx;
+		font-weight: 30rpx;
+		color: $u-content-color;
 	}
 
 </style>

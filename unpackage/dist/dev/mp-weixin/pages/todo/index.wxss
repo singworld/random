@@ -10,4 +10,16 @@
   justify-content: center;
   padding: 40rpx;
 }
+.textleft {
+  margin: auto;
+  font-size: 38rpx;
+  color: #606266;
+}
+.textright {
+  float: right;
+  margin: auto;
+  font-size: 38rpx;
+  font-weight: 30rpx;
+  color: #606266;
+}
 
