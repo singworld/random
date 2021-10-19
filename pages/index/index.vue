@@ -359,14 +359,14 @@
 			
 		},
 		onShow(){
-			this.getTaskIndex()
+			
 			// let userInfo = uni.getStorageSync("userInfo")
 			// console.log("onshow 里面的userInfo",userInfo)
 			// if(userInfo.nickName) this.userInfo=userInfo
 		},
 		
 		onReady(){
-			
+			this.getTaskIndex()
 			let userInfo = uni.getStorageSync("userInfo")
 			console.log("onReady 里面的userInfo",userInfo)
 			if(userInfo.nickName) this.userInfo=userInfo

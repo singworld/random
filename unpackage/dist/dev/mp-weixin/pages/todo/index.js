@@ -95,20 +95,29 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    uForm: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-form/u-form */ "uview-ui/components/u-form/u-form").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-form/u-form.vue */ 273))
+    },
+    uFormItem: function() {
+      return Promise.all(/*! import() | uview-ui/components/u-form-item/u-form-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-form-item/u-form-item")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-form-item/u-form-item.vue */ 281))
+    },
     uInput: function() {
       return Promise.all(/*! import() | uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-input/u-input.vue */ 142))
+    },
+    uNumberBox: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-number-box/u-number-box */ "uview-ui/components/u-number-box/u-number-box").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-number-box/u-number-box.vue */ 292))
     },
     uButton: function() {
       return __webpack_require__.e(/*! import() | uview-ui/components/u-button/u-button */ "uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-button/u-button.vue */ 86))
     },
     uLoading: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-loading/u-loading */ "uview-ui/components/u-loading/u-loading").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loading/u-loading.vue */ 178))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-loading/u-loading */ "uview-ui/components/u-loading/u-loading").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-loading/u-loading.vue */ 257))
     },
     uTabbar: function() {
       return Promise.all(/*! import() | uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 150))
     },
     uModal: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 185))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 265))
     }
   }
 } catch (e) {
@@ -132,6 +141,17 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event, item) {
+      var _temp = arguments[arguments.length - 1].currentTarget.dataset,
+        _temp2 = _temp.eventParams || _temp["event-params"],
+        item = _temp2.item
+
+      var _temp, _temp2
+
+      item.weights++
+    }
+  }
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -201,43 +221,67 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
 var _api = _interopRequireDefault(__webpack_require__(/*! ../../util/api.js */ 10));
-var _util = _interopRequireDefault(__webpack_require__(/*! ../../util/util.js */ 11));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var LuckyWheel = function LuckyWheel() {Promise.all(/*! require.ensure | components/uni-luck-draw/lucky-wheel */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-luck-draw/lucky-wheel")]).then((function () {return resolve(__webpack_require__(/*! ../../components/uni-luck-draw/lucky-wheel */ 192));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { LuckyWheel: LuckyWheel }, data: function data() {return { configList: null, value: "hello", show: false, showload: false, content: '点确认添加到任务列表，取消重新选择!', TabbarList: null, blocks: [{ padding: '13px', background: '#FF99CC' }], buttons: [{ radius: '50px', background: '#d64737' }, { radius: '45px', background: '#fff' }, { radius: '41px', background: '#f6c66f', pointer: true }, { radius: '35px', background: '#ffdea0', fonts: [{ text: '简单\n选择', fontSize: '18px', top: -18 }] }], prizes: [], defaultStyle: { fontColor: '#FF99CC', fontSize: '14px' } };}, onLoad: function onLoad() {this.TabbarList = _api.default.TabbarList;this.getTtConfig();}, methods: {
+var _util = _interopRequireDefault(__webpack_require__(/*! ../../util/util.js */ 11));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var LuckyWheel = function LuckyWheel() {Promise.all(/*! require.ensure | components/uni-luck-draw/lucky-wheel */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-luck-draw/lucky-wheel")]).then((function () {return resolve(__webpack_require__(/*! ../../components/uni-luck-draw/lucky-wheel */ 192));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+{
+  components: { LuckyWheel: LuckyWheel },
+  data: function data() {
+    return {
+      rules: {
+        name: [
+        {
+          required: true,
+          max: 10,
+          message: '不能大于10个字',
+          trigger: 'change' }] },
+
+
+
+      configList: [],
+      value: "hello",
+      total: 1,
+      show: false,
+      showload: false,
+      content: '点确认添加到任务列表，取消重新选择!',
+      TabbarList: null,
+      blocks: [
+      { padding: '13px', background: '#FF99CC' }],
+
+      buttons: [
+      { radius: '50px', background: '#d64737' },
+      { radius: '45px', background: '#fff' },
+      { radius: '41px', background: '#f6c66f', pointer: true },
+      {
+        radius: '35px', background: '#ffdea0',
+        fonts: [{ text: '简单\n选择', fontSize: '18px', top: -18 }] }],
+
+
+      prizes: [],
+      defaultStyle: {
+        fontColor: '#FF99CC',
+        fontSize: '14px' } };
+
+
+  },
+  onLoad: function onLoad() {
+    this.TabbarList = _api.default.TabbarList;
+    this.getTtConfig();
+  },
+  onReady: function onReady() {
+    // this.$refs.uForm.setRules(this.rules);
+  },
+  methods: {
     modfiy: function modfiy(id, name) {
       console.log("ididi", name);
       var data = {
@@ -246,9 +290,25 @@ var LuckyWheel = function LuckyWheel() {Promise.all(/*! require.ensure | compone
 
       this.modifyConfig(data);
     },
+    submit: function submit(formName) {var _this = this;
+      console.log("formName", this.configList);
+      // add or update 
+      _util.default.request(_api.default.AddOrUpdate, this.configList, 'POST').then(function (res) {
+        console.log("save", res);
+        if (res.errno === 0) {
+          _this.bulidMap();
+        } else {
+          console.log(res);
+        }
+      }).
 
-    //保持头像
-    modifyConfig: function modifyConfig(data) {var _this = this;
+      catch(function (err) {
+        console.log(err);
+      });
+    },
+
+
+    modifyConfig: function modifyConfig(data) {var _this2 = this;
       _util.default.request(_api.default.ModifyConfig, {
         "id": data.id,
         "name": data.name },
@@ -256,7 +316,7 @@ var LuckyWheel = function LuckyWheel() {Promise.all(/*! require.ensure | compone
       'POST').then(function (res) {
         console.log("save", res);
         if (res.errno === 0) {
-          _this.getTtConfig();
+          _this2.getTtConfig();
           //存储用户信息
           // wx.setStorageSync('userInfo', res.data.userInfo);
         } else {
@@ -270,20 +330,40 @@ var LuckyWheel = function LuckyWheel() {Promise.all(/*! require.ensure | compone
     },
 
 
+    random_weight: function random_weight() {
+      var total = this.total;
+      var ra = Math.random() * total >> 0;
+
+      var curr_sum = 0;
+      var ret = 0;
+      var keys = _toConsumableArray(Array(6).keys());
+      for (var k in keys) {
+        curr_sum += this.configList[k].weights;
+        if (ra <= curr_sum) {
+          ret = k;
+          break;
+        }
+
+      }
+
+      return ret;
+    },
+
+
     // 点击抽奖按钮触发回调
-    startCallBack: function startCallBack() {var _this2 = this;
+    startCallBack: function startCallBack() {var _this3 = this;
       // 先开始旋转
       this.$refs.luckyWheel.play();
       // 使用定时器来模拟请求接口
       setTimeout(function () {
         // 3s后得到中奖索引
-        var index = Math.random() * 6 >> 0;
+        var index = _this3.random_weight();
         // 缓慢停止游戏
-        _this2.$refs.luckyWheel.stop(index);
+        _this3.$refs.luckyWheel.stop(index);
       }, 500);
     },
     // 抽奖结束触发回调
-    endCallBack: function endCallBack(prize) {var _this3 = this;
+    endCallBack: function endCallBack(prize) {var _this4 = this;
       // 奖品详情
       console.log(prize);
       uni.showModal({
@@ -292,7 +372,7 @@ var LuckyWheel = function LuckyWheel() {Promise.all(/*! require.ensure | compone
         success: function success(res) {
           if (res.confirm) {
             console.log('用户点击确定');
-            _this3.saveTtlist(prize);
+            _this4.saveTtlist(prize);
           } else if (res.cancel) {
             console.log('用户点击取消');
           }
@@ -301,28 +381,20 @@ var LuckyWheel = function LuckyWheel() {Promise.all(/*! require.ensure | compone
 
 
     },
-    getTtConfig: function getTtConfig() {var _this4 = this;
+    getTtConfig: function getTtConfig() {var _this5 = this;
+
+
       _util.default.request(_api.default.GetConfig).then(function (res) {
         console.log("save", res);
         if (res.errno === 0) {
           var configList = res.data.configList;
-          if (configList.length === 0) {
-            _this4.addConfig();
-            return;
-          }
+          // if(configList.length===0){
+          //  // this.addConfig()
+          //  return;
+          // }
 
-          _this4.configList = configList;
-          var prizes = [];
-          configList.forEach(function (item, index) {
-            var name = item.name;
-            prizes.push({
-              title: "" + name,
-              background: index % 2 ? '#f9e3bb' : '#f8d384',
-              fonts: [{ text: name, top: '10%' }],
-              imgs: [{ src: __webpack_require__(/*! ../../static/wz.png */ 66), width: '30%', top: '35%' }] });
-
-          });
-          _this4.prizes = prizes;
+          _this5.configList = configList;
+          _this5.bulidMap();
 
         } else {
           console.log(res);
@@ -334,13 +406,39 @@ var LuckyWheel = function LuckyWheel() {Promise.all(/*! require.ensure | compone
       });
     },
 
+    bulidMap: function bulidMap() {
+      var prizes = [];
+
+      if (!this.configList || this.configList.length < 1) {
+
+        for (var i = 0; i < 6; i++) {
+          this.configList.push({ name: "第" + (i + 1) + "个任务", weights: 1 });
+        }
+
+      }
+
+      this.total = this.configList.reduce(function (sum, e) {return sum + Number(e.weights || 0);}, 0);
+
+      this.configList.forEach(function (item, index) {
+        var name = item.name;
+        prizes.push({
+          title: "" + name,
+          background: index % 2 ? '#f9e3bb' : '#f8d384',
+          fonts: [{ text: name, top: '10%' }],
+          imgs: [{ src: __webpack_require__(/*! ../../static/wz.png */ 66), width: '30%', top: '35%' }] });
+
+      });
+      this.prizes = prizes;
+    },
+
+
     //保持头像
-    addConfig: function addConfig() {var _this5 = this;
+    addConfig: function addConfig() {var _this6 = this;
       this.showload = true;
       _util.default.request(_api.default.AddConfig).then(function (res) {
         if (res.errno === 0) {
-          _this5.getTtConfig();
-          _this5.this.showload = false;
+          _this6.getTtConfig();
+          _this6.this.showload = false;
           //存储用户信息
           // wx.setStorageSync('userInfo', res.data.userInfo);
         } else {

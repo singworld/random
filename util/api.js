@@ -1,6 +1,6 @@
-const WxApiRoot = 'https://wx.jianxiaoxin.com/wx/'
+// const WxApiRoot = 'https://wx.jianxiaoxin.com/wx/'
 // const WxApiRoot = 'http://192.168.0.114:8080/wx/'
-// const WxApiRoot = 'http://127.0.0.1:8080/wx/'
+const WxApiRoot = 'http://127.0.0.1:8080/wx/'
 
 
 
@@ -19,6 +19,7 @@ export default {
 	 BuyGoods:WxApiRoot + 'home/buyGoods',
 	 GetGift:WxApiRoot + 'home/getGift',
 	 UseGift:WxApiRoot + 'home/useGift',
+	 AddOrUpdate:WxApiRoot + 'home/addOrUpdate',
 	 
 	 
 	 

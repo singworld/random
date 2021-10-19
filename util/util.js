@@ -4,7 +4,7 @@ const myRequest = (options)=>{
 		uni.request({
 			url:api.WxApiRoot+options.url,
 			method: options.method || 'GET',
-			data: options.data || {},
+			data: JSON.stringify(options.data) || {},
 			success: (res)=>{
 				if(res.data.status !== 0) {
 					return uni.showToast({

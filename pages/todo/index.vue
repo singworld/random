@@ -15,14 +15,24 @@
 		    />
 		  </view>
 		  
-		  <view>
+		 <!-- <view>
 			  <view :index="index" 
 					v-for="(item, index) in configList" :key="item.id">
 					<u-input v-model="item.name" border="true" />
 					<u-button @click="modfiy(item.id,item.name)" shape="square" type="primary">修改</u-button>
 			   </view>
-		   </view>
+		   </view> -->
 		   
+	<view class="">
+		<u-form :model="configList" ref="uForm">
+			<u-form-item prop="[index].name"  :index="index" 
+					v-for="(item, index) in configList" :key="item.id">
+				<u-input v-model="item.name" /> 
+				<u-number-box slot="right" v-model="item.weights" @change="item.weights++"></u-number-box>
+			</u-form-item>
+		</u-form>
+		<u-button @click="submit">提交</u-button>
+	</view>
 		   <u-loading :show="showload" mode="flower"></u-loading>
 		  <!-- <u-modal v-model="show" :content="content" z-index="9999999999999"></u-modal> -->
 		<u-tabbar v-model="current" :list="TabbarList" :mid-button="true" ></u-tabbar>
@@ -41,8 +51,19 @@
 		components: { LuckyWheel },
 		data() {
 			return {
-				configList:null,
+				rules: {
+						name: [
+							{ 
+								required: true, 
+								max: 10, 
+								message: '不能大于10个字', 
+								trigger: 'change'
+							}
+						],
+				},
+				configList:[],
 				value:"hello",
+				total:1,
 				show: false,
 				showload:false,
 				content: '点确认添加到任务列表，取消重新选择!',
@@ -70,6 +91,9 @@
 			this.TabbarList = api.TabbarList;
 			this.getTtConfig()
 		},
+		onReady() {
+				// this.$refs.uForm.setRules(this.rules);
+			},
 		methods: {
 			modfiy(id,name){
 				console.log("ididi",name)
@@ -79,8 +103,24 @@
 				}
 				this.modifyConfig(data)
 			},
+			submit(formName){
+				console.log("formName",this.configList)
+				// add or update 
+				util.request(api.AddOrUpdate,this.configList, 'POST').then(res => {
+					console.log("save",res)
+				  if (res.errno === 0) {
+					  this.bulidMap()
+				  } else {
+				    console.log(res);
+				  }
+				 }
+				
+				).catch((err) => {
+				  console.log(err);
+				});
+			},
 			
-			//保持头像
+
 			modifyConfig(data){
 				util.request(api.ModifyConfig, {
 					"id":data.id,
@@ -102,6 +142,26 @@
 				});
 			},
 			  
+			  
+			  random_weight(){
+					 let total = this.total  
+				     let ra = Math.random() * total >> 0   
+				  
+				      let curr_sum = 0
+				      let ret = 0
+				      let keys = [...Array(6).keys()]       
+				      for(let k in keys) {
+							  curr_sum += this.configList[k].weights
+					          if (ra <= curr_sum){
+									  ret = k
+						              break
+								}         
+					             
+					  }
+				         
+				      return ret
+			  },
+			      
 			
 			 // 点击抽奖按钮触发回调
 			      startCallBack () {
@@ -110,7 +170,7 @@
 			        // 使用定时器来模拟请求接口
 			        setTimeout(() => {
 			          // 3s后得到中奖索引
-			          let index = Math.random() * 6 >> 0
+			          let index = this.random_weight()
 			          // 缓慢停止游戏
 			          this.$refs.luckyWheel.stop(index)
 			        }, 500)
@@ -135,27 +195,19 @@
 					
 			      },
 				  getTtConfig(){
+					  
+					  
 				  	util.request(api.GetConfig).then(res => {
 				  		console.log("save",res)
 				  	  if (res.errno === 0) {
 				  	     let configList  = res.data.configList;
-						 if(configList.length===0){
-							 this.addConfig()
-							 return;
-						 }
+						 // if(configList.length===0){
+							//  // this.addConfig()
+							//  return;
+						 // }
 						 
 						 this.configList =configList
-						 const prizes = []
-						 configList.forEach((item, index) => {
-							let name= item.name;
-						   prizes.push({
-						     title: ""+name,
-						     background: index % 2 ? '#f9e3bb' : '#f8d384',
-						     fonts: [{ text: name, top: '10%' }],
-						     imgs:[{ src: require(`../../static/wz.png`), width: '30%', top: '35%' }],
-						   })
-						 })
-						 this.prizes = prizes
+						 this.bulidMap();
 						 
 				  	  } else {
 				  	    console.log(res);
@@ -166,6 +218,32 @@
 				  	  console.log(err);
 				  	});
 				  },
+				  
+				  bulidMap(){
+					  const prizes = []
+					  
+					  if(!this.configList || this.configList.length<1){
+						  
+						  for (var i = 0; i <6; i++) {
+							this.configList.push({name:"第"+(i+1)+"个任务",weights:1})
+						  }
+						  
+					  }
+					  
+					  this.total = this.configList.reduce((sum, e) => sum + Number(e.weights || 0), 0)
+					  
+					  this.configList.forEach((item, index) => {
+					  							let name= item.name;
+					    prizes.push({
+					      title: ""+name,
+					      background: index % 2 ? '#f9e3bb' : '#f8d384',
+					      fonts: [{ text: name, top: '10%' }],
+					      imgs:[{ src: require(`../../static/wz.png`), width: '30%', top: '35%' }],
+					    })
+					  })
+					  this.prizes = prizes
+				  },
+				  
 				  
 				  //保持头像
 				  addConfig(){

@@ -1,7 +1,10 @@
 {
   "navigationBarTitleText": "桐桐要干嘛",
   "usingComponents": {
+    "u-form": "/uview-ui/components/u-form/u-form",
+    "u-form-item": "/uview-ui/components/u-form-item/u-form-item",
     "u-input": "/uview-ui/components/u-input/u-input",
+    "u-number-box": "/uview-ui/components/u-number-box/u-number-box",
     "u-button": "/uview-ui/components/u-button/u-button",
     "u-loading": "/uview-ui/components/u-loading/u-loading",
     "u-tabbar": "/uview-ui/components/u-tabbar/u-tabbar",

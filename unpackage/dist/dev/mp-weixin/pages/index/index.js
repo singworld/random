@@ -555,14 +555,14 @@ var app = getApp();var _default =
 
   },
   onShow: function onShow() {
-    this.getTaskIndex();
+
     // let userInfo = uni.getStorageSync("userInfo")
     // console.log("onshow 里面的userInfo",userInfo)
     // if(userInfo.nickName) this.userInfo=userInfo
   },
 
   onReady: function onReady() {
-
+    this.getTaskIndex();
     var userInfo = uni.getStorageSync("userInfo");
     console.log("onReady 里面的userInfo", userInfo);
     if (userInfo.nickName) this.userInfo = userInfo;
