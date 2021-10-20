@@ -14,12 +14,11 @@ export default {
 	 SaveTtlist : WxApiRoot + 'home/saveTtlist',  //保持ttlist
 	 GetConfig : WxApiRoot + 'home/getConfig', //获取配置
 	 ModifyConfig : WxApiRoot + 'home/modifyConfig', //保持配置
-	 AddConfig:WxApiRoot + 'home/addConfig', 
-	 GetGoods:WxApiRoot + 'home/getGoods', 
-	 BuyGoods:WxApiRoot + 'home/buyGoods',
-	 GetGift:WxApiRoot + 'home/getGift',
-	 UseGift:WxApiRoot + 'home/useGift',
-	 AddOrUpdate:WxApiRoot + 'home/addOrUpdate',
+	 GetGoods:WxApiRoot + 'home/getGoods', //获取兑换列表
+	 BuyGoods:WxApiRoot + 'home/buyGoods',//购买礼品
+	 GetGift:WxApiRoot + 'home/getGift',//获取礼品
+	 UseGift:WxApiRoot + 'home/useGift',//使用礼品
+	 AddOrUpdate:WxApiRoot + 'home/addOrUpdate',//添加或更新配置列表
 	 
 	 
 	 
